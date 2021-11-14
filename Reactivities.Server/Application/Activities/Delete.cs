@@ -1,49 +1,41 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using MediatR;
-using Models.Activities;
 using Persistence;
 
 namespace Application.Activities
 {
-    public class Edit
+    public class Delete
     {
         public class Command : IRequest
         {
-            public Command(int id, EditActivityRequest dto)
+            public Command(int id)
             {
-                this.Dto = dto;
                 this.Id = id;
             }
 
             public int Id { get; set; }
-            public EditActivityRequest Dto { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _dataContext;
-            private readonly IMapper _mapper;
 
-            public Handler(DataContext dataContext, IMapper mapper)
+            public Handler(DataContext dataContext)
             {
                 _dataContext = dataContext;
-                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activityCore = await this._dataContext.Activities.FindAsync(request.Id);
+                var coreDto = await this._dataContext.Activities.FindAsync(request.Id);
 
-                if (activityCore != null)
+                if (coreDto != null)
                 {
-                    this._mapper.Map(request.Dto, activityCore);
+                    this._dataContext.Remove(coreDto);
 
-                    this._dataContext.Activities.Update(activityCore);
+                    await this._dataContext.SaveChangesAsync();
                 }
-
-                await this._dataContext.SaveChangesAsync();
 
                 return Unit.Value;
             }

@@ -1,7 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Domain;
 using MediatR;
+using Models.Activities;
 using Persistence;
 
 namespace Application.Activities
@@ -10,26 +12,30 @@ namespace Application.Activities
     {
         public class Command : IRequest
         {
-            public Command(Activity activity)
+            public Command(CreateActivityRequest dto)
             {
-                Activity = activity;
+                this.Dto = dto;
             }
 
-            public Activity Activity { get; set; }
+            public CreateActivityRequest Dto { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>
         {
             private readonly DataContext _dataContext;
+            private readonly IMapper _mapper;
 
-            public Handler(DataContext dataContext)
+            public Handler(DataContext dataContext, IMapper mapper)
             {
                 _dataContext = dataContext;
+                _mapper = mapper;
             }
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                this._dataContext.Activities.Add(request.Activity);
+                var coreDto = this._mapper.Map<Activity>(request.Dto);
+
+                this._dataContext.Activities.Add(coreDto);
 
                 await this._dataContext.SaveChangesAsync();
 

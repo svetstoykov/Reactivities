@@ -4,6 +4,7 @@ using Application.Activities;
 using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Models.Activities;
 
 namespace API.Controllers
 {
@@ -26,17 +27,21 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(Activity activity)
+        public async Task<IActionResult> CreateActivity(CreateActivityRequest activity)
         {
             return base.Ok(await base.Mediator.Send(new Create.Command(activity)));
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditActivity(int id, Activity activity)
+        public async Task<IActionResult> EditActivity(int id, EditActivityRequest activity)
         {
-            activity.Id = id;
+            return base.Ok(await base.Mediator.Send(new Edit.Command(id, activity)));
+        }
 
-            return base.Ok(await base.Mediator.Send(new Edit.Command(activity)));
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteActivity(int id)
+        {
+            return base.Ok(await base.Mediator.Send(new Delete.Command(id)));
         }
     }
 }
