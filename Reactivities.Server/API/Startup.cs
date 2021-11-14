@@ -1,3 +1,5 @@
+using Application.Activities;
+using MediatR;
 using Persistence;
 
 using Microsoft.OpenApi.Models;
@@ -41,6 +43,8 @@ namespace API
                     policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
                 });
             });
+
+            services.AddMediatR(typeof(List).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
