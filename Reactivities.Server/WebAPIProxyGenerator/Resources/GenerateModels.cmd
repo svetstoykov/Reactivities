@@ -1,3 +1,5 @@
+ECHO Generating TypeScript Models..
+
 start "" %~dp0..\bin\Debug\net6.0\WebAPIGenerator.exe
 
-pause
+ECHO TypeScript models generated successfully!

@@ -1,5 +1,5 @@
-SET folder=%~dp0..\bin\Debug\net6.0\
+ECHO Generating TypeScript Models..
 
-start "" folder\WebAPIGenerator.exe
+start "" %~dp0..\bin\Debug\net6.0\WebAPIGenerator.exe
 
-pause
+ECHO TypeScript generated successfully!
