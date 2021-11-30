@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{D94CE2AE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{CA9F4B6D-0E84-480A-9C81-E6393F7F8233}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPIProxyGenerator", "..\WebAPIProxyGenerator\WebAPIProxyGenerator.csproj", "{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIGenerator", "..\WebAPIProxyGenerator\WebAPIGenerator.csproj", "{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -11,13 +11,11 @@ namespace Application.Activities
     {
         public class Command : IRequest
         {
-            public Command(int id, EditActivityRequest dto)
+            public Command(EditActivityRequest dto)
             {
                 this.Dto = dto;
-                this.Id = id;
             }
 
-            public int Id { get; set; }
             public EditActivityRequest Dto { get; set; }
         }
 
@@ -34,7 +32,7 @@ namespace Application.Activities
 
             public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activityCore = await this._dataContext.Activities.FindAsync(request.Id);
+                var activityCore = await this._dataContext.Activities.FindAsync(request.Dto.Id);
 
                 if (activityCore != null)
                 {

@@ -1,0 +1,5 @@
+SET folder=%~dp0..\bin\Debug\net6.0\
+
+start "" folder\WebAPIGenerator.exe
+
+pause

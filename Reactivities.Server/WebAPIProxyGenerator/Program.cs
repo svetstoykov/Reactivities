@@ -1,4 +1,7 @@
-﻿
+﻿using System.Diagnostics;
 using WebAPIProxyGenerator;
 
-Console.WriteLine();
+Debug.WriteLine("Generating TypeScript Models...");
+
+WebApiTypeScriptModelsGenerator.CleanUpTypeScriptModels();
+WebApiTypeScriptModelsGenerator.GenerateTypeScriptModels();
