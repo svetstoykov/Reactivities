@@ -1,17 +1,9 @@
 using API.Extensions;
-using Application.Activities;
-using Application.Common.Activities;
-using MediatR;
-using Persistence;
-
-using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebAPIProxyGenerator;
 
 namespace API
 {
@@ -22,7 +14,7 @@ namespace API
         public Startup(IConfiguration config)
         {
             this._config = config;
-        }
+        } 
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
