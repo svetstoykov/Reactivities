@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Application.Activities;
-using Domain;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Models.Activities;
+using Models.Activities.Request;
+using Models.Activities.Response;
 
 namespace API.Controllers
 {
@@ -15,13 +15,13 @@ namespace API.Controllers
         { }
 
         [HttpGet]
-        public async Task<ActionResult<List<Activity>>> GetActivities()
+        public async Task<ActionResult<List<ActivityResponse>>> GetActivities()
         {
             return await base.Mediator.Send(new List.Query());
         }
 
         [HttpGet("{id}")]
-        public  async  Task<ActionResult<Activity>> GetActivity(int id)
+        public  async  Task<ActionResult<ActivityResponse>> GetActivity(int id)
         {
             return await base.Mediator.Send(new Details.Query(id));
         }

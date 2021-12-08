@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using WebAPIProxyGenerator;
+using WebAPIGenerator;
 
 WebApiTypeScriptModelsGenerator.CleanUpTypeScriptModels();
 WebApiTypeScriptModelsGenerator.GenerateTypeScriptModels();

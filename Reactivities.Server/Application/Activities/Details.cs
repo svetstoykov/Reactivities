@@ -1,14 +1,17 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common;
+using AutoMapper;
 using Domain;
 using MediatR;
+using Models.Activities.Response;
 using Persistence;
 
 namespace Application.Activities
 {
     public class Details
     {
-        public class Query : IRequest<Activity>
+        public class Query : IRequest<ActivityResponse>
         {
             public Query(int id )
             {
@@ -18,19 +21,19 @@ namespace Application.Activities
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Activity>
+        public class Handler : BaseHandler<Query, ActivityResponse>
         {
-            private readonly DataContext _dataContext;
+            public Handler(DataContext dataContext, IMapper mapper) 
+                : base(dataContext, mapper)
+            { }
 
-            public Handler(DataContext dataContext)
+            public override async Task<ActivityResponse> Handle(Query request, CancellationToken cancellationToken)
             {
-                _dataContext = dataContext;
+                var activity = await this.DataContext.Activities.FindAsync(request.Id);
+
+                return this.Mapper.Map<ActivityResponse>(activity);
             }
 
-            public async Task<Activity> Handle(Query request, CancellationToken cancellationToken)
-            {
-                return await this._dataContext.Activities.FindAsync(request.Id);
-            }
         }
     }
 }

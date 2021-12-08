@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Domain;
 using MediatR;
-using Models.Activities;
+using Models.Activities.Request;
 using Persistence;
 
 namespace Application.Activities

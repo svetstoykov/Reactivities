@@ -1,6 +1,6 @@
 ﻿using Models.Activities.Base;
 
-namespace Models.Activities
+namespace Models.Activities.Request
 {
     public class CreateActivityRequest : ActivityBaseRequest
     {

@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Globalization;
+using AutoMapper;
 using Domain;
-using Models.Activities;
+using Models.Activities.Request;
+using Models.Activities.Response;
 
 namespace Application.Common.Activities
 {
@@ -10,6 +12,9 @@ namespace Application.Common.Activities
         {
             CreateMap<CreateActivityRequest, Activity>();
             CreateMap<EditActivityRequest, Activity>();
+            CreateMap<Activity, ActivityResponse>()
+                .ForMember(x => x.Date, 
+                              y => y.MapFrom(activity => activity.Date.ToString(CultureInfo.InvariantCulture)));
         }
     }
 }
