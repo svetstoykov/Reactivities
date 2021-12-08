@@ -8,6 +8,7 @@ namespace Application.Common
 {
     public abstract class BaseHandler<TQuery, TEntity> : IRequestHandler<TQuery, TEntity>
         where TQuery: IRequest<TEntity>
+        where TEntity : class
     {
         protected readonly DataContext DataContext;
         protected readonly IMapper Mapper;
