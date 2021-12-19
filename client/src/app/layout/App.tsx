@@ -16,37 +16,51 @@ function App() {
       .then(response => {
         setActivities(response.data);
       });
-  }, []);
+  }, [activities]);
 
-  function handleSelectActivity(id: number){
+  function handleSelectActivity(id: number) {
     setSelectedActivity(activities.find(a => a.id === id));
   }
 
-  function handleCancelSelectedActivity(){
+  function handleCancelSelectedActivity() {
     setSelectedActivity(undefined);
   }
 
-  function handleFormOpen(id?: number){
+  function handleFormOpen(id?: number) {
     id ? handleSelectActivity(id) : handleCancelSelectedActivity();
     setEditMode(true);
   }
 
-  function handleFormClose(){
+  function handleFormClose() {
     setEditMode(false);
+  }
+
+  function handleCreateOrEditActivty(activity: Activity) {
+    activity.id
+      ? setActivities([...activities.filter(a => a.id !== activity.id), activity])
+      : setActivities([...activities, activity])
+    setEditMode(false);
+    setSelectedActivity(activity);
+  }
+
+  function handleDeleteActivity(id: number){
+    setActivities([...activities.filter(a => a.id !== id)])
   }
 
   return (
     <Fragment >
       <NavBar openForm={handleFormOpen} />
-      <Container style={{marginTop: '7em'}}>
-       <ActivityDashboard 
-        activities={activities}
-        selectedActivity={selectedActivity}
-        selectActivity={handleSelectActivity}
-        cancelSelectActivity={handleCancelSelectedActivity}
-        editMode={editMode}
-        openForm ={handleFormOpen}
-        closeForm = {handleFormClose}
+      <Container style={{ marginTop: '7em' }}>
+        <ActivityDashboard
+          activities={activities}
+          selectedActivity={selectedActivity}
+          selectActivity={handleSelectActivity}
+          cancelSelectActivity={handleCancelSelectedActivity}
+          editMode={editMode}
+          openForm={handleFormOpen}
+          closeForm={handleFormClose}
+          createOrEdit={handleCreateOrEditActivty}
+          deleteActivity = {handleDeleteActivity}
         />
       </Container>
     </Fragment>
