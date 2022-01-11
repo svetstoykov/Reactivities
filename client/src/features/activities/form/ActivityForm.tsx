@@ -6,6 +6,7 @@ interface Props {
     closeForm: () => void;
     activity: Activity | undefined;
     createOrEdit: (activity: Activity) => void;
+    submitting: boolean;
 }
 
 export default function ActivityForm(props: Props) {
@@ -26,13 +27,13 @@ export default function ActivityForm(props: Props) {
     return (
         <Segment clearing>
             <Form onSubmit={handleSubmit} autoComplete='off'>
-                <Form.Input placeholder='Title' value={props.activity?.title} name='title' onChange={handleInputChange} />
-                <Form.TextArea placeholder='Description' value={props.activity?.description} name='description' onChange={handleInputChange} />
-                <Form.Input placeholder='Category' value={props.activity?.category} name='category' onChange={handleInputChange} />
-                <Form.Input type='date' placeholder='Date' value={props.activity?.date} name='date' onChange={handleInputChange} />
-                <Form.Input placeholder='City' value={props.activity?.city} name='city' onChange={handleInputChange} />
-                <Form.Input placeholder='Venue' value={props.activity?.venue} name='venue' onChange={handleInputChange} />
-                <Button floated='right' positive type='submit' content='Submit' />
+                <Form.Input placeholder='Title' value={activity?.title} name='title' onChange={handleInputChange} />
+                <Form.TextArea placeholder='Description' value={activity?.description} name='description' onChange={handleInputChange} />
+                <Form.Input placeholder='Category' value={activity?.category} name='category' onChange={handleInputChange} />
+                <Form.Input type='date' placeholder='Date' value={activity?.date} name='date' onChange={handleInputChange} />
+                <Form.Input placeholder='City' value={activity?.city} name='city' onChange={handleInputChange} />
+                <Form.Input placeholder='Venue' value={activity?.venue} name='venue' onChange={handleInputChange} />
+                <Button loading={props.submitting} floated='right' positive type='submit' content='Submit' />
                 <Button onClick={props.closeForm} floated='right' type='submit' color='red' content='Cancel' />
             </Form>
         </Segment>

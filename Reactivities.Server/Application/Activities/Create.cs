@@ -10,7 +10,7 @@ namespace Application.Activities
 {
     public class Create
     {
-        public class Command : IRequest
+        public class Command : IRequest<int>
         {
             public Command(CreateActivityRequest dto)
             {
@@ -20,7 +20,7 @@ namespace Application.Activities
             public CreateActivityRequest Dto { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, int>
         {
             private readonly DataContext _dataContext;
             private readonly IMapper _mapper;
@@ -31,7 +31,7 @@ namespace Application.Activities
                 _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
             {
                 var coreDto = this._mapper.Map<Activity>(request.Dto);
 
@@ -39,7 +39,7 @@ namespace Application.Activities
 
                 await this._dataContext.SaveChangesAsync();
 
-                return Unit.Value;
+                return coreDto.Id;
             }
         }
     }

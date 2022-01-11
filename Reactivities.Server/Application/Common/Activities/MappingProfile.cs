@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using AutoMapper;
 using Domain;
 using Models.Activities.Request;
@@ -12,8 +13,10 @@ namespace Application.Common.Activities
 
         public MappingProfile()
         {
-            CreateMap<CreateActivityRequest, Activity>();
-            CreateMap<EditActivityRequest, Activity>();
+            CreateMap<CreateActivityRequest, Activity>()
+                .ForMember(x => x.Date, y => y.MapFrom(request => DateTime.Parse(request.Date)));
+            CreateMap<EditActivityRequest, Activity>()
+                .ForMember(x => x.Date, y => y.MapFrom(request => DateTime.Parse(request.Date)));
             CreateMap<Activity, ActivityResponse>()
                 .ForMember(x => x.Date, 
                               y => y.MapFrom(activity => activity.Date.ToString(GlobalConstants.DateFormat)));
