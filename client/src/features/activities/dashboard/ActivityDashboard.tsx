@@ -22,7 +22,11 @@ export default function ActivityDashboard(props: Props) {
         <Grid>
             <Grid.Column width='10'>
                 <ActivityList 
-                activities={props.activities} selectActivity={props.selectActivity}  deleteActivity={props.deleteActivity}/>
+                activities={props.activities} 
+                selectActivity={props.selectActivity}  
+                deleteActivity={props.deleteActivity}
+                submitting={props.submitting}
+                />
             </Grid.Column>
             <GridColumn width='6'>
                 {props.selectedActivity && !props.editMode &&
