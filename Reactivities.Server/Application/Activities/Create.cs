@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.Models.Input;
 using AutoMapper;
 using Domain;
 using MediatR;
-using Models.Activities.Request;
 using Persistence;
 
 namespace Application.Activities
@@ -12,12 +12,12 @@ namespace Application.Activities
     {
         public class Command : IRequest<int>
         {
-            public Command(CreateActivityRequest dto)
+            public Command(CreateActivityInputModel dto)
             {
                 this.Dto = dto;
             }
 
-            public CreateActivityRequest Dto { get; set; }
+            public CreateActivityInputModel Dto { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, int>

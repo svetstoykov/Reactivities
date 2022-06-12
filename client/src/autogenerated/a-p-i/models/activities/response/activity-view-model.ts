@@ -1,6 +1,6 @@
 import { BaseApiModel } from '../../common/base-api-model';
 
-export class ActivityResponse extends BaseApiModel {
+export class ActivityViewModel extends BaseApiModel {
     id: number;
     title: string;
     date: string;

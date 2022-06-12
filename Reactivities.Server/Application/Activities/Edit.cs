@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.Models.Input;
 using AutoMapper;
 using MediatR;
-using Models.Activities;
-using Models.Activities.Request;
 using Persistence;
 
 namespace Application.Activities
@@ -12,12 +11,12 @@ namespace Application.Activities
     {
         public class Command : IRequest
         {
-            public Command(EditActivityRequest dto)
+            public Command(EditActivityInputModel dto)
             {
                 this.Dto = dto;
             }
 
-            public EditActivityRequest Dto { get; set; }
+            public EditActivityInputModel Dto { get; set; }
         }
 
         public class Handler : IRequestHandler<Command>

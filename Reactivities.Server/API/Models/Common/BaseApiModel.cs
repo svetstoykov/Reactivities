@@ -1,4 +1,4 @@
-﻿namespace Models.Common
+﻿namespace API.Models.Common
 {
     public abstract class BaseApiModel
     {

@@ -1,47 +1,55 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Models.Activities.Request;
+using API.Models.Activities.Response;
 using Application.Activities;
+using Application.Activities.Models.Input;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Models.Activities.Request;
-using Models.Activities.Response;
 
 namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        public ActivitiesController(IMediator mediator) 
-            : base(mediator)
+        public ActivitiesController(IMediator mediator, IMapper mapper)
+            : base(mediator, mapper)
         { }
 
         [HttpGet]
-        public async Task<ActionResult<List<ActivityResponse>>> GetActivities()
+        public async Task<ActionResult<List<ActivityViewModel>>> GetActivities()
         {
-            return await base.Mediator.Send(new List.Query());
+            var serviceResultData = await base.Mediator.Send(new List.Query());
+
+            return base.Ok(Mapper.Map<IEnumerable<ActivityViewModel>>(serviceResultData));
         }
 
         [HttpGet("{id}")]
-        public  async  Task<ActionResult<ActivityResponse>> GetActivity(int id)
+        public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
         {
-            return await base.Mediator.Send(new Details.Query(id));
+            var serviceResultData = await base.Mediator.Send(new Details.Query(id));
+
+            return base.Ok(Mapper.Map<ActivityViewModel>(serviceResultData));
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(CreateActivityRequest activity)
+        public async Task<IActionResult> CreateActivity(CreateActivityRequestModel request)
         {
-            return base.Ok(await base.Mediator.Send(new Create.Command(activity)));
+            var inputModel = Mapper.Map<CreateActivityInputModel>(request);
+
+            return base.Ok(await base.Mediator.Send(new Create.Command(inputModel)));
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditActivity(EditActivityRequest activity)
+        public async Task<IActionResult> EditActivity(EditActivityRequestModel request)
         {
-            return base.Ok(await base.Mediator.Send(new Edit.Command(activity)));
+            var inputModel = Mapper.Map<EditActivityInputModel>(request);
+
+            return base.Ok(await base.Mediator.Send(new Edit.Command(inputModel)));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(int id)
-        {
-            return base.Ok(await base.Mediator.Send(new Delete.Command(id)));
-        }
+            => base.Ok(await base.Mediator.Send(new Delete.Command(id)));
     }
 }

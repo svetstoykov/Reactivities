@@ -1,9 +1,9 @@
-﻿using Models.Common;
-
-namespace Models.Activities.Base
+﻿
+namespace Application.Activities.Models.Output
 {
-    public abstract class ActivityBaseRequest : BaseApiModel
+    public class ActivityOutputModel
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Date { get; set; }
         public string Description { get; set; }

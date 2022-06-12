@@ -1,6 +1,6 @@
 import { BaseApiModel } from '../../common/base-api-model';
 
-export abstract class ActivityBaseRequest extends BaseApiModel {
+export abstract class CreateEditActivityBaseRequestModel extends BaseApiModel {
     title: string;
     date: string;
     description: string;

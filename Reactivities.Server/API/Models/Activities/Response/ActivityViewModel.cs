@@ -1,8 +1,8 @@
-﻿using Models.Common;
+﻿using API.Models.Common;
 
-namespace Models.Activities.Response
+namespace API.Models.Activities.Response
 {
-    public class ActivityResponse : BaseApiModel
+    public class ActivityViewModel : BaseApiModel
     {
         public int Id { get; set; }
         public string Title { get; set; }

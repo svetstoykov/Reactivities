@@ -17,7 +17,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
-    <ProjectReference Include="..\WebAPIProxyGenerator\WebAPIGenerator.csproj" />
   </ItemGroup>
 
 </Project>

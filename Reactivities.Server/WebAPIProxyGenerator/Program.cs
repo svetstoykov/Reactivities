@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using WebAPIGenerator;
+﻿using WebAPIGenerator;
 
 WebApiTypeScriptModelsGenerator.CleanUpTypeScriptModels();
 WebApiTypeScriptModelsGenerator.GenerateTypeScriptModels();
