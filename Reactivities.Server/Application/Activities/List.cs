@@ -12,21 +12,24 @@ namespace Application.Activities
 {
     public class List
     {
-        public class Query : IRequest<List<ActivityOutputModel>> { }
+        public class Query : IRequest<List<ActivityOutputModel>>
+        {
+        }
 
         public class Handler : BaseHandler<Query, List<ActivityOutputModel>>
         {
-            public Handler(DataContext dataContext, IMapper mapper) 
+            public Handler(DataContext dataContext, IMapper mapper)
                 : base(dataContext, mapper)
-            {}
-
-            public override async Task<List<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activities = await this.DataContext.Activities.ToListAsync();
+            }
+
+            public override async Task<List<ActivityOutputModel>> Handle(Query request,
+                CancellationToken cancellationToken)
+            {
+                var activities = await this.DataContext.Activities.ToListAsync(cancellationToken);
 
                 return this.Mapper.Map<List<ActivityOutputModel>>(activities);
             }
-
         }
     }
 }

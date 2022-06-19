@@ -37,7 +37,7 @@ namespace Application.Activities
 
                 this._dataContext.Activities.Add(coreDto);
 
-                await this._dataContext.SaveChangesAsync();
+                await this._dataContext.SaveChangesAsync(cancellationToken);
 
                 return coreDto.Id;
             }

@@ -28,7 +28,7 @@ namespace Application.Activities
 
             public override async Task<ActivityOutputModel> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activity = await this.DataContext.Activities.FindAsync(request.Id);
+                var activity = await this.DataContext.Activities.FindAsync(request.Id, cancellationToken);
 
                 return this.Mapper.Map<ActivityOutputModel>(activity);
             }

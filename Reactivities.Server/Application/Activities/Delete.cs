@@ -34,7 +34,7 @@ namespace Application.Activities
                 {
                     this._dataContext.Remove(coreDto);
 
-                    await this._dataContext.SaveChangesAsync();
+                    await this._dataContext.SaveChangesAsync(cancellationToken);
                 }
 
                 return Unit.Value;

@@ -41,7 +41,7 @@ namespace Application.Activities
                     this._dataContext.Activities.Update(activityCore);
                 }
 
-                await this._dataContext.SaveChangesAsync();
+                await this._dataContext.SaveChangesAsync(cancellationToken);
 
                 return Unit.Value;
             }
