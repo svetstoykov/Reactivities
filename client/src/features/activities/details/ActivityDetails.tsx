@@ -8,7 +8,7 @@ function ActivityDetails() {
     const { selectedActivity, openForm, cancelSelectedActivity } =
         activityStore;
 
-    if(!selectedActivity) return <LoadingComponent />;
+    if (!selectedActivity) return <LoadingComponent />;
 
     return (
         <Card>
@@ -44,4 +44,4 @@ function ActivityDetails() {
     );
 }
 
-export default observer(ActivityDetails)
+export default observer(ActivityDetails);
