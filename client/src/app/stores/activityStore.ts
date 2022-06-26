@@ -43,11 +43,13 @@ export default class ActivityStore {
             }
 
             this.selectedActivity = activity;
+            this.setLoadingInitial(false);
+
+            return activity;
         } catch (ex) {
             console.log(ex);
+            this.setLoadingInitial(false);
         }
-
-        this.setLoadingInitial(false);
     };
 
     createActivity = async (newActivity: ActivityViewModel) => {
@@ -93,7 +95,7 @@ export default class ActivityStore {
         }
     };
 
-    private setLoadingInitial = (state: boolean) => {
+    setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     };
 
