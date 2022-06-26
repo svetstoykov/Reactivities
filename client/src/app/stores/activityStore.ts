@@ -20,28 +20,36 @@ export default class ActivityStore {
     }
 
     loadActivities = async () => {
+        this.setLoadingInitial(true);
         try {
             const activities = await agent.Activities.list();
-
-            activities.forEach((a) => {
-                a.date = a.date.split("T")[0];
-                this.activitiesRegistry.set(a.id!, a);
+            activities.forEach((activity) => {
+                this.setActivity(activity);
             });
-
-            this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
+        }
+
+        this.setLoadingInitial(false);
+    };
+
+    loadActivity = async (id: number) => {
+        this.setLoadingInitial(true);
+        try {
+            let activity = this.activitiesRegistry.get(id);
+            if (!activity) {
+                activity = await agent.Activities.details(id);
+                this.setActivity(activity);
+            }
+
+            this.selectedActivity = activity;
+            this.setLoadingInitial(false);
+
+            return activity;
+        } catch (ex) {
+            console.log(ex);
             this.setLoadingInitial(false);
         }
-    };
-
-    openForm = (id?: number) => {
-        id ? this.selectActivity(id) : this.cancelSelectedActivity();
-        this.editMode = true;
-    };
-
-    closeForm = () => {
-        this.editMode = false;
     };
 
     createActivity = async (newActivity: ActivityViewModel) => {
@@ -80,29 +88,14 @@ export default class ActivityStore {
             await agent.Activities.delete(id);
             runInAction(() => {
                 this.activitiesRegistry.delete(id);
-                if (this.selectedActivity?.id === id) {
-                    this.cancelSelectedActivity();
-                }
-
                 this.loading = false;
             });
         } catch (ex) {
-            console.log(ex);
-            runInAction(() => {
-                this.loading = false;
-            });
+            this.logException(ex);
         }
     };
 
-    selectActivity = (id: number) => {
-        this.selectedActivity = this.activitiesRegistry.get(id);
-    };
-
-    cancelSelectedActivity = () => {
-        this.selectedActivity = undefined;
-    };
-
-    private setLoadingInitial = (state: boolean) => {
+    setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     };
 
@@ -116,4 +109,9 @@ export default class ActivityStore {
         console.log(ex);
         this.loading = false;
     };
+
+    private setActivity(activity: ActivityViewModel) {
+        activity.date = activity.date.split("T")[0];
+        this.activitiesRegistry.set(activity.id!, activity);
+    }
 }
