@@ -1,5 +1,4 @@
-﻿using API.Models.Activities.Request;
-using API.Models.Activities.Response;
+﻿using API.Models.Activities;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using AutoMapper;
@@ -10,9 +9,9 @@ namespace API.Common.MappingProfiles
     {
         public ActivityMappingProfile()
         {
-            CreateMap<CreateActivityRequestModel, CreateActivityInputModel>();
+            CreateMap<ActivityViewModel, CreateActivityInputModel>();
 
-            CreateMap<EditActivityRequestModel, EditActivityInputModel>();
+            CreateMap<ActivityViewModel, EditActivityInputModel>();
 
             CreateMap<ActivityOutputModel, ActivityViewModel>();
         }

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Models.Activities.Request;
-using API.Models.Activities.Response;
+using API.Models.Activities;
 using Application.Activities;
 using Application.Activities.Models.Input;
 using AutoMapper;
@@ -33,7 +32,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(CreateActivityRequestModel request)
+        public async Task<IActionResult> CreateActivity(ActivityViewModel request)
         {
             var inputModel = Mapper.Map<CreateActivityInputModel>(request);
 
@@ -41,7 +40,7 @@ namespace API.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditActivity(EditActivityRequestModel request)
+        public async Task<IActionResult> EditActivity(ActivityViewModel request)
         {
             var inputModel = Mapper.Map<EditActivityInputModel>(request);
 
