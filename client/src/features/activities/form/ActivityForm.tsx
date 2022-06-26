@@ -9,7 +9,6 @@ function ActivityForm() {
         selectedActivity,
         createActivity,
         updateActivity,
-        closeForm,
         loading,
     } = activityStore;
 
@@ -84,7 +83,6 @@ function ActivityForm() {
                     content="Submit"
                 />
                 <Button
-                    onClick={closeForm}
                     floated="right"
                     type="submit"
                     color="red"

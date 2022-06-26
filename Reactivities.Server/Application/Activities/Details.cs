@@ -24,15 +24,15 @@ namespace Application.Activities
         {
             public Handler(DataContext dataContext, IMapper mapper)
                 : base(dataContext, mapper)
-            { }
-
+            {
+            }
+    
             public override async Task<ActivityOutputModel> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activity = await this.DataContext.Activities.FindAsync(request.Id, cancellationToken);
+                var activity = await this.DataContext.Activities.FindAsync(new object[] {request.Id}, cancellationToken);
 
                 return this.Mapper.Map<ActivityOutputModel>(activity);
             }
-
         }
     }
 }
