@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using API.Models.Common;
+using API.Common.Models;
 using Models.Common;
 using TypeScriptModelsGenerator;
 

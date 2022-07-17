@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Models.Activities;
+using API.Activities.Models;
+using API.Common.Controllers;
 using Application.Activities;
 using Application.Activities.Models.Input;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Activities.Controllers
 {
     public class ActivitiesController : BaseApiController
     {

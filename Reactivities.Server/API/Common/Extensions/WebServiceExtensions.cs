@@ -1,19 +1,23 @@
 ﻿using System.Reflection;
-using Persistence;
-using Microsoft.OpenApi.Models;
+using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Persistence;
 
-namespace API.Extensions
+namespace API.Common.Extensions
 {
     public static class WebServiceExtensions
     {
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration config)
         {
+            services.AddControllers();
+
             return services
                 .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddSwagger()
+                .AddFluentValidation()
                 .AddDbContextConfig(config)
                 .AddCorsPolicy();
         }
