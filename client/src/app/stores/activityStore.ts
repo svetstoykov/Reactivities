@@ -19,6 +19,20 @@ export default class ActivityStore {
         );
     }
 
+    get groupedActivities() {
+        return Object.entries(
+            this.activitiesByDate.reduce((activitiesMap, activity) => {
+                const date = activity.date;
+
+                activitiesMap[date] = activitiesMap[date]
+                    ? [...activitiesMap[date], activity]
+                    : [activity];
+
+                return activitiesMap;
+            }, {} as {[key:string]: ActivityViewModel[] })
+        )
+    }
+
     loadActivities = async () => {
         this.setLoadingInitial(true);
         try {

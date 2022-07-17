@@ -7,7 +7,7 @@ const sleep = (delay: number) => {
     });
 };
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = "http://localhost:51004/api";
 
 // Added to assist in displaying loading screens.
 axios.interceptors.response.use(async (response) => {
