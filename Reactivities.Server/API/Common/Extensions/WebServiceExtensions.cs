@@ -17,10 +17,14 @@ namespace API.Common.Extensions
             return services
                 .AddAutoMapper(Assembly.GetExecutingAssembly())
                 .AddSwagger()
-                .AddFluentValidation()
                 .AddDbContextConfig(config)
-                .AddCorsPolicy();
+                .AddCorsPolicy()
+                .AddCustomFluentValidation();
         }
+
+        private static IServiceCollection AddCustomFluentValidation(this IServiceCollection services)
+            => services
+                .AddFluentValidation(cfg => cfg.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
         private static IServiceCollection AddSwagger(this IServiceCollection services)
             => services

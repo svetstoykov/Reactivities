@@ -1,4 +1,4 @@
-import { BaseApiModel } from '../../common/base-api-model';
+import { BaseApiModel } from '../../models/base-api-model';
 
 export abstract class CreateEditActivityBaseRequestModel extends BaseApiModel {
     title: string;
