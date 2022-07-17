@@ -3,13 +3,15 @@ using System.Threading.Tasks;
 using Application.Activities.Models.Input;
 using AutoMapper;
 using MediatR;
+using Models.Common;
+using Models.ErrorHandling.Helpers;
 using Persistence;
 
 namespace Application.Activities
 {
     public class Edit
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public Command(EditActivityInputModel dto)
             {
@@ -19,7 +21,7 @@ namespace Application.Activities
             public EditActivityInputModel Dto { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _dataContext;
             private readonly IMapper _mapper;
@@ -30,20 +32,23 @@ namespace Application.Activities
                 _mapper = mapper;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var activityCore = await this._dataContext.Activities.FindAsync(request.Dto.Id);
 
-                if (activityCore != null)
+                if (activityCore == null)
                 {
-                    this._mapper.Map(request.Dto, activityCore);
-
-                    this._dataContext.Activities.Update(activityCore);
+                    return Result<Unit>.Failure(
+                        string.Format(ActivitiesErrorMessagesHelper.DoesNotExist, request.Dto.Id));
                 }
+
+                this._mapper.Map(request.Dto, activityCore);
+
+                this._dataContext.Activities.Update(activityCore);
 
                 await this._dataContext.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

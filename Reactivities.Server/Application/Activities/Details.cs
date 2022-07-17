@@ -4,13 +4,14 @@ using Application.Activities.Models.Output;
 using Application.Common;
 using AutoMapper;
 using MediatR;
+using Models.Common;
 using Persistence;
 
 namespace Application.Activities
 {
     public class Details
     {
-        public class Query : IRequest<ActivityOutputModel>
+        public class Query : IRequest<Result<ActivityOutputModel>>
         {
             public Query(int id)
             {
@@ -20,18 +21,20 @@ namespace Application.Activities
             public int Id { get; set; }
         }
 
-        public class Handler : BaseHandler<Query, ActivityOutputModel>
+        public class Handler : BaseHandler<Query, Result<ActivityOutputModel>>
         {
             public Handler(DataContext dataContext, IMapper mapper)
                 : base(dataContext, mapper)
             {
             }
     
-            public override async Task<ActivityOutputModel> Handle(Query request, CancellationToken cancellationToken)
+            public override async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var activity = await this.DataContext.Activities.FindAsync(new object[] {request.Id}, cancellationToken);
 
-                return this.Mapper.Map<ActivityOutputModel>(activity);
+                var outputModel = this.Mapper.Map<ActivityOutputModel>(activity);
+
+                return Result<ActivityOutputModel>.Success(outputModel);
             }
         }
     }

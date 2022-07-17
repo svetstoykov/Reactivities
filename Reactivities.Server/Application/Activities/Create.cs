@@ -4,13 +4,15 @@ using Application.Activities.Models.Input;
 using AutoMapper;
 using Domain;
 using MediatR;
+using Models.Common;
+using Models.ErrorHandling.Helpers;
 using Persistence;
 
 namespace Application.Activities
 {
     public class Create
     {
-        public class Command : IRequest<int>
+        public class Command : IRequest<Result<Unit>>
         {
             public Command(CreateActivityInputModel dto)
             {
@@ -20,7 +22,7 @@ namespace Application.Activities
             public CreateActivityInputModel Dto { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, int>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _dataContext;
             private readonly IMapper _mapper;
@@ -31,15 +33,20 @@ namespace Application.Activities
                 _mapper = mapper;
             }
 
-            public async Task<int> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var coreDto = this._mapper.Map<Activity>(request.Dto);
 
                 this._dataContext.Activities.Add(coreDto);
 
-                await this._dataContext.SaveChangesAsync(cancellationToken);
+                var entityChangeResult = await this._dataContext.SaveChangesAsync(cancellationToken);
 
-                return coreDto.Id;
+                if (entityChangeResult <= 0)
+                {
+                    return Result<Unit>.Failure(ActivitiesErrorMessagesHelper.CreateError);
+                }
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }
