@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Models.Common
+namespace Models.ErrorHandling
 {
     public class AppException : Exception
     {
@@ -9,7 +9,7 @@ namespace Models.Common
         public AppException(string message) : base(message) { }
 
         public AppException(string message, params object[] args)
-            : base(String.Format(CultureInfo.CurrentCulture, message, args))
+            : base(string.Format(CultureInfo.CurrentCulture, message, args))
         {
         }
     }

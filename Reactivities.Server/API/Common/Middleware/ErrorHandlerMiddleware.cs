@@ -5,6 +5,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Models.Common;
+using Models.ErrorHandling;
+using Models.ErrorHandling.Helpers;
 
 namespace API.Common.Middleware
 {
@@ -43,9 +45,14 @@ namespace API.Common.Middleware
                         response.StatusCode = (int)HttpStatusCode.InternalServerError;
                         break;
                 }
+                
+                var errorMessage = string.IsNullOrEmpty(error.Message)
+                    ? CommonErrorMessagesHelper.ErrorOccurred
+                    : error.Message;
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
-                await response.WriteAsync(result);
+                var result = Result<object>.Failure(errorMessage);
+
+                await response.WriteAsync(JsonSerializer.Serialize(result));
             }
         }
     }

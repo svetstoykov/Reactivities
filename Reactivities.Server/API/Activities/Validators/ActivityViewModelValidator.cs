@@ -1,7 +1,7 @@
 ﻿using System;
 using API.Activities.Models;
 using FluentValidation;
-using Models.ErrorHelper;
+using Models.ErrorHandling.Helpers;
 
 namespace API.Activities.Validators
 {
@@ -21,13 +21,13 @@ namespace API.Activities.Validators
                 {
                     if (date < DateTime.MinValue)
                     {
-                        context.AddFailure(ActivitiesErrors.InvalidDate);
+                        context.AddFailure(ActivitiesErrorMessagesHelper.InvalidDate);
                     }
 
                     return;
                 }
 
-                context.AddFailure(ActivitiesErrors.InvalidDate);
+                context.AddFailure(ActivitiesErrorMessagesHelper.InvalidDate);
             });
         }
     }
