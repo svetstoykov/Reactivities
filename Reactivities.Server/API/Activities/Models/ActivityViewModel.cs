@@ -1,4 +1,4 @@
-﻿using API.Common.Models;
+﻿using API.Common;
 
 namespace API.Activities.Models
 {
