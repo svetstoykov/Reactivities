@@ -22,7 +22,7 @@ namespace API.Activities.Controllers
         {
             var serviceResult = await base.Mediator.Send(new List.Query());
 
-            return HandleResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityViewModel>>(serviceResult);
+            return HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityViewModel>>(serviceResult);
         }
 
         [HttpGet("{id}")]
@@ -30,7 +30,7 @@ namespace API.Activities.Controllers
         {
             var serviceResult = await base.Mediator.Send(new Details.Query(id));
 
-            return HandleResult<ActivityOutputModel, ActivityViewModel>(serviceResult);
+            return HandleMappingResult<ActivityOutputModel, ActivityViewModel>(serviceResult);
         }
 
         [HttpPost]

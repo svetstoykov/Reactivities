@@ -18,7 +18,7 @@ namespace API.Common.Controllers
             Mapper = mapper;
         }
 
-        protected ActionResult HandleResult<TOutputData, TViewModel>(Result<TOutputData> result)
+        protected ActionResult HandleMappingResult<TOutputData, TViewModel>(Result<TOutputData> result)
             where TOutputData : class
             where TViewModel : class
         {

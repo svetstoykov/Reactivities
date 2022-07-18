@@ -32,7 +32,6 @@ namespace Application.Activities
             {
                 var activityCore = await this._dataContext.Activities.FindAsync(request.Id);
 
-
                 if (activityCore == null)
                 {
                     return Result<Unit>.Failure(
