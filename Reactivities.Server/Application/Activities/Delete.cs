@@ -40,7 +40,12 @@ namespace Application.Activities
 
                 this._dataContext.Remove(domainDto);
 
-                await this._dataContext.SaveChangesAsync(cancellationToken);
+                var deleteResult = await this._dataContext.SaveChangesAsync(cancellationToken) > 0;
+                if (!deleteResult)
+                {
+                    return Result<Unit>.Failure(
+                        ActivitiesErrorMessages.DeleteError);
+                }
 
                 return Result<Unit>.Success(Unit.Value);
             }

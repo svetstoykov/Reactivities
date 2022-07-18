@@ -46,7 +46,12 @@ namespace Application.Activities
 
                 this._dataContext.Activities.Update(domainDto);
 
-                await this._dataContext.SaveChangesAsync(cancellationToken);
+                var editResult = await this._dataContext.SaveChangesAsync(cancellationToken) > 0;
+                if (!editResult)
+                {
+                    return Result<Unit>.Failure(
+                        ActivitiesErrorMessages.EditError);
+                }
 
                 return Result<Unit>.Success(Unit.Value);
             }
