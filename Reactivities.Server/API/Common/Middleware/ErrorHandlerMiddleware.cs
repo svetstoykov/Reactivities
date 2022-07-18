@@ -4,17 +4,22 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Hosting;
+using Models.Common;
 using Models.ErrorHandling;
+using Models.ErrorHandling.Helpers;
 
 namespace API.Common.Middleware
 {
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly IHostEnvironment _environment;
 
-        public ErrorHandlerMiddleware(RequestDelegate next)
+        public ErrorHandlerMiddleware(RequestDelegate next, IHostEnvironment environment)
         {
             _next = next;
+            _environment = environment;
         }
 
         public async Task Invoke(HttpContext context)
@@ -23,29 +28,23 @@ namespace API.Common.Middleware
             {
                 await _next(context);
             }
-            catch (Exception error)
+            catch (Exception ex)
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
 
-                switch (error)
+                response.StatusCode = ex switch
                 {
-                    case AppException e:
-                        // custom application error
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
-                        break;
-                    case KeyNotFoundException e:
-                        // not found error
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        break;
-                    default:
-                        // unhandled error
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
+                    AppException => (int) HttpStatusCode.BadRequest,
+                    KeyNotFoundException =>(int) HttpStatusCode.NotFound,
+                    _ => (int) HttpStatusCode.InternalServerError
+                };
 
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
-                await response.WriteAsync(result);
+                var exceptionResponse = _environment.IsDevelopment()
+                    ? ExceptionResponse.New(context.Response.StatusCode, ex.Message, ex.StackTrace)
+                    : ExceptionResponse.New(response.StatusCode, CommonErrorMessages.SomethingWentWrong);
+
+                await response.WriteAsync(JsonSerializer.Serialize(exceptionResponse));
             }
         }
     }
