@@ -30,9 +30,9 @@ namespace Application.Activities
     
             public override async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activity = await this.DataContext.Activities.FindAsync(new object[] {request.Id}, cancellationToken);
+                var domainDto = await this.DataContext.Activities.FindAsync(new object[] {request.Id}, cancellationToken);
 
-                var outputModel = this.Mapper.Map<ActivityOutputModel>(activity);
+                var outputModel = this.Mapper.Map<ActivityOutputModel>(domainDto);
 
                 return Result<ActivityOutputModel>.Success(outputModel);
             }

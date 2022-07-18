@@ -1,6 +1,6 @@
 ﻿namespace Models.ErrorHandling.Helpers
 {
-    public static class ActivitiesErrorMessagesHelper
+    public static class ActivitiesErrorMessages
     {
         public static string InvalidDate =
             "Invalid activity date";

@@ -30,15 +30,15 @@ namespace Application.Activities
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activityCore = await this._dataContext.Activities.FindAsync(request.Id);
+                var domainDto = await this._dataContext.Activities.FindAsync(request.Id);
 
-                if (activityCore == null)
+                if (domainDto == null)
                 {
-                    return Result<Unit>.Failure(
-                        string.Format(ActivitiesErrorMessagesHelper.DoesNotExist, request.Id));
+                    return Result<Unit>.NotFound(
+                        ActivitiesErrorMessages.DoesNotExist);
                 }
 
-                this._dataContext.Remove(activityCore);
+                this._dataContext.Remove(domainDto);
 
                 await this._dataContext.SaveChangesAsync(cancellationToken);
 

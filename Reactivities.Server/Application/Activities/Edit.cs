@@ -34,17 +34,17 @@ namespace Application.Activities
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var activityCore = await this._dataContext.Activities.FindAsync(request.Dto.Id);
+                var domainDto = await this._dataContext.Activities.FindAsync(request.Dto.Id);
 
-                if (activityCore == null)
+                if (domainDto == null)
                 {
-                    return Result<Unit>.Failure(
-                        string.Format(ActivitiesErrorMessagesHelper.DoesNotExist, request.Dto.Id));
+                    return Result<Unit>.NotFound(
+                        ActivitiesErrorMessages.DoesNotExist);
                 }
 
-                this._mapper.Map(request.Dto, activityCore);
+                this._mapper.Map(request.Dto, domainDto);
 
-                this._dataContext.Activities.Update(activityCore);
+                this._dataContext.Activities.Update(domainDto);
 
                 await this._dataContext.SaveChangesAsync(cancellationToken);
 

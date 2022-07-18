@@ -35,18 +35,15 @@ namespace Application.Activities
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var coreDto = this._mapper.Map<Activity>(request.Dto);
+                var domainDto = this._mapper.Map<Activity>(request.Dto);
 
-                this._dataContext.Activities.Add(coreDto);
+                this._dataContext.Activities.Add(domainDto);
 
                 var entityChangeResult = await this._dataContext.SaveChangesAsync(cancellationToken);
 
-                if (entityChangeResult <= 0)
-                {
-                    return Result<Unit>.Failure(ActivitiesErrorMessagesHelper.CreateError);
-                }
-
-                return Result<Unit>.Success(Unit.Value);
+                return entityChangeResult <= 0 
+                    ? Result<Unit>.Failure(ActivitiesErrorMessages.CreateError) 
+                    : Result<Unit>.Success(Unit.Value);
             }
         }
     }

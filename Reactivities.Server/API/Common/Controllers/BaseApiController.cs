@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
+using Models.Enumerations;
 
 namespace API.Common.Controllers
 {
@@ -22,22 +23,28 @@ namespace API.Common.Controllers
             where TOutputData : class
             where TViewModel : class
         {
-            var mappedData = this.Mapper.Map<TViewModel>(result.Data);
+            Result<TViewModel> mappedResult = null;
+            if (result != null)
+            {
+                mappedResult = Result<TViewModel>.New(
+                    this.Mapper.Map<TViewModel>(result.Data),
+                    result.ResultType,
+                    result.Message,
+                    result.IsSuccessful);
+            }
 
-            return ProvideActionResultResponse(result.IsSuccessful, mappedData, result.Message);
+            return HandleResult(mappedResult);
         }
 
         protected ActionResult HandleResult<TOutputData>(Result<TOutputData> result)
         {
-            return ProvideActionResultResponse(result.IsSuccessful, result.Data, result.Message);
-        }
-
-        private ActionResult ProvideActionResultResponse<TData>(bool isSuccessful, TData data, string message)
-            => isSuccessful switch
+            return result.ResultType switch
             {
-                true when data != null => Ok(data),
-                true => NotFound(),
-                _ => BadRequest(message)
+                ResultType.Success when result.Data == null => NotFound(),
+                ResultType.NotFound => NotFound(),
+                ResultType.Success => Ok(result.Data),
+                _ => BadRequest(result.Message)
             };
+        }
     }
 }

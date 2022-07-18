@@ -21,13 +21,13 @@ namespace API.Activities.Validators
                 {
                     if (date < DateTime.MinValue)
                     {
-                        context.AddFailure(ActivitiesErrorMessagesHelper.InvalidDate);
+                        context.AddFailure(ActivitiesErrorMessages.InvalidDate);
                     }
 
                     return;
                 }
 
-                context.AddFailure(ActivitiesErrorMessagesHelper.InvalidDate);
+                context.AddFailure(ActivitiesErrorMessages.InvalidDate);
             });
         }
     }

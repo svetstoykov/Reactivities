@@ -32,7 +32,7 @@ namespace API
             catch (Exception e)
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(e, CommonErrorMessagesHelper.MigrationError);
+                logger.LogError(e, CommonErrorMessages.MigrationError);
             }
 
             await host.RunAsync();
