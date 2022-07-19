@@ -25,7 +25,7 @@ export default function TestErrors() {
     }
 
     function handleBadGuid() {
-        axios.get(baseUrl + 'activities/notaguid').catch(err => console.log(err.response));
+        axios.get(baseUrl + 'activities/8882').catch(err => console.log(err.response));
     }
 
     function handleValidationError() {
