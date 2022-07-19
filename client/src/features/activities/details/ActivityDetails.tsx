@@ -5,7 +5,7 @@ import { Grid, GridColumn } from "semantic-ui-react";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { useStore } from "../../../app/stores/store";
 import ActivityDetailedInfo from "./ActivityDetailedInfo";
-import ActivityDetaledHeader from "./ActivityDetaledHeader";
+import ActivityDetaledHeader from "./ActivityDetailedHeader";
 import ActivityDetailedChat from "./ActivityDetailedChat";
 import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 

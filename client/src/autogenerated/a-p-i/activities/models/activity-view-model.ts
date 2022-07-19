@@ -5,6 +5,7 @@ export class ActivityViewModel extends BaseApiModel {
     title: string;
     date: string;
     description: string;
+    categoryId: number;
     category: string;
     city: string;
     venue: string;

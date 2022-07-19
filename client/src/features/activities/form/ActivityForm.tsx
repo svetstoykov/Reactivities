@@ -29,6 +29,7 @@ function ActivityForm() {
         title: "",
         date: "",
         description: "",
+        categoryId: 0,
         category: "",
         city: "",
         venue: "",
@@ -87,7 +88,7 @@ function ActivityForm() {
                         autoComplete="off">
                         <ReactivitiesTextInput placeholder="Title" name="title"/>
                         <ReactivitiesTextArea  rows={3} placeholder="Description" name="description" />
-                        <ReactivitiesTextInput placeholder="Category" name="category" />
+                        <ReactivitiesTextInput placeholder="Category" name="categoryId" />
                         <ReactivitiesTextInput placeholder="Date" name="date" />
                         <ReactivitiesTextInput placeholder="City" name="city" />
                         <ReactivitiesTextInput placeholder="Venue" name="venue" />
