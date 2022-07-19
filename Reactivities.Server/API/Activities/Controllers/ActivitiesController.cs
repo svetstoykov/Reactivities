@@ -60,5 +60,13 @@ namespace API.Activities.Controllers
 
             return HandleResult(serviceResult);
         }
+
+        [HttpGet("categories")]
+        public async Task<IActionResult> GetActivityCategories()
+        {
+            var serviceResult = await base.Mediator.Send(new Categories.Query());
+
+            return HandleMappingResult<IEnumerable<CategoryOutputModel>, IEnumerable<CategoryViewModel>>(serviceResult);
+        }
     }
 }

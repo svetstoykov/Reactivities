@@ -21,9 +21,13 @@ namespace API.Common.MappingProfiles
 
             CreateMap<ActivityViewModel, EditActivityInputModel>();
 
+            CreateMap<CategoryOutputModel, CategoryViewModel>();
+
             CreateMap<ActivityOutputModel, ActivityViewModel>()
                 .ForMember(dest => dest.CategoryId,
-                    opt => opt.MapFrom(src => (int) src.CategoryType));
+                    opt => opt.MapFrom(src => (int) src.CategoryType))
+                .ForMember(dest => dest.Category,
+                    opt => opt.MapFrom(src => src.CategoryType.ToString()));
         }
     }
 }

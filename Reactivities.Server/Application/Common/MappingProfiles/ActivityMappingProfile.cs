@@ -19,6 +19,8 @@ namespace Application.Common.MappingProfiles
 
             CreateMap<EditActivityInputModel, Activity>();
 
+            CreateMap<Category, CategoryOutputModel>();
+
             CreateMap<CreateEditActivityBaseInputModel, Activity>()
                 .Include<CreateActivityInputModel, Activity>()
                 .Include<EditActivityInputModel, Activity>()

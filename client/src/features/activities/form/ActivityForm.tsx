@@ -9,6 +9,7 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import ReactivitiesTextInput from "../../../app/common/form/ReactivitiesTextInput";
 import ReactivitiesTextArea from "../../../app/common/form/ReactivitiesTextArea";
+import ReactivitiesSelectInput from "../../../app/common/form/ReactivitiesSelectInput";
 
 function ActivityForm() {
     const { activityStore } = useStore();
@@ -20,8 +21,10 @@ function ActivityForm() {
         createActivity,
         updateActivity,
         setLoadingInitial,
+        loadCategories,
         loading,
         loadingInitial,
+        categories,
     } = activityStore;
 
     const initialState: ActivityViewModel = {
@@ -42,7 +45,7 @@ function ActivityForm() {
         description: Yup.string().required("Description is required"),
         venue: Yup.string().required("Venue is required"),
         city: Yup.string().required("City is required"),
-        category: Yup.string().required("Category is required"),
+        categoryId: Yup.string().required("Category is required"),
         date: Yup.string().required("Date is required"),
     });
 
@@ -53,6 +56,12 @@ function ActivityForm() {
         }
         setLoadingInitial(false);
     }, [id, loadActivity, setLoadingInitial]);
+
+    useEffect(() => {
+        if (categories.length <= 0) {
+            loadCategories();
+        }
+    }, [loadCategories, categories.length]);
 
     // function handleSubmit() {
     //     const createUpdateAction = activity.id
@@ -86,12 +95,30 @@ function ActivityForm() {
                         className="ui form"
                         onSubmit={handleSubmit}
                         autoComplete="off">
-                        <ReactivitiesTextInput placeholder="Title" name="title"/>
-                        <ReactivitiesTextArea  rows={3} placeholder="Description" name="description" />
-                        <ReactivitiesTextInput placeholder="Category" name="categoryId" />
+                        <ReactivitiesTextInput
+                            placeholder="Title"
+                            name="title"
+                        />
+                        <ReactivitiesTextArea
+                            rows={3}
+                            placeholder="Description"
+                            name="description"
+                        />
+                        <ReactivitiesSelectInput
+                            options={categories.map((c) => ({
+                                key: c.id,
+                                value: c.id,
+                                text: c.name,
+                            }))}
+                            placeholder="Category"
+                            name="categoryId"
+                        />
                         <ReactivitiesTextInput placeholder="Date" name="date" />
                         <ReactivitiesTextInput placeholder="City" name="city" />
-                        <ReactivitiesTextInput placeholder="Venue" name="venue" />
+                        <ReactivitiesTextInput
+                            placeholder="Venue"
+                            name="venue"
+                        />
                         <Button
                             loading={loading}
                             floated="right"
