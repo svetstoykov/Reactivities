@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using API.Models.Activities;
+using API.Activities.Models;
+using API.Common.Controllers;
 using Application.Activities;
 using Application.Activities.Models.Input;
+using Application.Activities.Models.Output;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Activities.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
@@ -16,19 +18,19 @@ namespace API.Controllers
         { }
 
         [HttpGet]
-        public async Task<ActionResult<List<ActivityViewModel>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities()
         {
-            var serviceResultData = await base.Mediator.Send(new List.Query());
+            var serviceResult = await base.Mediator.Send(new List.Query());
 
-            return base.Ok(Mapper.Map<IEnumerable<ActivityViewModel>>(serviceResultData));
+            return HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityViewModel>>(serviceResult);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
         {
-            var serviceResultData = await base.Mediator.Send(new Details.Query(id));
+            var serviceResult = await base.Mediator.Send(new Details.Query(id));
 
-            return base.Ok(Mapper.Map<ActivityViewModel>(serviceResultData));
+            return HandleMappingResult<ActivityOutputModel, ActivityViewModel>(serviceResult);
         }
 
         [HttpPost]
@@ -36,7 +38,9 @@ namespace API.Controllers
         {
             var inputModel = Mapper.Map<CreateActivityInputModel>(request);
 
-            return base.Ok(await base.Mediator.Send(new Create.Command(inputModel)));
+            var serviceResult = await base.Mediator.Send(new Create.Command(inputModel));
+
+            return HandleResult(serviceResult);
         }
 
         [HttpPut]
@@ -44,11 +48,17 @@ namespace API.Controllers
         {
             var inputModel = Mapper.Map<EditActivityInputModel>(request);
 
-            return base.Ok(await base.Mediator.Send(new Edit.Command(inputModel)));
+            var serviceResult = await base.Mediator.Send(new Edit.Command(inputModel));
+
+            return HandleResult(serviceResult);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(int id)
-            => base.Ok(await base.Mediator.Send(new Delete.Command(id)));
+        {
+            var serviceResult = await base.Mediator.Send(new Delete.Command(id));
+
+            return HandleResult(serviceResult);
+        }
     }
 }

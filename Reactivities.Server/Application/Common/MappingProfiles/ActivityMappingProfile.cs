@@ -15,9 +15,11 @@ namespace Application.Common.MappingProfiles
             CreateMap<CreateActivityInputModel, Activity>()
                 .ForMember(dest => dest.Date, 
                     opt => opt.MapFrom(src => DateTime.Parse(src.Date)));
+
             CreateMap<EditActivityInputModel, Activity>()
                 .ForMember(dest => dest.Date, 
                     opt => opt.MapFrom(src => DateTime.Parse(src.Date)));
+
             CreateMap<Activity, ActivityOutputModel>()
                 .ForMember(dest => dest.Date,
                     opt => opt.MapFrom(src => src.Date.ToString(GlobalConstants.DateFormat)));

@@ -1,13 +1,15 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Models.Common;
+using Models.ErrorHandling.Helpers;
 using Persistence;
 
 namespace Application.Activities
 {
     public class Delete
     {
-        public class Command : IRequest
+        public class Command : IRequest<Result<Unit>>
         {
             public Command(int id)
             {
@@ -17,7 +19,7 @@ namespace Application.Activities
             public int Id { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command>
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _dataContext;
 
@@ -26,18 +28,26 @@ namespace Application.Activities
                 _dataContext = dataContext;
             }
 
-            public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var coreDto = await this._dataContext.Activities.FindAsync(request.Id);
+                var domainDto = await this._dataContext.Activities.FindAsync(request.Id);
 
-                if (coreDto != null)
+                if (domainDto == null)
                 {
-                    this._dataContext.Remove(coreDto);
-
-                    await this._dataContext.SaveChangesAsync(cancellationToken);
+                    return Result<Unit>.NotFound(
+                        ActivitiesErrorMessages.DoesNotExist);
                 }
 
-                return Unit.Value;
+                this._dataContext.Remove(domainDto);
+
+                var deleteResult = await this._dataContext.SaveChangesAsync(cancellationToken) > 0;
+                if (!deleteResult)
+                {
+                    return Result<Unit>.Failure(
+                        ActivitiesErrorMessages.DeleteError);
+                }
+
+                return Result<Unit>.Success(Unit.Value);
             }
         }
     }

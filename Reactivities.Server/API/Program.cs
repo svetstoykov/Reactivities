@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Models.ErrorHandling.Helpers;
 
 namespace API
 {
@@ -31,7 +32,7 @@ namespace API
             catch (Exception e)
             {
                 var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(e, "An error occured during migration");
+                logger.LogError(e, CommonErrorMessages.MigrationError);
             }
 
             await host.RunAsync();

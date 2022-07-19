@@ -1,4 +1,4 @@
-﻿using API.Models.Activities;
+﻿using API.Activities.Models;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using AutoMapper;
