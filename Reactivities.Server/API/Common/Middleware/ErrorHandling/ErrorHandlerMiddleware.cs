@@ -9,7 +9,7 @@ using Models.Common;
 using Models.ErrorHandling;
 using Models.ErrorHandling.Helpers;
 
-namespace API.Common.Middleware
+namespace API.Common.Middleware.ErrorHandling
 {
     public class ErrorHandlerMiddleware
     {
@@ -35,16 +35,19 @@ namespace API.Common.Middleware
 
                 response.StatusCode = ex switch
                 {
-                    AppException => (int) HttpStatusCode.BadRequest,
-                    KeyNotFoundException =>(int) HttpStatusCode.NotFound,
-                    _ => (int) HttpStatusCode.InternalServerError
+                    AppException => (int)HttpStatusCode.BadRequest,
+                    KeyNotFoundException => (int)HttpStatusCode.NotFound,
+                    _ => (int)HttpStatusCode.InternalServerError
                 };
 
                 var exceptionResponse = _environment.IsDevelopment()
-                    ? ExceptionResponse.New(context.Response.StatusCode, ex.Message, ex.StackTrace)
-                    : ExceptionResponse.New(response.StatusCode, CommonErrorMessages.SomethingWentWrong);
+                    ? ExceptionResponseModel.New(context.Response.StatusCode, ex.Message, ex.StackTrace)
+                    : ExceptionResponseModel.New(response.StatusCode, CommonErrorMessages.SomethingWentWrong);
 
-                await response.WriteAsync(JsonSerializer.Serialize(exceptionResponse));
+                await response.WriteAsync(JsonSerializer.Serialize(exceptionResponse, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                }));
             }
         }
     }

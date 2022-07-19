@@ -11,6 +11,7 @@ import ActivityDetails from "../../features/activities/details/ActivityDetails";
 import { ToastContainer, Flip } from "react-toastify";
 import TestErrors from "../../features/errors/TestErrors";
 import NotFound from "../../features/errors/NotFound";
+import ServerError from "../../features/errors/ServerError";
 
 function App() {
     const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
                                     component={ActivityForm}
                                 />
                                 <Route path="/errors" component={TestErrors} />
+                                <Route path="/server-error" component={ServerError} />
                                 <Route component={NotFound} />
                             </Switch>
                         </Container>

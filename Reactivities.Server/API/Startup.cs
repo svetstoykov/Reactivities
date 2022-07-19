@@ -1,11 +1,11 @@
 using API.Common.Extensions;
-using API.Common.Middleware;
 using Application.Common.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using API.Common.Middleware.ErrorHandling;
 
 namespace API
 {
