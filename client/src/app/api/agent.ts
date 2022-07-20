@@ -45,7 +45,7 @@ axios.interceptors.response.use(
                 break;
             case 500:
                 store.commonStore.setServerError(data);
-                history.push('/server-error');
+                history.push("/server-error");
                 break;
         }
 
@@ -57,23 +57,18 @@ const responseBody = <T>(response: AxiosResponse<T>) => response.data;
 
 const requests = {
     get: <T>(url: string) => axios.get<T>(url).then(responseBody),
-    post: <T>(url: string, body: {}) =>
-        axios.post<T>(url, body).then(responseBody),
-    put: <T>(url: string, body: {}) =>
-        axios.put<T>(url, body).then(responseBody),
+    post: <T>(url: string, body: {}) => axios.post<T>(url, body).then(responseBody),
+    put: <T>(url: string, body: {}) => axios.put<T>(url, body).then(responseBody),
     delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
 const Activities = {
     list: () => requests.get<ActivityViewModel[]>("/activities"),
-    details: (id: number) =>
-        requests.get<ActivityViewModel>(`/activities/${id}`),
-    create: (activity: ActivityViewModel) =>
-        requests.post<number>("/activities", activity),
-    update: (activity: ActivityViewModel) =>
-        requests.put(`/activities/`, activity),
+    details: (id: number) => requests.get<ActivityViewModel>(`/activities/${id}`),
+    create: (activity: ActivityViewModel) => requests.post<number>("/activities", activity),
+    update: (activity: ActivityViewModel) => requests.put(`/activities/`, activity),
     delete: (id: number) => requests.delete(`/activities/${id}`),
-    categories: () => requests.get<CategoryViewModel[]>(`/activities/categories`)
+    categories: () => requests.get<CategoryViewModel[]>(`/activities/categories`),
 };
 
 const agent = {

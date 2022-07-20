@@ -18,10 +18,7 @@ function ActivityList() {
                     <Segment>
                         <Item.Group divided>
                             {activities.map((activity) => (
-                                <ActivityListItem
-                                    key={activity.id}
-                                    activity={activity}
-                                />
+                                <ActivityListItem key={activity.id} activity={activity} />
                             ))}
                         </Item.Group>
                     </Segment>

@@ -1,4 +1,3 @@
-import React from "react";
 import { useField } from "formik";
 import { Form, Label, Select } from "semantic-ui-react";
 
@@ -10,7 +9,7 @@ interface Props {
 }
 
 export default function ReactivitiesSelectInput(props: Props) {
-    const [field, meta,helpers] = useField(props.name);
+    const [field, meta, helpers] = useField(props.name);
 
     return (
         <Form.Field error={meta.touched && !!meta.error}>
@@ -19,7 +18,7 @@ export default function ReactivitiesSelectInput(props: Props) {
                 clearable
                 options={props.options}
                 value={field.value}
-                onChange={(e,d) => helpers.setValue(d.value)}
+                onChange={(e, d) => helpers.setValue(d.value)}
                 onBlur={() => helpers.setTouched(true)}
                 placeholder={props.placeholder}
             />

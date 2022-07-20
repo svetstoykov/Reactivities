@@ -18,12 +18,7 @@ function App() {
 
     return (
         <>
-            <ToastContainer
-                hideProgressBar
-                theme="colored"
-                transition={Flip}
-                newestOnTop
-            />
+            <ToastContainer hideProgressBar theme="colored" transition={Flip} newestOnTop />
             <Route exact path="/" component={HomePage} />
             <Route
                 path="/(.+)"
@@ -32,15 +27,8 @@ function App() {
                         <NavBar />
                         <Container style={{ marginTop: "7em" }}>
                             <Switch>
-                                <Route
-                                    path="/activities/:id"
-                                    component={ActivityDetails}
-                                />
-                                <Route
-                                    exact
-                                    path="/activities"
-                                    component={ActivityDashboard}
-                                />
+                                <Route path="/activities/:id" component={ActivityDetails} />
+                                <Route exact path="/activities" component={ActivityDashboard} />
                                 <Route
                                     key={location.key}
                                     path={["/createActivity", "/manage/:id"]}

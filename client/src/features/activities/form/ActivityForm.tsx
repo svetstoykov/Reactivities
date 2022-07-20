@@ -51,7 +51,7 @@ function ActivityForm() {
 
     useEffect(() => {
         if (id) {
-            loadActivity(+id).then((activity) => setActivity(activity!));
+               loadActivity(+id).then((activity) => setActivity(activity!));
             return;
         }
         setLoadingInitial(false);
@@ -80,8 +80,7 @@ function ActivityForm() {
     //     setActivity({ ...activity, [name]: value });
     // }
 
-    if (loadingInitial)
-        return <LoadingComponent content="Loading Activity..." />;
+    if (loadingInitial) return <LoadingComponent content="Loading Activity..." />;
 
     return (
         <Segment clearing>
@@ -91,19 +90,8 @@ function ActivityForm() {
                 initialValues={activity}
                 onSubmit={(values) => console.log(values)}>
                 {({ handleSubmit }) => (
-                    <Form
-                        className="ui form"
-                        onSubmit={handleSubmit}
-                        autoComplete="off">
-                        <ReactivitiesTextInput
-                            placeholder="Title"
-                            name="title"
-                        />
-                        <ReactivitiesTextArea
-                            rows={3}
-                            placeholder="Description"
-                            name="description"
-                        />
+                    <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                        <ReactivitiesTextInput placeholder="Title" name="title" />
                         <ReactivitiesSelectInput
                             options={categories.map((c) => ({
                                 key: c.id,
@@ -115,25 +103,9 @@ function ActivityForm() {
                         />
                         <ReactivitiesTextInput placeholder="Date" name="date" />
                         <ReactivitiesTextInput placeholder="City" name="city" />
-                        <ReactivitiesTextInput
-                            placeholder="Venue"
-                            name="venue"
-                        />
-                        <Button
-                            loading={loading}
-                            floated="right"
-                            positive
-                            type="submit"
-                            content="Submit"
-                        />
-                        <Button
-                            as={Link}
-                            to="/activities"
-                            floated="right"
-                            type="submit"
-                            color="red"
-                            content="Cancel"
-                        />
+                        <ReactivitiesTextInput placeholder="Venue" name="venue" />
+                        <Button loading={loading} floated="right" positive type="submit" content="Submit" />
+                        <Button as={Link} to="/activities" floated="right" type="submit" color="red" content="Cancel" />
                     </Form>
                 )}
             </Formik>

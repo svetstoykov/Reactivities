@@ -30,7 +30,7 @@ function ActivityDetails() {
                 <ActivityDetailedChat />
             </GridColumn>
             <GridColumn width={6}>
-                <ActivityDetailedSidebar/>
+                <ActivityDetailedSidebar />
             </GridColumn>
         </Grid>
     );

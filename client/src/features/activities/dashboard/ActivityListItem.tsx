@@ -7,13 +7,18 @@ interface Props {
     activity: ActivityViewModel;
 }
 
-export default function ActivityListItem({activity}: Props) {
+export default function ActivityListItem({ activity }: Props) {
     return (
         <Segment.Group>
             <Segment>
                 <Item.Group>
                     <Item>
-                        <Item.Image style={{marginBottom: 3}} size='tiny' circular src='/assets/user.png' />
+                        <Item.Image
+                            style={{ marginBottom: 3 }}
+                            size="tiny"
+                            circular
+                            src="/assets/user.png"
+                        />
                         <Item.Content>
                             <Item.Header as={Link} to={`/activities/${activity.id}`}>
                                 {activity.title}
@@ -25,18 +30,18 @@ export default function ActivityListItem({activity}: Props) {
             </Segment>
             <Segment>
                 <span>
-                    <Icon name='clock' /> {activity.date}
-                    <Icon name='marker' /> {activity.venue}
+                    <Icon name="clock" /> {activity.date}
+                    <Icon name="marker" /> {activity.venue}
                 </span>
             </Segment>
             <Segment clearing>
                 <span>{activity.description}</span>
-                <Button 
+                <Button
                     as={Link}
                     to={`/activities/${activity.id}`}
-                    color='teal'
-                    floated='right'
-                    content='View'
+                    color="teal"
+                    floated="right"
+                    content="View"
                 />
             </Segment>
         </Segment.Group>
