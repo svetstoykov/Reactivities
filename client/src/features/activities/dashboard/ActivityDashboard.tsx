@@ -11,7 +11,7 @@ function ActivityDashboard() {
     const { loadActivities, activitiesRegistry } = activityStore;
 
     useEffect(() => {
-        if (activitiesRegistry.size <= 0) {
+        if (activitiesRegistry.size <= 1) {
             loadActivities();
         }
     }, [loadActivities, activitiesRegistry.size]);

@@ -12,7 +12,7 @@ namespace Application.Activities
 {
     public class Create
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<int>>
         {
             public Command(CreateActivityInputModel dto)
             {
@@ -22,7 +22,7 @@ namespace Application.Activities
             public CreateActivityInputModel Dto { get; set; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<int>>
         {
             private readonly DataContext _dataContext;
             private readonly IMapper _mapper;
@@ -33,7 +33,7 @@ namespace Application.Activities
                 _mapper = mapper;
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<int>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var domainDto = this._mapper.Map<Activity>(request.Dto);
 
@@ -42,8 +42,8 @@ namespace Application.Activities
                 var entityChangeResult = await this._dataContext.SaveChangesAsync(cancellationToken);
 
                 return entityChangeResult <= 0 
-                    ? Result<Unit>.Failure(ActivitiesErrorMessages.CreateError) 
-                    : Result<Unit>.Success(Unit.Value);
+                    ? Result<int>.Failure(ActivitiesErrorMessages.CreateError) 
+                    : Result<int>.Success(domainDto.Id);
             }
         }
     }
