@@ -3,7 +3,6 @@ using System.Linq;
 using API.Activities.Models;
 using FluentValidation;
 using Models.Enumerations;
-using Models.ErrorHandling.Helpers;
 
 namespace API.Activities.Validators
 {

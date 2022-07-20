@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.DataServices;
 using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -21,16 +21,16 @@ namespace Application.Activities
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly DataContext _dataContext;
+            private readonly IActivitiesDataService _activitiesDataService;
 
-            public Handler(DataContext dataContext)
+            public Handler(IActivitiesDataService activitiesDataService)
             {
-                _dataContext = dataContext;
+                _activitiesDataService = activitiesDataService;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var domainDto = await this._dataContext.Activities.FindAsync(request.Id);
+                var domainDto = await this._activitiesDataService.GetByIdAsync(request.Id);
 
                 if (domainDto == null)
                 {
@@ -38,9 +38,9 @@ namespace Application.Activities
                         ActivitiesErrorMessages.DoesNotExist);
                 }
 
-                this._dataContext.Remove(domainDto);
+                this._activitiesDataService.Remove(domainDto);
 
-                var deleteResult = await this._dataContext.SaveChangesAsync(cancellationToken) > 0;
+                var deleteResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken) > 0;
                 if (!deleteResult)
                 {
                     return Result<Unit>.Failure(

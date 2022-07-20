@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.DataServices;
 using Application.Activities.Models.Output;
 using Application.Common;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Models.Common;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -17,19 +16,23 @@ namespace Application.Activities
         {
         }
 
-        public class Handler : BaseHandler<Query, Result<IEnumerable<ActivityOutputModel>>>
+        public class Handler : IRequestHandler<Query, Result<IEnumerable<ActivityOutputModel>>>
         {
-            public Handler(DataContext dataContext, IMapper mapper)
-                : base(dataContext, mapper)
+            private readonly IActivitiesDataService _activitiesDataService;
+            private readonly IMapper _mapper;
+
+            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
             {
+                _activitiesDataService = activitiesDataService;
+                _mapper = mapper;
             }
 
-            public override async Task<Result<IEnumerable<ActivityOutputModel>>> Handle(Query request,
+            public async Task<Result<IEnumerable<ActivityOutputModel>>> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                var activities = await this.DataContext.Activities.ToListAsync(cancellationToken);
+                var activities = await this._activitiesDataService.GetActivitiesAsync();
 
-                var outputModels = this.Mapper.Map<IEnumerable<ActivityOutputModel>>(activities);
+                var outputModels = this._mapper.Map<IEnumerable<ActivityOutputModel>>(activities);
 
                 return Result<IEnumerable<ActivityOutputModel>>.Success(outputModels);
             }

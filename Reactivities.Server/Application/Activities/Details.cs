@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.DataServices;
 using Application.Activities.Models.Output;
 using Application.Common;
 using AutoMapper;
 using MediatR;
 using Models.Common;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -21,18 +21,23 @@ namespace Application.Activities
             public int Id { get; set; }
         }
 
-        public class Handler : BaseHandler<Query, Result<ActivityOutputModel>>
+        public class Handler : IRequestHandler<Query, Result<ActivityOutputModel>>
         {
-            public Handler(DataContext dataContext, IMapper mapper)
-                : base(dataContext, mapper)
+            private readonly IActivitiesDataService _activitiesDataService;
+            private readonly IMapper _mapper;
+
+            public Handler(IActivitiesDataService activitiesDataService,IMapper mapper)
             {
+                _activitiesDataService = activitiesDataService;
+                _mapper = mapper;
             }
     
-            public override async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var domainDto = await this.DataContext.Activities.FindAsync(new object[] {request.Id}, cancellationToken);
+                var domainDto = await this._activitiesDataService
+                    .GetByIdAsync(request.Id);
 
-                var outputModel = this.Mapper.Map<ActivityOutputModel>(domainDto);
+                var outputModel = this._mapper.Map<ActivityOutputModel>(domainDto);
 
                 return Result<ActivityOutputModel>.Success(outputModel);
             }

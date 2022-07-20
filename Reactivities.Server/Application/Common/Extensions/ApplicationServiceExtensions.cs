@@ -8,8 +8,13 @@ namespace Application.Common.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly())
-                    .AddAutoMapper(Assembly.GetExecutingAssembly());
+            services
+                .AddMediatR(Assembly.GetExecutingAssembly())
+                .AddAutoMapper(Assembly.GetExecutingAssembly())
+                .Scan(scan => scan
+                    .FromCallingAssembly()
+                    .AddClasses()
+                    .AsMatchingInterface());
 
             return services;
         }

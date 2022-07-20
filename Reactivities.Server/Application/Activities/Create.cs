@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.DataServices;
 using Application.Activities.Models.Input;
 using AutoMapper;
 using Domain;
 using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -24,12 +24,12 @@ namespace Application.Activities
 
         public class Handler : IRequestHandler<Command, Result<int>>
         {
-            private readonly DataContext _dataContext;
+            private readonly IActivitiesDataService _activitiesDataService;
             private readonly IMapper _mapper;
 
-            public Handler(DataContext dataContext, IMapper mapper)
+            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
             {
-                _dataContext = dataContext;
+                _activitiesDataService = activitiesDataService;
                 _mapper = mapper;
             }
 
@@ -37,9 +37,9 @@ namespace Application.Activities
             {
                 var domainDto = this._mapper.Map<Activity>(request.Dto);
 
-                this._dataContext.Activities.Add(domainDto);
+                this._activitiesDataService.Create(domainDto);
 
-                var entityChangeResult = await this._dataContext.SaveChangesAsync(cancellationToken);
+                var entityChangeResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken);
 
                 return entityChangeResult <= 0 
                     ? Result<int>.Failure(ActivitiesErrorMessages.CreateError) 

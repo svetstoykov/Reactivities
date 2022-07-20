@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using API.Common.Middleware.ErrorHandling;
+using Persistence.Common.Extensions;
 
 namespace API
 {
@@ -22,8 +23,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddWebServices(this._config)
-                .AddApplicationServices();
+                .AddWebServices()
+                .AddApplicationServices()
+                .AddInfrastructureServices(this._config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

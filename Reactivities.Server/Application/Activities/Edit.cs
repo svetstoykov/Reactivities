@@ -1,11 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.DataServices;
 using Application.Activities.Models.Input;
 using AutoMapper;
 using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -23,18 +23,18 @@ namespace Application.Activities
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            private readonly DataContext _dataContext;
+            private readonly IActivitiesDataService _activitiesDataService;
             private readonly IMapper _mapper;
 
-            public Handler(DataContext dataContext, IMapper mapper)
+            public Handler(IActivitiesDataService _activitiesDataService, IMapper mapper)
             {
-                _dataContext = dataContext;
+                this._activitiesDataService = _activitiesDataService;
                 _mapper = mapper;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var domainDto = await this._dataContext.Activities.FindAsync(request.Dto.Id);
+                var domainDto = await this._activitiesDataService.GetByIdAsync(request.Dto.Id);
 
                 if (domainDto == null)
                 {
@@ -44,9 +44,9 @@ namespace Application.Activities
 
                 this._mapper.Map(request.Dto, domainDto);
 
-                this._dataContext.Activities.Update(domainDto);
+                this._activitiesDataService.Update(domainDto);
 
-                var editResult = await this._dataContext.SaveChangesAsync(cancellationToken) > 0;
+                var editResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken) > 0;
                 if (!editResult)
                 {
                     return Result<Unit>.Failure(

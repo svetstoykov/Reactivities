@@ -1,14 +1,12 @@
 using System;
 using System.Threading.Tasks;
-
-using Persistence;
-
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Models.ErrorHandling.Helpers;
+using Persistence;
 
 namespace API
 {

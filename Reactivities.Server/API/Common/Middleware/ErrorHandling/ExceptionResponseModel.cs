@@ -1,6 +1,4 @@
-﻿using Models.Common;
-
-namespace API.Common.Middleware.ErrorHandling
+﻿namespace API.Common.Middleware.ErrorHandling
 {
     public class ExceptionResponseModel : BaseApiModel
     {

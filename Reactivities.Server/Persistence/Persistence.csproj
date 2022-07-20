@@ -11,10 +11,11 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Scrutor" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Application\Application.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
