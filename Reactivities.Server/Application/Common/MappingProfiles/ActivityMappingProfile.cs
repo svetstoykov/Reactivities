@@ -24,14 +24,10 @@ namespace Application.Common.MappingProfiles
             CreateMap<CreateEditActivityBaseInputModel, Activity>()
                 .Include<CreateActivityInputModel, Activity>()
                 .Include<EditActivityInputModel, Activity>()
-                .ForMember(dest => dest.Date,
-                    opt => opt.MapFrom(src => DateTime.Parse(src.Date)))
                 .ForMember(dest => dest.CategoryId,
                     opt => opt.MapFrom(src => (int)src.CategoryType));
 
             CreateMap<Activity, ActivityOutputModel>()
-                .ForMember(dest => dest.Date,
-                    opt => opt.MapFrom(src => src.Date.ToString(GlobalConstants.DateFormat)))
                 .ForMember(dest => dest.CategoryType,
                     opt => opt.MapFrom(src => (CategoryType) src.CategoryId));
         }

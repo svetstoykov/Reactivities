@@ -19,21 +19,7 @@ namespace API.Activities.Validators
             RuleFor(m => m.City).NotEmpty();
             RuleFor(m => m.Description).NotEmpty();
             RuleFor(m => m.Venue).NotEmpty();
-
-            RuleFor(m => m.Date).Custom((dateString, context) =>
-            {
-                if (DateTime.TryParse(dateString, out var date))
-                {
-                    if (date <= DateTime.MinValue)
-                    {
-                        context.AddFailure(ActivitiesErrorMessages.InvalidDate);
-                    }
-
-                    return;
-                }
-
-                context.AddFailure(ActivitiesErrorMessages.InvalidDate);
-            });
+            RuleFor(m => m.Date).GreaterThan(DateTime.MinValue);
         }
     }
 }

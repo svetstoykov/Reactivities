@@ -11,6 +11,7 @@ import ReactivitiesTextInput from "../../../app/common/form/ReactivitiesTextInpu
 import ReactivitiesTextArea from "../../../app/common/form/ReactivitiesTextArea";
 import ReactivitiesSelectInput from "../../../app/common/form/ReactivitiesSelectInput";
 import ReactivitiesDateInput from "../../../app/common/form/ReactivitiesDateInput";
+import { reactivitiesDateTimeFormat } from "../../../app/common/constants/GlobalConstants";
 
 function ActivityForm() {
     const { activityStore } = useStore();
@@ -31,7 +32,7 @@ function ActivityForm() {
     const initialState: ActivityViewModel = {
         id: undefined,
         title: "",
-        date: "",
+        date: new Date(),
         description: "",
         categoryId: 0,
         category: "",
@@ -112,7 +113,7 @@ function ActivityForm() {
                             name="date"
                             showTimeSelect
                             timeCaption="time"
-                            dateFormat="MMMM d, yyyy h:mm aa"
+                            dateFormat = {reactivitiesDateTimeFormat}
                         />
                         <ReactivitiesTextInput placeholder="City" name="city" />
                         <ReactivitiesTextInput placeholder="Venue" name="venue" />
