@@ -10,6 +10,7 @@ import * as Yup from "yup";
 import ReactivitiesTextInput from "../../../app/common/form/ReactivitiesTextInput";
 import ReactivitiesTextArea from "../../../app/common/form/ReactivitiesTextArea";
 import ReactivitiesSelectInput from "../../../app/common/form/ReactivitiesSelectInput";
+import ReactivitiesDateInput from "../../../app/common/form/ReactivitiesDateInput";
 
 function ActivityForm() {
     const { activityStore } = useStore();
@@ -51,7 +52,7 @@ function ActivityForm() {
 
     useEffect(() => {
         if (id) {
-               loadActivity(+id).then((activity) => setActivity(activity!));
+            loadActivity(+id).then((activity) => setActivity(activity!));
             return;
         }
         setLoadingInitial(false);
@@ -92,6 +93,11 @@ function ActivityForm() {
                 {({ handleSubmit }) => (
                     <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
                         <ReactivitiesTextInput placeholder="Title" name="title" />
+                        <ReactivitiesTextArea
+                            rows={3}
+                            placeholder="Description"
+                            name="description"
+                        />
                         <ReactivitiesSelectInput
                             options={categories.map((c) => ({
                                 key: c.id,
@@ -101,11 +107,30 @@ function ActivityForm() {
                             placeholder="Category"
                             name="categoryId"
                         />
-                        <ReactivitiesTextInput placeholder="Date" name="date" />
+                        <ReactivitiesDateInput
+                            placeholderText="Date"
+                            name="date"
+                            showTimeSelect
+                            timeCaption="time"
+                            dateFormat="MMMM d, yyyy h:mm aa"
+                        />
                         <ReactivitiesTextInput placeholder="City" name="city" />
                         <ReactivitiesTextInput placeholder="Venue" name="venue" />
-                        <Button loading={loading} floated="right" positive type="submit" content="Submit" />
-                        <Button as={Link} to="/activities" floated="right" type="submit" color="red" content="Cancel" />
+                        <Button
+                            loading={loading}
+                            floated="right"
+                            positive
+                            type="submit"
+                            content="Submit"
+                        />
+                        <Button
+                            as={Link}
+                            to="/activities"
+                            floated="right"
+                            type="submit"
+                            color="red"
+                            content="Cancel"
+                        />
                     </Form>
                 )}
             </Formik>
