@@ -12,11 +12,9 @@ export default observer(function ServerError() {
             {commonStore.error?.details && (
                 <Segment>
                     <Header as="h4" content="Stack trace" color="teal" />
-                    <code style={{ marginTop: "10px" }}>
-                        {commonStore.error.details}
-                    </code>
+                    <code style={{ marginTop: "10px" }}>{commonStore.error.details}</code>
                 </Segment>
             )}
         </Container>
     );
-})
+});

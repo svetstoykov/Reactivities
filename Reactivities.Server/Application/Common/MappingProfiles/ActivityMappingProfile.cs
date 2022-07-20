@@ -1,9 +1,11 @@
 ﻿using System;
+using Application.Activities.Models.Base;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using AutoMapper;
 using Domain;
 using Models.Common;
+using Models.Enumerations;
 
 namespace Application.Common.MappingProfiles
 {
@@ -12,17 +14,22 @@ namespace Application.Common.MappingProfiles
 
         public ActivityMappingProfile()
         {
-            CreateMap<CreateActivityInputModel, Activity>()
-                .ForMember(dest => dest.Date, 
-                    opt => opt.MapFrom(src => DateTime.Parse(src.Date)));
 
-            CreateMap<EditActivityInputModel, Activity>()
-                .ForMember(dest => dest.Date, 
-                    opt => opt.MapFrom(src => DateTime.Parse(src.Date)));
+            CreateMap<CreateActivityInputModel, Activity>();
+
+            CreateMap<EditActivityInputModel, Activity>();
+
+            CreateMap<Category, CategoryOutputModel>();
+
+            CreateMap<CreateEditActivityBaseInputModel, Activity>()
+                .Include<CreateActivityInputModel, Activity>()
+                .Include<EditActivityInputModel, Activity>()
+                .ForMember(dest => dest.CategoryId,
+                    opt => opt.MapFrom(src => (int)src.CategoryType));
 
             CreateMap<Activity, ActivityOutputModel>()
-                .ForMember(dest => dest.Date,
-                    opt => opt.MapFrom(src => src.Date.ToString(GlobalConstants.DateFormat)));
+                .ForMember(dest => dest.CategoryType,
+                    opt => opt.MapFrom(src => (CategoryType) src.CategoryId));
         }
     }
 }

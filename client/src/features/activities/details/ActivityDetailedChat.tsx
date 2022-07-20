@@ -1,25 +1,24 @@
-import { observer } from 'mobx-react-lite'
-import React from 'react'
-import {Segment, Header, Comment, Form, Button} from 'semantic-ui-react'
+import { observer } from "mobx-react-lite";
+import React from "react";
+import { Segment, Header, Comment, Form, Button } from "semantic-ui-react";
 
 export default observer(function ActivityDetailedChat() {
     return (
         <>
             <Segment
-                textAlign='center'
-                attached='top'
+                textAlign="center"
+                attached="top"
                 inverted
-                color='teal'
-                style={{border: 'none'}}
-            >
+                color="teal"
+                style={{ border: "none" }}>
                 <Header>Chat about this event</Header>
             </Segment>
             <Segment attached>
                 <Comment.Group>
                     <Comment>
-                        <Comment.Avatar src='/assets/user.png'/>
+                        <Comment.Avatar src="/assets/user.png" />
                         <Comment.Content>
-                            <Comment.Author as='a'>Matt</Comment.Author>
+                            <Comment.Author as="a">Matt</Comment.Author>
                             <Comment.Metadata>
                                 <div>Today at 5:42PM</div>
                             </Comment.Metadata>
@@ -31,9 +30,9 @@ export default observer(function ActivityDetailedChat() {
                     </Comment>
 
                     <Comment>
-                        <Comment.Avatar src='/assets/user.png'/>
+                        <Comment.Avatar src="/assets/user.png" />
                         <Comment.Content>
-                            <Comment.Author as='a'>Joe Henderson</Comment.Author>
+                            <Comment.Author as="a">Joe Henderson</Comment.Author>
                             <Comment.Metadata>
                                 <div>5 days ago</div>
                             </Comment.Metadata>
@@ -45,17 +44,11 @@ export default observer(function ActivityDetailedChat() {
                     </Comment>
 
                     <Form reply>
-                        <Form.TextArea/>
-                        <Button
-                            content='Add Reply'
-                            labelPosition='left'
-                            icon='edit'
-                            primary
-                        />
+                        <Form.TextArea />
+                        <Button content="Add Reply" labelPosition="left" icon="edit" primary />
                     </Form>
                 </Comment.Group>
             </Segment>
         </>
-
-    )
-})
+    );
+});
