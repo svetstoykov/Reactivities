@@ -18,23 +18,23 @@ namespace API.Activities.Controllers
         { }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ActivityViewModel>>> GetActivities()
+        public async Task<ActionResult<IEnumerable<ActivityApiModel>>> GetActivities()
         {
             var serviceResult = await base.Mediator.Send(new List.Query());
 
-            return HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityViewModel>>(serviceResult);
+            return HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityApiModel>>(serviceResult);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<ActivityViewModel>> GetActivity(int id)
+        public async Task<ActionResult<ActivityApiModel>> GetActivity(int id)
         {
             var serviceResult = await base.Mediator.Send(new Details.Query(id));
 
-            return HandleMappingResult<ActivityOutputModel, ActivityViewModel>(serviceResult);
+            return HandleMappingResult<ActivityOutputModel, ActivityApiModel>(serviceResult);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateActivity(ActivityViewModel request)
+        public async Task<IActionResult> CreateActivity(ActivityApiModel request)
         {
             var inputModel = Mapper.Map<CreateActivityInputModel>(request);
 
@@ -44,7 +44,7 @@ namespace API.Activities.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditActivity(ActivityViewModel request)
+        public async Task<IActionResult> EditActivity(ActivityApiModel request)
         {
             var inputModel = Mapper.Map<EditActivityInputModel>(request);
 
@@ -66,7 +66,7 @@ namespace API.Activities.Controllers
         {
             var serviceResult = await base.Mediator.Send(new Categories.Query());
 
-            return HandleMappingResult<IEnumerable<CategoryOutputModel>, IEnumerable<CategoryViewModel>>(serviceResult);
+            return HandleMappingResult<IEnumerable<CategoryOutputModel>, IEnumerable<CategoryApiModel>>(serviceResult);
         }
     }
 }

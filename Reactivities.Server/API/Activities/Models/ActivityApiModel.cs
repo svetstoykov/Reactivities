@@ -3,7 +3,7 @@ using API.Common;
 
 namespace API.Activities.Models
 {
-    public class ActivityViewModel : BaseApiModel
+    public class ActivityApiModel : BaseApiModel
     {
         public int? Id { get; set; }
         

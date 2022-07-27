@@ -6,7 +6,7 @@ using Models.Enumerations;
 
 namespace API.Activities.Validators
 {
-    public class ActivityViewModelValidator : AbstractValidator<ActivityViewModel>
+    public class ActivityViewModelValidator : AbstractValidator<ActivityApiModel>
     {
         public ActivityViewModelValidator()
         {
