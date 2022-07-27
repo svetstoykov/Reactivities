@@ -5,5 +5,7 @@
         public const string Reactivities = "Reactivities";
 
         public const string DateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss.fffffffK";
+
+        public const string TokenKey = "TokenKey";
     }
 }

@@ -1,10 +1,14 @@
 ﻿using System.Reflection;
+using System.Text;
 using Application.Common.Identity.Models;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Models.Common;
 using Persistence;
 
 namespace API.Common.Extensions
@@ -30,7 +34,19 @@ namespace API.Common.Extensions
                 .AddEntityFrameworkStores<DataContext>()
                 .AddSignInManager<SignInManager<User>>();
 
-            services.AddAuthentication();
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[GlobalConstants.TokenKey]));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
 
             return services;
         }

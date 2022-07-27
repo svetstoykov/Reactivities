@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Application.Common.Identity.Models;
 using Application.Common.Identity.Models.Output;
+using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -26,12 +27,18 @@ namespace Application.Common.Identity
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ITokenService _tokenService;
         private readonly IMapper _mapper;
 
-        public Handler(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper)
+        public Handler(
+            UserManager<User> userManager, 
+            SignInManager<User> signInManager, 
+            ITokenService tokenService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenService = tokenService;
             _mapper = mapper;
         }
 
@@ -50,6 +57,8 @@ namespace Application.Common.Identity
             if (signInResult.Succeeded)
             {
                 var userOutputModel = _mapper.Map<UserOutputModel>(user);
+
+                userOutputModel.Token = _tokenService.GenerateToken(user);
 
                 return Result<UserOutputModel>.Success(userOutputModel);
             }
