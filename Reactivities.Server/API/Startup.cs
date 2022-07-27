@@ -23,7 +23,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddWebServices()
+                .AddWebServices(this._config)
                 .AddApplicationServices()
                 .AddInfrastructureServices(this._config);
         }

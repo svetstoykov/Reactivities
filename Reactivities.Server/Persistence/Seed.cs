@@ -2,30 +2,67 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Identity.Models;
 using Domain;
+using Microsoft.AspNetCore.Identity;
 using Models.Enumerations;
 
 namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context)
+        public static async Task SeedData(DataContext context, UserManager<User> userManager)
         {
+            await SeedUsers(userManager);
             await SeedCategories(context);
             await SeedActivities(context);
-            
+
             await context.SaveChangesAsync();
+        }
+
+        private static async Task SeedUsers(UserManager<User> userManager)
+        {
+            if (!userManager.Users.Any())
+            {
+                var users = new List<User>()
+                {
+                    new()
+                    {
+                        DisplayName = "Michael Scott",
+                        UserName = "mikescott",
+                        Email = "mikescott@dundermifflin.com"
+                    },
+                    new()
+                    {
+                        DisplayName = "Dwight Shrute",
+                        UserName = "dwightshrute",
+                        Email = "dwightshrute@dundermifflin.com"
+                    },
+                    new() 
+                    {
+                        DisplayName = "Pam Beasley",
+                        UserName = "pambeasley",
+                        Email = "pambeasley@dundermifflin.com"
+
+                    }
+                };
+
+                foreach (var user in users)
+                {
+                    await userManager.CreateAsync(user, "P@ssW0rd");
+                }
+            }
         }
 
         private static async Task SeedCategories(DataContext context)
         {
-            if(context.Categories.Any())
+            if (context.Categories.Any())
                 return;
 
             var categories = Enum.GetValues<CategoryType>()
                 .Select(c => new Category
                 {
-                    Id = (int) c,
+                    Id = (int)c,
                     Name = c.ToString()
                 })
                 .ToList();
@@ -35,7 +72,7 @@ namespace Persistence
 
         private static async Task SeedActivities(DataContext context)
         {
-            if (context.Activities.Any()) 
+            if (context.Activities.Any())
                 return;
 
             var activities = new List<Activity>
