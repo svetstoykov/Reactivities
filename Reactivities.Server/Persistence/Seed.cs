@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Identity.Models;
+using Application.Common.Identity.Models;
 using Domain;
 using Microsoft.AspNetCore.Identity;
 using Models.Enumerations;

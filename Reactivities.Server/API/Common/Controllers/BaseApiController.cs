@@ -29,8 +29,8 @@ namespace API.Common.Controllers
                 mappedResult = Result<TViewModel>.New(
                     this.Mapper.Map<TViewModel>(result.Data),
                     result.ResultType,
-                    result.Message,
-                    result.IsSuccessful);
+                    result.IsSuccessful,
+                    result.Message);
             }
 
             return HandleResult(mappedResult);
@@ -43,6 +43,7 @@ namespace API.Common.Controllers
                 ResultType.Success when result.Data == null => NotFound(),
                 ResultType.NotFound => NotFound(),
                 ResultType.Success => Ok(result.Data),
+                ResultType.Unauthorized => Unauthorized(),
                 _ => BadRequest(result.Message)
             };
         }

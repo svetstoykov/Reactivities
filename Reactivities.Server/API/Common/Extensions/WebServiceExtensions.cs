@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Application.Identity.Models;
+using Application.Common.Identity.Models;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
