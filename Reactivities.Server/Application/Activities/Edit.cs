@@ -18,7 +18,7 @@ namespace Application.Activities
                 this.Dto = dto;
             }
 
-            public EditActivityInputModel Dto { get; set; }
+            public EditActivityInputModel Dto { get; init; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>

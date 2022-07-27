@@ -8,11 +8,13 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
 
-namespace Application.Common.Identity
+namespace Application.Common.Identity;
+
+public class Login
 {
-    public class Login : IRequest<Result<UserOutputModel>>
+    public class Command: IRequest<Result<UserOutputModel>>
     {
-        public Login(string email, string password)
+        public Command(string email, string password)
         {
             Email = email;
             Password = password;
@@ -23,7 +25,7 @@ namespace Application.Common.Identity
         public string Password { get; set; }
     }
 
-    public class Handler : IRequestHandler<Login, Result<UserOutputModel>>
+    public class Handler : IRequestHandler<Command, Result<UserOutputModel>>
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
@@ -31,8 +33,8 @@ namespace Application.Common.Identity
         private readonly IMapper _mapper;
 
         public Handler(
-            UserManager<User> userManager, 
-            SignInManager<User> signInManager, 
+            UserManager<User> userManager,
+            SignInManager<User> signInManager,
             ITokenService tokenService,
             IMapper mapper)
         {
@@ -43,7 +45,7 @@ namespace Application.Common.Identity
         }
 
 
-        public async Task<Result<UserOutputModel>> Handle(Login request, CancellationToken cancellationToken)
+        public async Task<Result<UserOutputModel>> Handle(Command request, CancellationToken cancellationToken)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
 

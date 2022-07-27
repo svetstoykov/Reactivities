@@ -1,13 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
 using Models.Enumerations;
 
 namespace API.Common.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
@@ -43,8 +41,8 @@ namespace API.Common.Controllers
             return result.ResultType switch
             {
                 ResultType.Success when result.Data == null => NotFound(),
-                ResultType.NotFound => NotFound(),
                 ResultType.Success => Ok(result.Data),
+                ResultType.NotFound => NotFound(),
                 ResultType.Unauthorized => Unauthorized(),
                 _ => BadRequest(result.Message)
             };

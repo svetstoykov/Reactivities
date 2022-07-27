@@ -3,7 +3,9 @@ using System.Text;
 using Application.Common.Identity.Models;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -17,7 +19,14 @@ namespace API.Common.Extensions
     {
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers();
+            services.AddControllers(cfg =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                cfg.Filters.Add(new AuthorizeFilter(policy));
+            });
 
             return services
                 .AddAutoMapper(Assembly.GetExecutingAssembly())

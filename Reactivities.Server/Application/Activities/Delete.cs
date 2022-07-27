@@ -16,7 +16,7 @@ namespace Application.Activities
                 this.Id = id;
             }
 
-            public int Id { get; set; }
+            public int Id { get; init; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
