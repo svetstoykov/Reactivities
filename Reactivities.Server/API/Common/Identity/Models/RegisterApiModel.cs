@@ -1,6 +1,6 @@
 ﻿namespace API.Common.Identity.Models
 {
-    public class RegisterApiModel
+    public class RegisterApiModel : BaseApiModel
     {
         public string DisplayName { get; set; }
 

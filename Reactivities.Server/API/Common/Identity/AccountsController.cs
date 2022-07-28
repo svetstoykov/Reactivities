@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Common.Identity
 {
-    public class AccountController : BaseApiController
+    public class AccountsController : BaseApiController
     {
-        public AccountController(IMediator mediator, IMapper mapper)
+        public AccountsController(IMediator mediator, IMapper mapper)
             : base(mediator, mapper)
         {
         }

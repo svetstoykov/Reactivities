@@ -20,6 +20,9 @@ export default function HomePage() {
                     <Button as={Link} to="/activities" size="huge" inverted>
                         Go to Activities!
                     </Button>
+                    <Button as={Link} to="/login" size="huge" inverted>
+                        Go to Login!
+                    </Button>
                 </>
             </Container>
         </Segment>
