@@ -1,11 +1,12 @@
 import { Form, Formik } from "formik";
+import { observer } from "mobx-react-lite";
 import React from "react";
-import { Button } from "semantic-ui-react";
+import { Button, Header } from "semantic-ui-react";
 import ReactivitiesTextInput from "../../app/common/form/ReactivitiesTextInput";
 import { useStore } from "../../app/stores/store";
 
-export default function LoginForm() {
-    const {userStore} = useStore();
+function LoginForm() {
+    const { userStore } = useStore();
 
     return (
         <Formik
@@ -13,6 +14,7 @@ export default function LoginForm() {
             onSubmit={(values) => userStore.login(values)}>
             {({ handleSubmit, isSubmitting }) => (
                 <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">
+                    <Header as="h2" content="Login" color="teal" textAlign="center" />
                     <ReactivitiesTextInput name="email" placeholder="Email" />
                     <ReactivitiesTextInput name="password" placeholder="Password" type="password" />
                     <Button loading={isSubmitting} positive content="Login" type="submit" fluid />
@@ -21,3 +23,5 @@ export default function LoginForm() {
         </Formik>
     );
 }
+
+export default observer(LoginForm);

@@ -35,7 +35,7 @@ axios.interceptors.response.use(
     (error: AxiosError) => {
         const { data, status } = error.response!;
 
-        handleErrorDataResult(status, data);
+        showToasterErrorNotification(status, data);
 
         return Promise.reject(error);
     }
@@ -66,7 +66,7 @@ const Accounts = {
 }
 
 
-const handleErrorDataResult = (status: number, data: any) => {
+const showToasterErrorNotification = (status: number, data: any) => {
     switch (status) {
         case 400:
             if (data.errors) {

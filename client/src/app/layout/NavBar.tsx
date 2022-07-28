@@ -30,7 +30,7 @@ function NavBar() {
                         avatar
                         spaced="right"
                     />
-                    <Dropdown>
+                    <Dropdown pointing="top left" text={userStore.user?.displayName}>
                         <DropdownMenu>
                             <Dropdown.Item
                                 as={Link}

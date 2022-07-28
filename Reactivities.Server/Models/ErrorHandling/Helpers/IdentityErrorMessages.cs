@@ -14,7 +14,7 @@
 
         public const string InvalidDisplayName = "Display name cannot be empty.";
 
-        public const string PasswordRequirementsNotMet = "Password must be at least 8 chars along and must contain - one uppercase, one lowercase, one number and one special symbol";
+        public const string PasswordRequirementsNotMet = "Password must be at least 8 chars long and must contain - one uppercase, one lowercase, one number and one special symbol";
 
         public const string InvalidCurrentUser = "Failed to load current user";
 
