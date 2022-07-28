@@ -12,13 +12,30 @@ import { ToastContainer, Flip } from "react-toastify";
 import TestErrors from "../../features/errors/TestErrors";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
+import LoginForm from "../../features/users/LoginForm";
+import { useStore } from "../stores/store";
+import { useEffect } from "react";
+import LoadingComponent from "./LoadingComponent";
+import ModalContainer from "../common/modals/ModalContainer";
 
 function App() {
     const location = useLocation();
+    const { userStore, commonStore } = useStore();
+
+    useEffect(() => {
+        if (commonStore.token) {
+            userStore.getUser().finally(() => commonStore.setAppLoaded());
+            return;
+        }
+        commonStore.setAppLoaded();
+    }, [commonStore, userStore]);
+
+    if(!commonStore.appLoaded) return <LoadingComponent content="Loading app..."/>
 
     return (
         <>
             <ToastContainer hideProgressBar theme="colored" transition={Flip} newestOnTop />
+            <ModalContainer/>
             <Route exact path="/" component={HomePage} />
             <Route
                 path="/(.+)"
@@ -36,6 +53,7 @@ function App() {
                                 />
                                 <Route path="/errors" component={TestErrors} />
                                 <Route path="/server-error" component={ServerError} />
+                                <Route path="/login" component={LoginForm} />
                                 <Route component={NotFound} />
                             </Switch>
                         </Container>

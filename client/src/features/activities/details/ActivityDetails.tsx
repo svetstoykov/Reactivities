@@ -13,7 +13,7 @@ function ActivityDetails() {
     const { activityStore } = useStore();
     const { selectedActivity, loadActivity, loadingInitial } = activityStore;
     const { id } = useParams<{ id: string }>();
-
+    
     useEffect(() => {
         if (id) {
             loadActivity(+id);

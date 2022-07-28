@@ -2,22 +2,24 @@
 {
     public static class IdentityErrorMessages
     {
-        public static string EmailTaken = "User with email: '{0} already exists!'";
+        public const string EmailTaken = "User with email: '{0} already exists!'";
 
-        public static string UsernameTaken = "User with username: '{0} already exists!'";
+        public const string UsernameTaken = "User with username: '{0} already exists!'";
 
-        public static string FailedToCreateUser = "Failed to create new user";
+        public const string FailedToCreateUser = "Failed to create new user";
 
-        public static string InvalidEmail = "Email cannot be empty.";
+        public const string EmailCannotBeEmpty = "Email cannot be empty.";
 
-        public static string InvalidUsername = "Username cannot be empty.";
+        public const string UsernameCannotBeEmpty = "Username cannot be empty.";
 
-        public static string InvalidDisplayName = "Display name cannot be empty.";
+        public const string InvalidDisplayName = "Display name cannot be empty.";
 
-        public static string PasswordRequirementsNotMet =
-            "Password must be at least 8 chars along and must contain - one uppercase, one lowercase, one number and one special symbol";
+        public const string PasswordRequirementsNotMet = "Password must be at least 8 chars long and must contain - one uppercase, one lowercase, one number and one special symbol";
 
-        public static string InvalidCurrentUser =
-            "Failed to load current user";
+        public const string InvalidCurrentUser = "Failed to load current user";
+
+        public const string InvalidEmail = "Invalid user email.";
+
+        public const string FailedLogin = "Incorrect user credentials. Please double check email/password";
     }
 }

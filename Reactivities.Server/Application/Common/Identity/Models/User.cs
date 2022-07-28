@@ -28,13 +28,13 @@ namespace Application.Common.Identity.Models
             if (string.IsNullOrEmpty(userName))
             {
                 throw new InvalidCredentialException(
-                    IdentityErrorMessages.InvalidEmail);
+                    IdentityErrorMessages.EmailCannotBeEmpty);
             }
 
             if (string.IsNullOrEmpty(email))
             {
                 throw new InvalidCredentialException(
-                    IdentityErrorMessages.InvalidUsername);
+                    IdentityErrorMessages.UsernameCannotBeEmpty);
             }
 
             if (string.IsNullOrEmpty(displayName))
