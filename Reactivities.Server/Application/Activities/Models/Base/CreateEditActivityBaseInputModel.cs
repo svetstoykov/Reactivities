@@ -5,16 +5,16 @@ namespace Application.Activities.Models.Base
 {
     public abstract class CreateEditActivityBaseInputModel
     {
-        public string Title { get; set; }
+        public string Title { get; init; }
 
-        public DateTime Date { get; set; }
+        public DateTime Date { get; init; }
 
-        public string Description { get; set; }
+        public string Description { get; init; }
 
-        public CategoryType CategoryType { get; set; }
+        public CategoryType CategoryType { get; init; }
 
-        public string City { get; set; }
+        public string City { get; init; }
 
-        public string Venue { get; set; }
+        public string Venue { get; init; }
     }
 }

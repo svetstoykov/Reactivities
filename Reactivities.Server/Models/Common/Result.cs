@@ -6,10 +6,10 @@ namespace Models.Common
     {
         private Result(T data, ResultType type, bool isSuccessful = false, string message = null)
         {
-            Data = data;
-            ResultType = type;
-            Message = message ?? string.Empty;
-            IsSuccessful = isSuccessful;
+            this.Data = data;
+            this.ResultType = type;
+            this.Message = message ?? string.Empty;
+            this.IsSuccessful = isSuccessful;
         }
 
         public bool IsSuccessful { get; private set; }
@@ -22,10 +22,12 @@ namespace Models.Common
 
         public static Result<T> Success(T data, string message = null) => new(data, ResultType.Success, true, message);
 
-        public static Result<T> Failure(string message) => new(default, ResultType.Failure, false, message);
+        public static Result<T> Failure(string message = null) => new(default, ResultType.Failure, false, message);
 
-        public static Result<T> NotFound(string message) => new(default, ResultType.NotFound, false, message);
+        public static Result<T> NotFound(string message = null) => new(default, ResultType.NotFound, false, message);
+     
+        public static Result<T> Unauthorized(string message = null) => new(default, ResultType.Unauthorized, false, message);
 
-        public static Result<T> New(T data, ResultType type, string message, bool isSuccessful) => new(data, type, isSuccessful, message);
+        public static Result<T> New(T data, ResultType type, bool isSuccessful, string message) => new(data, type, isSuccessful, message);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using API.Common.Middleware.ErrorHandling;
+using Persistence.Common.Extensions;
 
 namespace API
 {
@@ -23,7 +24,8 @@ namespace API
         {
             services
                 .AddWebServices(this._config)
-                .AddApplicationServices();
+                .AddApplicationServices()
+                .AddInfrastructureServices(this._config);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +42,7 @@ namespace API
 
             app.UseCors("CorsPolicy");
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseMiddleware<ErrorHandlerMiddleware>();

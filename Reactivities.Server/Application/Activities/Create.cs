@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.DataServices;
 using Application.Activities.Models.Input;
 using AutoMapper;
 using Domain;
 using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using Persistence;
 
 namespace Application.Activities
 {
@@ -19,27 +19,27 @@ namespace Application.Activities
                 this.Dto = dto;
             }
 
-            public CreateActivityInputModel Dto { get; set; }
+            public CreateActivityInputModel Dto { get; init; }
         }
 
         public class Handler : IRequestHandler<Command, Result<int>>
         {
-            private readonly DataContext _dataContext;
+            private readonly IActivitiesDataService _activitiesDataService;
             private readonly IMapper _mapper;
 
-            public Handler(DataContext dataContext, IMapper mapper)
+            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
             {
-                _dataContext = dataContext;
-                _mapper = mapper;
+                this._activitiesDataService = activitiesDataService;
+                this._mapper = mapper;
             }
 
             public async Task<Result<int>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var domainDto = this._mapper.Map<Activity>(request.Dto);
 
-                this._dataContext.Activities.Add(domainDto);
+                this._activitiesDataService.Create(domainDto);
 
-                var entityChangeResult = await this._dataContext.SaveChangesAsync(cancellationToken);
+                var entityChangeResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken);
 
                 return entityChangeResult <= 0 
                     ? Result<int>.Failure(ActivitiesErrorMessages.CreateError) 

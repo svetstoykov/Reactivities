@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
-
-using Persistence;
-
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Models.ErrorHandling.Helpers;
+using Persistence;
+using Application.Common.Identity.Models;
 
 namespace API
 {
@@ -16,7 +16,7 @@ namespace API
     {
         public static async Task Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
+            var host = Program.CreateHostBuilder(args).Build();
 
             using var scope = host.Services.CreateScope();
 
@@ -25,9 +25,10 @@ namespace API
             try
             {
                 var context = services.GetRequiredService<DataContext>();
+                var userManager = services.GetRequiredService<UserManager<User>>();
 
                 await context.Database.MigrateAsync();
-                await Seed.SeedData(context);
+                await Seed.SeedData(context, userManager);
             }
             catch (Exception e)
             {

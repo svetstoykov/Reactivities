@@ -14,13 +14,13 @@ namespace API.Common.Controllers
         [HttpGet("not-found")]
         public ActionResult GetNotFound()
         {
-            return NotFound();
+            return this.NotFound();
         }
 
         [HttpGet("bad-request")]
         public ActionResult GetBadRequest()
         {
-            return BadRequest("This is a bad request");
+            return this.BadRequest("This is a bad request");
         }
 
         [HttpGet("server-error")]
@@ -32,7 +32,7 @@ namespace API.Common.Controllers
         [HttpGet("unauthorised")]
         public ActionResult GetUnauthorised()
         {
-            return Unauthorized();
+            return this.Unauthorized();
         }
     }
 }

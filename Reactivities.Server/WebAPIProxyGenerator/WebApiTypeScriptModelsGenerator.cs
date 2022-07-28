@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using System.Reflection;
+﻿using System.Reflection;
 using API.Common;
 using Models.Common;
-using Models.Enumerations;
 using TypeScriptModelsGenerator;
 
 namespace WebAPIGenerator

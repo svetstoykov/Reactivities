@@ -1,14 +1,12 @@
-﻿using Models.Common;
-
-namespace API.Common.Middleware.ErrorHandling
+﻿namespace API.Common.Middleware.ErrorHandling
 {
     public class ExceptionResponseModel : BaseApiModel
     {
         private ExceptionResponseModel(int statusCode, string message, string details = null)
         {
-            StatusCode = statusCode;
-            Message = message;
-            Details = details;
+            this.StatusCode = statusCode;
+            this.Message = message;
+            this.Details = details;
         }
 
         public int StatusCode { get; }

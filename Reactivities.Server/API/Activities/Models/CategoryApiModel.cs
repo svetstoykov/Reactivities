@@ -2,7 +2,7 @@
 
 namespace API.Activities.Models
 {
-    public class CategoryViewModel : BaseApiModel
+    public class CategoryApiModel : BaseApiModel
     {
         public int Id { get; set; }
 

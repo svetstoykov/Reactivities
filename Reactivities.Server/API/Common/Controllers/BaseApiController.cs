@@ -15,8 +15,8 @@ namespace API.Common.Controllers
 
         public BaseApiController(IMediator mediator, IMapper mapper)
         {
-            Mediator = mediator;
-            Mapper = mapper;
+            this.Mediator = mediator;
+            this.Mapper = mapper;
         }
 
         protected ActionResult HandleMappingResult<TOutputData, TViewModel>(Result<TOutputData> result)
@@ -29,21 +29,22 @@ namespace API.Common.Controllers
                 mappedResult = Result<TViewModel>.New(
                     this.Mapper.Map<TViewModel>(result.Data),
                     result.ResultType,
-                    result.Message,
-                    result.IsSuccessful);
+                    result.IsSuccessful,
+                    result.Message);
             }
 
-            return HandleResult(mappedResult);
+            return this.HandleResult(mappedResult);
         }
 
         protected ActionResult HandleResult<TOutputData>(Result<TOutputData> result)
         {
             return result.ResultType switch
             {
-                ResultType.Success when result.Data == null => NotFound(),
-                ResultType.NotFound => NotFound(),
-                ResultType.Success => Ok(result.Data),
-                _ => BadRequest(result.Message)
+                ResultType.Success when result.Data == null => this.NotFound(),
+                ResultType.Success => this.Ok(result.Data),
+                ResultType.NotFound => this.NotFound(),
+                ResultType.Unauthorized => this.Unauthorized(),
+                _ => this.BadRequest(result.Message)
             };
         }
     }
