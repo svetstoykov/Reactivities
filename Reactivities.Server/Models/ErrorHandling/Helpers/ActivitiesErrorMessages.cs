@@ -11,5 +11,7 @@
         public const string DoesNotExist = "Activity Id: '{0}' does not exist.";
 
         public const string InvalidCategory = "Invalid Category";
+
+        public const string ActivityTitleLength = "Activity title must be at least 3 letters long.";
     }
 }

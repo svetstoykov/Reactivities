@@ -13,9 +13,23 @@ import TestErrors from "../../features/errors/TestErrors";
 import NotFound from "../../features/errors/NotFound";
 import ServerError from "../../features/errors/ServerError";
 import LoginForm from "../../features/users/LoginForm";
+import { useStore } from "../stores/store";
+import { useEffect } from "react";
+import LoadingComponent from "./LoadingComponent";
 
 function App() {
     const location = useLocation();
+    const { userStore, commonStore } = useStore();
+
+    useEffect(() => {
+        if (commonStore.token) {
+            userStore.getUser().finally(() => commonStore.setAppLoaded());
+            return;
+        }
+        commonStore.setAppLoaded();
+    }, [commonStore, userStore]);
+
+    if(!commonStore.appLoaded) return <LoadingComponent content="Loading app..."/>
 
     return (
         <>

@@ -8,7 +8,7 @@ export default observer(function ServerError() {
     return (
         <Container>
             <Header as="h1" content="Server Error" />
-            <Header sub as="h5" content={commonStore.error?.message} />
+            <Header sub as="h5" basic color="red" content={commonStore.error?.message}/>
             {commonStore.error?.details && (
                 <Segment>
                     <Header as="h4" content="Stack trace" color="teal" />

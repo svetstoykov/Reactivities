@@ -11,7 +11,8 @@ namespace API.Activities.Validators
     {
         public ActivityViewModelValidator()
         {
-            this.RuleFor(m => m.Title).NotEmpty();
+            this.RuleFor(m => m.Title.Length).GreaterThan(3)
+                .WithMessage(ActivitiesErrorMessages.ActivityTitleLength);
 
             var lastCategoryTypeId = (int)Enum.GetValues<CategoryType>().MaxBy(c => (int) c);
             this.RuleFor(m => m.CategoryId)

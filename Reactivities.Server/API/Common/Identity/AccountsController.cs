@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Common.Identity
 {
+    [AllowAnonymous]
     public class AccountsController : BaseApiController
     {
         public AccountsController(IMediator mediator, IMapper mapper)
@@ -18,7 +19,6 @@ namespace API.Common.Identity
         {
         }
 
-        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<UserApiModel>> Login(LoginApiModel request)
         {
@@ -28,7 +28,6 @@ namespace API.Common.Identity
             return this.HandleMappingResult<UserOutputModel, UserApiModel>(loginResult);
         }
 
-        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult<UserApiModel>> Register(RegisterApiModel request)
         {
