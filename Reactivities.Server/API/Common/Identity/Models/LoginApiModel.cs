@@ -1,6 +1,6 @@
 ﻿namespace API.Common.Identity.Models
 {
-    public class LoginApiModel
+    public class LoginApiModel : BaseApiModel
     {
         public string Email { get; set; }
 
