@@ -18,8 +18,8 @@ namespace Application.Common.Identity.Tokens
 
         public TokenService(IConfiguration configuration)
         {
-            _configuration = configuration;
-            _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            this._configuration = configuration;
+            this._jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
         }
 
         public string GenerateToken(User user)
@@ -31,7 +31,7 @@ namespace Application.Common.Identity.Tokens
                 new(ClaimTypes.Email, user.Email)
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration[GlobalConstants.TokenKey]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration[GlobalConstants.TokenKey]));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor()
@@ -41,9 +41,9 @@ namespace Application.Common.Identity.Tokens
                 SigningCredentials = credentials
             };
 
-            var token = _jwtSecurityTokenHandler.CreateToken(tokenDescriptor);
+            var token = this._jwtSecurityTokenHandler.CreateToken(tokenDescriptor);
 
-            return _jwtSecurityTokenHandler.WriteToken(token);
+            return this._jwtSecurityTokenHandler.WriteToken(token);
         }
     }
 }

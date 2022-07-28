@@ -21,10 +21,10 @@ public class Register
     {
         public Command(string displayName, string username, string password, string email)
         {
-            DisplayName = displayName;
-            Username = username;
-            Password = password;
-            Email = email;
+            this.DisplayName = displayName;
+            this.Username = username;
+            this.Password = password;
+            this.Email = email;
         }
 
         public string DisplayName { get; init; }
@@ -44,14 +44,14 @@ public class Register
 
         public Handler(UserManager<User> userManager, ITokenService tokenService,IMapper mapper)
         {
-            _userManager = userManager;
-            _tokenService = tokenService;
-            _mapper = mapper;
+            this._userManager = userManager;
+            this._tokenService = tokenService;
+            this._mapper = mapper;
         }
 
         public async Task<Result<UserOutputModel>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var validationResult = await ValidateUserDetails(request);
+            var validationResult = await this.ValidateUserDetails(request);
             if (!validationResult.IsSuccessful)
             {
                 return validationResult;
@@ -60,12 +60,12 @@ public class Register
             var user = User.New(
                 request.Username, request.Email, request.DisplayName);
 
-            var registerUser = await _userManager.CreateAsync(user, request.Password);
+            var registerUser = await this._userManager.CreateAsync(user, request.Password);
 
             if (registerUser.Succeeded)
             {
-                var userOutputModel = _mapper.Map<UserOutputModel>(user);
-                userOutputModel.Token = _tokenService.GenerateToken(user);
+                var userOutputModel = this._mapper.Map<UserOutputModel>(user);
+                userOutputModel.Token = this._tokenService.GenerateToken(user);
 
                 return Result<UserOutputModel>.Success(userOutputModel);
             }
@@ -76,14 +76,14 @@ public class Register
 
         private async Task<Result<UserOutputModel>> ValidateUserDetails(Command request)
         {
-            if (await _userManager.Users.AnyAsync(u => 
+            if (await this._userManager.Users.AnyAsync(u => 
                     u.Email.ToLower() == request.Email.ToLower()))
             {
                 return Result<UserOutputModel>.Failure(
                     string.Format(IdentityErrorMessages.EmailTaken, request.Email));
             }
 
-            if (await _userManager.Users.AnyAsync(u => 
+            if (await this._userManager.Users.AnyAsync(u => 
                     u.UserName.ToLower() == request.Username.ToLower()))
             {
                 return Result<UserOutputModel>.Failure(

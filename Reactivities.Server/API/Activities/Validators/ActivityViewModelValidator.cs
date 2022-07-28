@@ -10,15 +10,15 @@ namespace API.Activities.Validators
     {
         public ActivityViewModelValidator()
         {
-            RuleFor(m => m.Title).NotEmpty();
+            this.RuleFor(m => m.Title).NotEmpty();
 
             var lastCategoryType = Enum.GetValues<CategoryType>().MaxBy(c => (int) c);
-            RuleFor(m => m.CategoryId).GreaterThan(0).LessThan((int)lastCategoryType);
+            this.RuleFor(m => m.CategoryId).GreaterThan(0).LessThan((int)lastCategoryType);
 
-            RuleFor(m => m.City).NotEmpty();
-            RuleFor(m => m.Description).NotEmpty();
-            RuleFor(m => m.Venue).NotEmpty();
-            RuleFor(m => m.Date).GreaterThan(DateTime.MinValue);
+            this.RuleFor(m => m.City).NotEmpty();
+            this.RuleFor(m => m.Description).NotEmpty();
+            this.RuleFor(m => m.Venue).NotEmpty();
+            this.RuleFor(m => m.Date).GreaterThan(DateTime.MinValue);
         }
     }
 }

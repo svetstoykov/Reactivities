@@ -4,9 +4,9 @@
     {
         private ExceptionResponseModel(int statusCode, string message, string details = null)
         {
-            StatusCode = statusCode;
-            Message = message;
-            Details = details;
+            this.StatusCode = statusCode;
+            this.Message = message;
+            this.Details = details;
         }
 
         public int StatusCode { get; }

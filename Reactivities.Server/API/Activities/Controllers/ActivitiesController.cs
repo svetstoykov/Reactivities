@@ -20,53 +20,53 @@ namespace API.Activities.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ActivityApiModel>>> GetActivities()
         {
-            var serviceResult = await base.Mediator.Send(new List.Query());
+            var serviceResult = await this.Mediator.Send(new List.Query());
 
-            return HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityApiModel>>(serviceResult);
+            return this.HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityApiModel>>(serviceResult);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ActivityApiModel>> GetActivity(int id)
         {
-            var serviceResult = await base.Mediator.Send(new Details.Query(id));
+            var serviceResult = await this.Mediator.Send(new Details.Query(id));
 
-            return HandleMappingResult<ActivityOutputModel, ActivityApiModel>(serviceResult);
+            return this.HandleMappingResult<ActivityOutputModel, ActivityApiModel>(serviceResult);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateActivity(ActivityApiModel request)
         {
-            var inputModel = Mapper.Map<CreateActivityInputModel>(request);
+            var inputModel = this.Mapper.Map<CreateActivityInputModel>(request);
 
-            var serviceResult = await base.Mediator.Send(new Create.Command(inputModel));
+            var serviceResult = await this.Mediator.Send(new Create.Command(inputModel));
 
-            return HandleResult(serviceResult);
+            return this.HandleResult(serviceResult);
         }
 
         [HttpPut]
         public async Task<IActionResult> EditActivity(ActivityApiModel request)
         {
-            var inputModel = Mapper.Map<EditActivityInputModel>(request);
+            var inputModel = this.Mapper.Map<EditActivityInputModel>(request);
 
-            var serviceResult = await base.Mediator.Send(new Edit.Command(inputModel));
+            var serviceResult = await this.Mediator.Send(new Edit.Command(inputModel));
 
-            return HandleResult(serviceResult);
+            return this.HandleResult(serviceResult);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteActivity(int id)
         {
-            var serviceResult = await base.Mediator.Send(new Delete.Command(id));
+            var serviceResult = await this.Mediator.Send(new Delete.Command(id));
 
-            return HandleResult(serviceResult);
+            return this.HandleResult(serviceResult);
         }
 
         [HttpGet("categories")]
         public async Task<IActionResult> GetActivityCategories()
         {
-            var serviceResult = await base.Mediator.Send(new Categories.Query());
+            var serviceResult = await this.Mediator.Send(new Categories.Query());
 
-            return HandleMappingResult<IEnumerable<CategoryOutputModel>, IEnumerable<CategoryApiModel>>(serviceResult);
+            return this.HandleMappingResult<IEnumerable<CategoryOutputModel>, IEnumerable<CategoryApiModel>>(serviceResult);
         }
     }
 }

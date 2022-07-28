@@ -29,8 +29,8 @@ namespace Application.Activities
 
             public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
             {
-                _activitiesDataService = activitiesDataService;
-                _mapper = mapper;
+                this._activitiesDataService = activitiesDataService;
+                this._mapper = mapper;
             }
 
             public async Task<Result<int>> Handle(Command request, CancellationToken cancellationToken)

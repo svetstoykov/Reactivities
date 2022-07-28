@@ -8,7 +8,7 @@ namespace Application.Common.MappingProfiles
     {
         public IdentityMappingProfile()
         {
-            CreateMap<User, UserOutputModel>()
+            this.CreateMap<User, UserOutputModel>()
                 .ForMember(dest => dest.Username,
                     opt => opt.MapFrom(src => src.UserName));
         }

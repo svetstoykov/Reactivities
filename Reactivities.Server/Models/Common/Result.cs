@@ -6,10 +6,10 @@ namespace Models.Common
     {
         private Result(T data, ResultType type, bool isSuccessful = false, string message = null)
         {
-            Data = data;
-            ResultType = type;
-            Message = message ?? string.Empty;
-            IsSuccessful = isSuccessful;
+            this.Data = data;
+            this.ResultType = type;
+            this.Message = message ?? string.Empty;
+            this.IsSuccessful = isSuccessful;
         }
 
         public bool IsSuccessful { get; private set; }

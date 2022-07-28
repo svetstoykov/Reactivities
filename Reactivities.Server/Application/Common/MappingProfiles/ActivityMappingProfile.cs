@@ -12,20 +12,19 @@ namespace Application.Common.MappingProfiles
 
         public ActivityMappingProfile()
         {
+            this.CreateMap<CreateActivityInputModel, Activity>();
 
-            CreateMap<CreateActivityInputModel, Activity>();
+            this.CreateMap<EditActivityInputModel, Activity>();
 
-            CreateMap<EditActivityInputModel, Activity>();
+            this.CreateMap<Category, CategoryOutputModel>();
 
-            CreateMap<Category, CategoryOutputModel>();
-
-            CreateMap<CreateEditActivityBaseInputModel, Activity>()
+            this.CreateMap<CreateEditActivityBaseInputModel, Activity>()
                 .Include<CreateActivityInputModel, Activity>()
                 .Include<EditActivityInputModel, Activity>()
                 .ForMember(dest => dest.CategoryId,
                     opt => opt.MapFrom(src => (int)src.CategoryType));
 
-            CreateMap<Activity, ActivityOutputModel>()
+            this.CreateMap<Activity, ActivityOutputModel>()
                 .ForMember(dest => dest.CategoryType,
                     opt => opt.MapFrom(src => (CategoryType) src.CategoryId));
         }

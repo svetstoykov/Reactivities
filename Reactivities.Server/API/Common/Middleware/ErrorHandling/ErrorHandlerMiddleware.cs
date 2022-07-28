@@ -17,15 +17,15 @@ namespace API.Common.Middleware.ErrorHandling
 
         public ErrorHandlerMiddleware(RequestDelegate next, IHostEnvironment environment)
         {
-            _next = next;
-            _environment = environment;
+            this._next = next;
+            this._environment = environment;
         }
 
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await _next(context);
+                await this._next(context);
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ namespace API.Common.Middleware.ErrorHandling
                     _ => (int)HttpStatusCode.InternalServerError
                 };
 
-                var exceptionResponse = _environment.IsDevelopment()
+                var exceptionResponse = this._environment.IsDevelopment()
                     ? ExceptionResponseModel.New(context.Response.StatusCode, ex.Message, ex.StackTrace)
                     : ExceptionResponseModel.New(response.StatusCode, CommonErrorMessages.SomethingWentWrong);
 

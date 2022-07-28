@@ -11,19 +11,19 @@ namespace API.Common.MappingProfiles
     {
         public ActivityMappingProfile()
         {
-            CreateMap<ActivityApiModel, CreateEditActivityBaseInputModel>()
+            this.CreateMap<ActivityApiModel, CreateEditActivityBaseInputModel>()
                 .Include<ActivityApiModel, CreateActivityInputModel>()
                 .Include<ActivityApiModel, EditActivityInputModel>()
                 .ForMember(dest => dest.CategoryType,
                     opt => opt.MapFrom(src => (CategoryType) src.CategoryId));
 
-            CreateMap<ActivityApiModel, CreateActivityInputModel>();
+            this.CreateMap<ActivityApiModel, CreateActivityInputModel>();
 
-            CreateMap<ActivityApiModel, EditActivityInputModel>();
+            this.CreateMap<ActivityApiModel, EditActivityInputModel>();
 
-            CreateMap<CategoryOutputModel, CategoryApiModel>();
+            this.CreateMap<CategoryOutputModel, CategoryApiModel>();
 
-            CreateMap<ActivityOutputModel, ActivityApiModel>()
+            this.CreateMap<ActivityOutputModel, ActivityApiModel>()
                 .ForMember(dest => dest.CategoryId,
                     opt => opt.MapFrom(src => (int) src.CategoryType))
                 .ForMember(dest => dest.Category,

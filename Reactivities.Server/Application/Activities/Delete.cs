@@ -25,7 +25,7 @@ namespace Application.Activities
 
             public Handler(IActivitiesDataService activitiesDataService)
             {
-                _activitiesDataService = activitiesDataService;
+                this._activitiesDataService = activitiesDataService;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)

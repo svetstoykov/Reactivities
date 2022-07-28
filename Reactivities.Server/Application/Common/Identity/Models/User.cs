@@ -12,7 +12,7 @@ namespace Application.Common.Identity.Models
 
         public static User New(string userName, string email, string displayName, string bio = null)
         {
-            ValidateUser(userName, email, displayName);
+            User.ValidateUser(userName, email, displayName);
 
             return new User
             {

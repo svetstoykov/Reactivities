@@ -14,7 +14,7 @@ namespace Application.Activities
         {
             public Query(int id)
             {
-                Id = id;
+                this.Id = id;
             }
 
             public int Id { get; init; }
@@ -27,8 +27,8 @@ namespace Application.Activities
 
             public Handler(IActivitiesDataService activitiesDataService,IMapper mapper)
             {
-                _activitiesDataService = activitiesDataService;
-                _mapper = mapper;
+                this._activitiesDataService = activitiesDataService;
+                this._mapper = mapper;
             }
     
             public async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)

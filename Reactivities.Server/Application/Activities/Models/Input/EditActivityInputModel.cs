@@ -4,6 +4,6 @@ namespace Application.Activities.Models.Input
 {
     public class EditActivityInputModel : CreateEditActivityBaseInputModel
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
     }
 }

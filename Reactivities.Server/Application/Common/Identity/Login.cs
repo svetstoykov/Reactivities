@@ -16,13 +16,13 @@ public class Login
     {
         public Command(string email, string password)
         {
-            Email = email;
-            Password = password;
+            this.Email = email;
+            this.Password = password;
         }
 
-        public string Email { get; set; }
+        public string Email { get; init; }
 
-        public string Password { get; set; }
+        public string Password { get; init; }
     }
 
     public class Handler : IRequestHandler<Command, Result<UserOutputModel>>
@@ -38,29 +38,29 @@ public class Login
             ITokenService tokenService,
             IMapper mapper)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _tokenService = tokenService;
-            _mapper = mapper;
+            this._userManager = userManager;
+            this._signInManager = signInManager;
+            this._tokenService = tokenService;
+            this._mapper = mapper;
         }
 
 
         public async Task<Result<UserOutputModel>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(request.Email);
+            var user = await this._userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
             {
                 return Result<UserOutputModel>.Unauthorized();
             }
 
-            var signInResult = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            var signInResult = await this._signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
             if (signInResult.Succeeded)
             {
-                var userOutputModel = _mapper.Map<UserOutputModel>(user);
+                var userOutputModel = this._mapper.Map<UserOutputModel>(user);
 
-                userOutputModel.Token = _tokenService.GenerateToken(user);
+                userOutputModel.Token = this._tokenService.GenerateToken(user);
 
                 return Result<UserOutputModel>.Success(userOutputModel);
             }

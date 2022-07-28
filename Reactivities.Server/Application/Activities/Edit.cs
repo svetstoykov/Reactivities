@@ -29,7 +29,7 @@ namespace Application.Activities
             public Handler(IActivitiesDataService _activitiesDataService, IMapper mapper)
             {
                 this._activitiesDataService = _activitiesDataService;
-                _mapper = mapper;
+                this._mapper = mapper;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)

@@ -15,24 +15,24 @@ namespace Persistence.DataServices
 
         public ActivitiesDataService(DataContext dataContext)
         {
-            _dataContext = dataContext;
+            this._dataContext = dataContext;
         }
 
         public async Task<IList<Activity>> GetActivitiesAsync(Func<Activity, bool> predicate = null) 
-            => await _dataContext.Activities
+            => await this._dataContext.Activities
                 .Where(a => predicate == null || predicate(a))
                 .ToListAsync();
 
         public async Task<IList<Category>> GetCategoriesAsync(Func<Category, bool> predicate = null)
-            => await _dataContext.Categories
+            => await this._dataContext.Categories
                 .Where(a => predicate == null || predicate(a))
                 .ToListAsync();
 
         public async Task<Activity> GetByIdAsync(int id) 
-            => await _dataContext.Activities.FindAsync(id);
+            => await this._dataContext.Activities.FindAsync(id);
 
         public void Create(Activity activity) 
-            => _dataContext.Activities.Add(activity);
+            => this._dataContext.Activities.Add(activity);
 
         public void Update(Activity activity) 
             => this._dataContext.Activities.Update(activity);
@@ -41,6 +41,6 @@ namespace Persistence.DataServices
             => this._dataContext.Activities.Remove(activity);
 
         public async Task<int> SaveChangesAsync(CancellationToken token = default)
-            => await _dataContext.SaveChangesAsync(token);
+            => await this._dataContext.SaveChangesAsync(token);
     }
 }

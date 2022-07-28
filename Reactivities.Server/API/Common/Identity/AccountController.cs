@@ -25,7 +25,7 @@ namespace API.Common.Identity
             var loginResult = await this.Mediator.Send(
                 new Login.Command(request.Email, request.Password));
 
-            return base.HandleMappingResult<UserOutputModel, UserApiModel>(loginResult);
+            return this.HandleMappingResult<UserOutputModel, UserApiModel>(loginResult);
         }
 
         [AllowAnonymous]
@@ -35,18 +35,18 @@ namespace API.Common.Identity
             var registrationResult = await this.Mediator.Send(
                 new Register.Command(request.DisplayName, request.Username, request.Password, request.Email));
 
-            return base.HandleMappingResult<UserOutputModel, UserApiModel>(registrationResult);
+            return this.HandleMappingResult<UserOutputModel, UserApiModel>(registrationResult);
         }
 
         [HttpGet]
         public async Task<ActionResult<UserApiModel>> GetCurrentUser()
         {
-            var currentUserEmail = User.FindFirstValue(ClaimTypes.Email);
+            var currentUserEmail = this.User.FindFirstValue(ClaimTypes.Email);
 
             var currentUserResult = await this.Mediator.Send(
                 new GetCurrentUser.Query(currentUserEmail));
 
-            return base.HandleMappingResult<UserOutputModel, UserApiModel>(currentUserResult);
+            return this.HandleMappingResult<UserOutputModel, UserApiModel>(currentUserResult);
         }
     }
 }

@@ -15,12 +15,12 @@ namespace Application.Common.Identity
     {
         public class Query : IRequest<Result<UserOutputModel>>
         {
-            public string Email { get; }
-
             public Query(string email)
             {
-                Email = email;
+                this.Email = email;
             }
+
+            public string Email { get; init; }
         }
 
         public class Handler : IRequestHandler<Query, Result<UserOutputModel>>
@@ -31,23 +31,23 @@ namespace Application.Common.Identity
 
             public Handler(UserManager<User> userManager, ITokenService tokenService, IMapper mapper)
             {
-                _userManager = userManager;
-                _tokenService = tokenService;
-                _mapper = mapper;
+                this._userManager = userManager;
+                this._tokenService = tokenService;
+                this._mapper = mapper;
             }
 
             public async Task<Result<UserOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var user = await _userManager.FindByEmailAsync(request.Email);
+                var user = await this._userManager.FindByEmailAsync(request.Email);
                 if (user == null)
                 {
                     return Result<UserOutputModel>.NotFound(
                         IdentityErrorMessages.InvalidCurrentUser);
                 }
 
-                var userOutputModel = _mapper.Map<UserOutputModel>(user);
+                var userOutputModel = this._mapper.Map<UserOutputModel>(user);
 
-                userOutputModel.Token = _tokenService.GenerateToken(user);
+                userOutputModel.Token = this._tokenService.GenerateToken(user);
 
                 return Result<UserOutputModel>.Success(userOutputModel);
             }
