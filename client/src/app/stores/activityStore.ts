@@ -104,10 +104,11 @@ export default class ActivityStore {
         try {
             await agent.Activities.update(activity);
             runInAction(() => {
-                this.activitiesRegistry.set(activity.id!, activity);
+                this.activitiesRegistry.delete(activity.id!);
             });
 
-            this.finishAndSelectActivity(activity);
+            this.loading = false;
+            this.editMode = false;
         } catch (ex) {
             this.logException(ex);
         }

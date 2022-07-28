@@ -3,6 +3,7 @@ using System.Linq;
 using API.Activities.Models;
 using FluentValidation;
 using Models.Enumerations;
+using Models.ErrorHandling.Helpers;
 
 namespace API.Activities.Validators
 {
@@ -12,8 +13,11 @@ namespace API.Activities.Validators
         {
             this.RuleFor(m => m.Title).NotEmpty();
 
-            var lastCategoryType = Enum.GetValues<CategoryType>().MaxBy(c => (int) c);
-            this.RuleFor(m => m.CategoryId).GreaterThan(0).LessThan((int)lastCategoryType);
+            var lastCategoryTypeId = (int)Enum.GetValues<CategoryType>().MaxBy(c => (int) c);
+            this.RuleFor(m => m.CategoryId)
+                .GreaterThan(0)
+                .LessThan(lastCategoryTypeId + 1)
+                .WithMessage(ActivitiesErrorMessages.InvalidCategory);
 
             this.RuleFor(m => m.City).NotEmpty();
             this.RuleFor(m => m.Description).NotEmpty();

@@ -7,10 +7,12 @@ using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Activities.Controllers
 {
+    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
         public ActivitiesController(IMediator mediator, IMapper mapper)

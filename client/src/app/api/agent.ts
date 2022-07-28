@@ -25,6 +25,8 @@ axios.interceptors.response.use(
     (error: AxiosError) => {
         const { data, status } = error.response!;
 
+        debugger;
+
         switch (status) {
             case 400:
                 if (data.errors) {
@@ -35,13 +37,13 @@ axios.interceptors.response.use(
                         }
                     }
 
-                    throw modelStateErrors;
+                    toast.error(modelStateErrors.join(", "))
                 } else {
                     toast.error(data);
                 }
                 break;
             case 401:
-                toast.error("Unauthorized");
+                toast.error(data || "Unauthorized");
                 break;
             case 404:
                 history.push("/not-found");
@@ -52,7 +54,7 @@ axios.interceptors.response.use(
                 break;
         }
 
-        return Promise.reject(error);
+        //return Promise.reject(error);
     }
 );
 

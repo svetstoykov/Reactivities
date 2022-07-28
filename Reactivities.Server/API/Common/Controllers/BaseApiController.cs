@@ -38,13 +38,15 @@ namespace API.Common.Controllers
 
         protected ActionResult HandleResult<TOutputData>(Result<TOutputData> result)
         {
+            var message = result.Message ?? string.Empty;
+            
             return result.ResultType switch
             {
                 ResultType.Success when result.Data == null => this.NotFound(),
                 ResultType.Success => this.Ok(result.Data),
-                ResultType.NotFound => this.NotFound(),
-                ResultType.Unauthorized => this.Unauthorized(),
-                _ => this.BadRequest(result.Message)
+                ResultType.NotFound => this.NotFound(message),
+                ResultType.Unauthorized => this.Unauthorized(message),
+                _ => this.BadRequest(message)
             };
         }
     }

@@ -7,6 +7,7 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
+using Models.ErrorHandling.Helpers;
 
 namespace Application.Common.Identity;
 
@@ -51,7 +52,8 @@ public class Login
 
             if (user == null)
             {
-                return Result<UserOutputModel>.Unauthorized();
+                return Result<UserOutputModel>.Unauthorized(
+                    IdentityErrorMessages.InvalidEmail);
             }
 
             var signInResult = await this._signInManager.CheckPasswordSignInAsync(user, request.Password, false);
@@ -65,7 +67,8 @@ public class Login
                 return Result<UserOutputModel>.Success(userOutputModel);
             }
 
-            return Result<UserOutputModel>.Unauthorized();
+            return Result<UserOutputModel>.Unauthorized(
+                IdentityErrorMessages.FailedLogin);
         }
     }
 }

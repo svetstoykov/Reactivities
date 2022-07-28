@@ -20,7 +20,7 @@ export default class UserStore {
             const user = await agent.Accounts.login(creds);
             console.log(user);
         } catch (error) {
-            throw error;
+            console.log(error);
         }
     };
 }
