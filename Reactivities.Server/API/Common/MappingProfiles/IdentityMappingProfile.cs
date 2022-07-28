@@ -9,6 +9,8 @@ namespace API.Common.MappingProfiles
         public IdentityMappingProfile()
         {
             this.CreateMap<UserOutputModel, UserApiModel>();
+            
+            this.CreateMap<UserOutputModel, ProfileApiModel>();
         }
     }
 }

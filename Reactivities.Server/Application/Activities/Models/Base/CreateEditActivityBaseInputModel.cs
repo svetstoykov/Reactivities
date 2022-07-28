@@ -16,5 +16,10 @@ namespace Application.Activities.Models.Base
         public string City { get; init; }
 
         public string Venue { get; init; }
+        
+        public string HostId { get; private set; }
+
+        public void SetHost(string hostId)
+            => HostId = hostId;
     }
 }

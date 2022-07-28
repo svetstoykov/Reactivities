@@ -27,7 +27,9 @@ namespace API.Common.MappingProfiles
                 .ForMember(dest => dest.CategoryId,
                     opt => opt.MapFrom(src => (int) src.CategoryType))
                 .ForMember(dest => dest.Category,
-                    opt => opt.MapFrom(src => src.CategoryType.ToString()));
+                    opt => opt.MapFrom(src => src.CategoryType.ToString()))
+                .ForMember(dest => dest.HostName,
+                    opt => opt.MapFrom(src => src.Host.DisplayName));
         }
     }
 }

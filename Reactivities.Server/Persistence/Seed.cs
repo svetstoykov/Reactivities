@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models;
-using Domain;
+using Domain.Activities;
+using Domain.Common.Identity;
 using Microsoft.AspNetCore.Identity;
 using Models.Enumerations;
 

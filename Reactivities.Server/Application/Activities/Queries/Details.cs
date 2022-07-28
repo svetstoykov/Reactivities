@@ -3,10 +3,12 @@ using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.Models.Output;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Models.Common;
 
-namespace Application.Activities
+namespace Application.Activities.Queries
 {
     public class Details
     {
@@ -33,12 +35,12 @@ namespace Application.Activities
     
             public async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var domainDto = await this._activitiesDataService
-                    .GetByIdAsync(request.Id);
+                var activity = await this._activitiesDataService
+                    .GetActivitiesQueryable()
+                    .ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 
-                var outputModel = this._mapper.Map<ActivityOutputModel>(domainDto);
-
-                return Result<ActivityOutputModel>.Success(outputModel);
+                return Result<ActivityOutputModel>.Success(activity);
             }
         }
     }

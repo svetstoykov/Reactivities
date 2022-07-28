@@ -1,19 +1,16 @@
-﻿using System;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models;
 using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
+using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
 
-namespace Application.Common.Identity;
+namespace Application.Common.Identity.Commands;
 
 public class Register
 {

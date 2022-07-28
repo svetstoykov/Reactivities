@@ -1,13 +1,10 @@
-﻿namespace API.Common.Identity.Models
+﻿using API.Common.Identity.Models.Base;
+
+namespace API.Common.Identity.Models
 {
-    public class UserApiModel : BaseApiModel
+    public class UserApiModel : BaseUserApiModel
     {
-        public string DisplayName { get; set; }
-
         public string Token { get; set; }
-
-        public string Username { get; set; }
-
-        public string Image { get; set; }
     }
 }
+    

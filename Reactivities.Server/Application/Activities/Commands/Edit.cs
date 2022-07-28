@@ -7,7 +7,7 @@ using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
     public class Edit
     {

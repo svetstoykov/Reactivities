@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220728150830_ActivitiesRelations")]
+    partial class ActivitiesRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,17 +26,17 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("ActivityUser", b =>
                 {
+                    b.Property<int>("ActivitiesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("AttendeesId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AttendingActivitiesId")
-                        .HasColumnType("int");
+                    b.HasKey("ActivitiesId", "AttendeesId");
 
-                    b.HasKey("AttendeesId", "AttendingActivitiesId");
+                    b.HasIndex("AttendeesId");
 
-                    b.HasIndex("AttendingActivitiesId");
-
-                    b.ToTable("ActivityUser", (string)null);
+                    b.ToTable("ActivityUser");
                 });
 
             modelBuilder.Entity("Domain.Activities.Activity", b =>
@@ -72,7 +74,7 @@ namespace Persistence.Migrations
 
                     b.HasIndex("HostId");
 
-                    b.ToTable("Activities", (string)null);
+                    b.ToTable("Activities");
                 });
 
             modelBuilder.Entity("Domain.Activities.Category", b =>
@@ -85,7 +87,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("Domain.Common.Identity.User", b =>
@@ -294,15 +296,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("ActivityUser", b =>
                 {
-                    b.HasOne("Domain.Common.Identity.User", null)
+                    b.HasOne("Domain.Activities.Activity", null)
                         .WithMany()
-                        .HasForeignKey("AttendeesId")
+                        .HasForeignKey("ActivitiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Activities.Activity", null)
+                    b.HasOne("Domain.Common.Identity.User", null)
                         .WithMany()
-                        .HasForeignKey("AttendingActivitiesId")
+                        .HasForeignKey("AttendeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

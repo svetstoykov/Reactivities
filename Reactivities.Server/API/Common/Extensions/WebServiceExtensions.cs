@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
-using Application.Common.Identity.Models;
+using Domain.Common.Identity;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

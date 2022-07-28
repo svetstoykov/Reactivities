@@ -7,7 +7,7 @@ using AutoMapper;
 using MediatR;
 using Models.Common;
 
-namespace Application.Activities
+namespace Application.Activities.Queries
 {
     public class Categories
     {

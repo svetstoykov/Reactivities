@@ -13,5 +13,9 @@
         public const string InvalidCategory = "Invalid Category";
 
         public const string ActivityTitleLength = "Activity title must be at least 3 letters long.";
+
+        public const string UpdateStatusNotFromHost = "Activity status can only be updated by the activity host";
+
+        public const string HostCannotBeAddedAsAttendee = "Host Cannot Be Added As Attendee";
     }
 }

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using API.Common;
+using API.Common.Identity.Models;
 
 namespace API.Activities.Models
 {
@@ -20,5 +22,9 @@ namespace API.Activities.Models
         public string City { get; set; }
         
         public string Venue { get; set; }
+        
+        public string HostName { get; set; }
+
+        public ICollection<ProfileApiModel> Attendees { get; set; } = new List<ProfileApiModel>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
@@ -49,5 +50,14 @@ namespace API.Common.Controllers
                 _ => this.BadRequest(message)
             };
         }
+        
+        protected string GetCurrentUserEmail()
+            => this.User.FindFirstValue(ClaimTypes.Email);
+        
+        protected string GetCurrentUserId()
+            => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        
+        protected string GetCurrentUserUsername()
+            => this.User.FindFirstValue(ClaimTypes.Name);
     }
 }

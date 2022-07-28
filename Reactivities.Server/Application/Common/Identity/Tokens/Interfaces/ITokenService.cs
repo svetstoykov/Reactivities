@@ -1,4 +1,4 @@
-﻿using Application.Common.Identity.Models;
+﻿using Domain.Common.Identity;
 
 namespace Application.Common.Identity.Tokens.Interfaces
 {

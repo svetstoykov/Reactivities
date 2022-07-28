@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Models.ErrorHandling.Helpers;
 using Persistence;
-using Application.Common.Identity.Models;
+using Domain.Common.Identity;
 
 namespace API
 {

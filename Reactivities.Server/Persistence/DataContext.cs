@@ -1,5 +1,5 @@
-﻿using Application.Common.Identity.Models;
-using Domain;
+﻿using Domain.Activities;
+using Domain.Common.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,6 +24,13 @@ namespace Persistence
             modelBuilder.Entity<Category>()
                 .Property(c => c.Id)
                 .ValueGeneratedNever();
+
+            modelBuilder.Entity<Activity>()
+                .HasOne(a => a.Host);
+            
+            modelBuilder.Entity<Activity>()
+                .HasMany(a => a.Attendees)
+                .WithMany(a => a.AttendingActivities);
 
             base.OnModelCreating(modelBuilder);
         }
