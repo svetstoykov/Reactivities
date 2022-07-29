@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.Models.Output;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Models.Common;
 
-namespace Application.Activities
+namespace Application.Activities.Queries
 {
     public class List
     {
@@ -29,11 +31,12 @@ namespace Application.Activities
             public async Task<Result<IEnumerable<ActivityOutputModel>>> Handle(Query request,
                 CancellationToken cancellationToken)
             {
-                var activities = await this._activitiesDataService.GetActivitiesAsync();
+                var activities = await this._activitiesDataService
+                    .GetActivitiesQueryable()
+                    .ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider)
+                    .ToListAsync(cancellationToken);
 
-                var outputModels = this._mapper.Map<IEnumerable<ActivityOutputModel>>(activities);
-
-                return Result<IEnumerable<ActivityOutputModel>>.Success(outputModels);
+                return Result<IEnumerable<ActivityOutputModel>>.Success(activities);
             }
         }
     }

@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.Models.Input;
 using AutoMapper;
-using Domain;
+using Domain.Activities;
 using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
     public class Create
     {

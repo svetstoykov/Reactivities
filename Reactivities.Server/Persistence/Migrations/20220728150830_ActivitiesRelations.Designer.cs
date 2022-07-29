@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220728150830_ActivitiesRelations")]
+    partial class ActivitiesRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,15 +26,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("ActivityUser", b =>
                 {
+                    b.Property<int>("ActivitiesId")
+                        .HasColumnType("int");
+
                     b.Property<string>("AttendeesId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("AttendingActivitiesId")
-                        .HasColumnType("int");
+                    b.HasKey("ActivitiesId", "AttendeesId");
 
-                    b.HasKey("AttendeesId", "AttendingActivitiesId");
-
-                    b.HasIndex("AttendingActivitiesId");
+                    b.HasIndex("AttendeesId");
 
                     b.ToTable("ActivityUser");
                 });
@@ -59,9 +61,6 @@ namespace Persistence.Migrations
 
                     b.Property<string>("HostId")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool>("IsCancelled")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -297,15 +296,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("ActivityUser", b =>
                 {
-                    b.HasOne("Domain.Common.Identity.User", null)
+                    b.HasOne("Domain.Activities.Activity", null)
                         .WithMany()
-                        .HasForeignKey("AttendeesId")
+                        .HasForeignKey("ActivitiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Activities.Activity", null)
+                    b.HasOne("Domain.Common.Identity.User", null)
                         .WithMany()
-                        .HasForeignKey("AttendingActivitiesId")
+                        .HasForeignKey("AttendeesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

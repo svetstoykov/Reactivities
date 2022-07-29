@@ -1,4 +1,4 @@
-﻿namespace Domain.Base
+﻿namespace Domain.Common.Base
 {
     public abstract class DomainModel
     {

@@ -1,9 +1,9 @@
-﻿using System.Security.Claims;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using API.Common.Controllers;
 using API.Common.Identity.Models;
-using Application.Common.Identity;
+using Application.Common.Identity.Commands;
 using Application.Common.Identity.Models.Output;
+using Application.Common.Identity.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +20,7 @@ namespace API.Common.Identity
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserApiModel>> Login(LoginApiModel request)
+        public async Task<IActionResult> Login(LoginApiModel request)
         {
             var loginResult = await this.Mediator.Send(
                 new Login.Command(request.Email, request.Password));
@@ -29,7 +29,7 @@ namespace API.Common.Identity
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<UserApiModel>> Register(RegisterApiModel request)
+        public async Task<IActionResult> Register(RegisterApiModel request)
         {
             var registrationResult = await this.Mediator.Send(
                 new Register.Command(request.DisplayName, request.Username, request.Password, request.Email));
@@ -38,9 +38,9 @@ namespace API.Common.Identity
         }
 
         [HttpGet]
-        public async Task<ActionResult<UserApiModel>> GetCurrentUser()
+        public async Task<IActionResult> GetCurrentUser()
         {
-            var currentUserEmail = this.User.FindFirstValue(ClaimTypes.Email);
+            var currentUserEmail = this.GetCurrentUserEmail();
 
             var currentUserResult = await this.Mediator.Send(
                 new GetCurrentUser.Query(currentUserEmail));

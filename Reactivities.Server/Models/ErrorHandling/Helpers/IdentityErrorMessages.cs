@@ -8,15 +8,11 @@
 
         public const string FailedToCreateUser = "Failed to create new user";
 
-        public const string EmailCannotBeEmpty = "Email cannot be empty.";
-
-        public const string UsernameCannotBeEmpty = "Username cannot be empty.";
-
-        public const string InvalidDisplayName = "Display name cannot be empty.";
-
         public const string PasswordRequirementsNotMet = "Password must be at least 8 chars long and must contain - one uppercase, one lowercase, one number and one special symbol";
 
         public const string InvalidCurrentUser = "Failed to load current user";
+
+        public const string InvalidUser = "Failed to load user";
 
         public const string InvalidEmail = "Invalid user email.";
 

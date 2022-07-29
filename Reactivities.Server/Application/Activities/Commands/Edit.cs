@@ -1,36 +1,40 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
+using Application.Activities.Models.Input;
+using AutoMapper;
 using MediatR;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
 
-namespace Application.Activities
+namespace Application.Activities.Commands
 {
-    public class Delete
+    public class Edit
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Command(int id)
+            public Command(EditActivityInputModel dto)
             {
-                this.Id = id;
+                this.Dto = dto;
             }
 
-            public int Id { get; init; }
+            public EditActivityInputModel Dto { get; init; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly IActivitiesDataService _activitiesDataService;
+            private readonly IMapper _mapper;
 
-            public Handler(IActivitiesDataService activitiesDataService)
+            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
             {
                 this._activitiesDataService = activitiesDataService;
+                this._mapper = mapper;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var domainDto = await this._activitiesDataService.GetByIdAsync(request.Id);
+                var domainDto = await this._activitiesDataService.GetByIdAsync(request.Dto.Id);
 
                 if (domainDto == null)
                 {
@@ -38,13 +42,15 @@ namespace Application.Activities
                         ActivitiesErrorMessages.DoesNotExist);
                 }
 
-                this._activitiesDataService.Remove(domainDto);
+                this._mapper.Map(request.Dto, domainDto);
 
-                var deleteResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken) > 0;
-                if (!deleteResult)
+                this._activitiesDataService.Update(domainDto);
+
+                var editResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken) > 0;
+                if (!editResult)
                 {
                     return Result<Unit>.Failure(
-                        ActivitiesErrorMessages.DeleteError);
+                        ActivitiesErrorMessages.EditError);
                 }
 
                 return Result<Unit>.Success(Unit.Value);

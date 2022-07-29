@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text;
-using Application.Common.Identity.Models;
+using API.Common.Identity.Services;
+using Domain.Common.Identity;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,14 +20,7 @@ namespace API.Common.Extensions
     {
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddControllers(cfg =>
-            {
-                var policy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-
-                cfg.Filters.Add(new AuthorizeFilter(policy));
-            });
+            services.AddControllers();
 
             return services
                 .AddAutoMapper(Assembly.GetExecutingAssembly())
@@ -56,6 +50,16 @@ namespace API.Common.Extensions
                         ValidateAudience = false
                     };
                 });
+
+            services.AddAuthorization(cfg =>
+            {
+                cfg.AddPolicy(GlobalConstants.IsActivityHostPolicy, policy =>
+                {
+                    policy.Requirements.Add(new IsHostRequirement());
+                });
+            });
+            
+            services.AddScoped<IAuthorizationHandler, IsHostRequirementHandler>();
 
             return services;
         }

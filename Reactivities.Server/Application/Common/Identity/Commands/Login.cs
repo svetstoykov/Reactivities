@@ -1,15 +1,15 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models;
 using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
+using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
 
-namespace Application.Common.Identity;
+namespace Application.Common.Identity.Commands;
 
 public class Login
 {

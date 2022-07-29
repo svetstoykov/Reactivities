@@ -2,7 +2,7 @@
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using AutoMapper;
-using Domain;
+using Domain.Activities;
 using Models.Enumerations;
 
 namespace Application.Common.MappingProfiles

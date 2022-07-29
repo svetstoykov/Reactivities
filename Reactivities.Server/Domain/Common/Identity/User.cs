@@ -1,14 +1,23 @@
-﻿using System.Security.Authentication;
+﻿using System.Collections.Generic;
+using System.Security.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Models.ErrorHandling.Helpers;
+using Domain.Activities;
 
-namespace Application.Common.Identity.Models
+namespace Domain.Common.Identity
 {
     public class User : IdentityUser
     {
+        private const string EmailCannotBeEmpty = "Email cannot be empty.";
+
+        private const string UsernameCannotBeEmpty = "Username cannot be empty.";
+
+        private const string InvalidDisplayName = "Display name cannot be empty.";
+        
         public string DisplayName { get; set; }
 
         public string Bio { get; set; }
+
+        public ICollection<Activity> AttendingActivities { get; set; } = new List<Activity>();
 
         public static User New(string userName, string email, string displayName, string bio = null)
         {
@@ -28,19 +37,19 @@ namespace Application.Common.Identity.Models
             if (string.IsNullOrEmpty(userName))
             {
                 throw new InvalidCredentialException(
-                    IdentityErrorMessages.EmailCannotBeEmpty);
+                    EmailCannotBeEmpty);
             }
 
             if (string.IsNullOrEmpty(email))
             {
                 throw new InvalidCredentialException(
-                    IdentityErrorMessages.UsernameCannotBeEmpty);
+                    UsernameCannotBeEmpty);
             }
 
             if (string.IsNullOrEmpty(displayName))
             {
                 throw new InvalidCredentialException(
-                    IdentityErrorMessages.InvalidDisplayName);
+                    InvalidDisplayName);
             }
         }
     }

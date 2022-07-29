@@ -1,6 +1,6 @@
-﻿using Domain.Base;
+﻿using Domain.Common.Base;
 
-namespace Domain
+namespace Domain.Activities
 {
     public class Category : DomainModel
     {

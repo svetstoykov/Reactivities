@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models;
-using Domain;
+using Domain.Activities;
+using Domain.Common.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Models.Enumerations;
 
 namespace Persistence
@@ -15,7 +16,7 @@ namespace Persistence
         {
             await SeedUsers(userManager);
             await SeedCategories(context);
-            await SeedActivities(context);
+            await SeedActivities(context, userManager);
 
             await context.SaveChangesAsync();
         }
@@ -70,10 +71,14 @@ namespace Persistence
             await context.Categories.AddRangeAsync(categories);
         }
 
-        private static async Task SeedActivities(DataContext context)
+        private static async Task SeedActivities(DataContext context, UserManager<User> userManager)
         {
             if (context.Activities.Any())
                 return;
+
+            var users = await userManager.Users.ToListAsync();
+
+            var random = new Random();
 
             var activities = new List<Activity>
             {
@@ -85,6 +90,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Culture,
                     City = "London",
                     Venue = "Pub",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -94,6 +100,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Film,
                     City = "Paris",
                     Venue = "Louvre",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -103,6 +110,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Food,
                     City = "London",
                     Venue = "Natural History Museum",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -112,6 +120,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Drinks,
                     City = "London",
                     Venue = "O2 Arena",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -121,6 +130,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Drinks,
                     City = "London",
                     Venue = "Another pub",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -130,6 +140,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Music,
                     City = "London",
                     Venue = "Yet another pub",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -139,6 +150,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Music,
                     City = "London",
                     Venue = "Just another pub",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -148,6 +160,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Music,
                     City = "London",
                     Venue = "Roundhouse Camden",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -157,6 +170,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Travel,
                     City = "London",
                     Venue = "Somewhere on the Thames",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 },
                 new()
                 {
@@ -166,6 +180,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Film,
                     City = "London",
                     Venue = "Cinema",
+                    HostId = users[random.Next(0, users.Count - 1)].Id
                 }
             };
 

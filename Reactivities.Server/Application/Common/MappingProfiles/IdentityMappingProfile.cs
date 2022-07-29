@@ -1,6 +1,6 @@
-﻿using Application.Common.Identity.Models;
-using Application.Common.Identity.Models.Output;
+﻿using Application.Common.Identity.Models.Output;
 using AutoMapper;
+using Domain.Common.Identity;
 
 namespace Application.Common.MappingProfiles
 {
