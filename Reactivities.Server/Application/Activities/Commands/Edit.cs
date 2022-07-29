@@ -26,9 +26,9 @@ namespace Application.Activities.Commands
             private readonly IActivitiesDataService _activitiesDataService;
             private readonly IMapper _mapper;
 
-            public Handler(IActivitiesDataService _activitiesDataService, IMapper mapper)
+            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
             {
-                this._activitiesDataService = _activitiesDataService;
+                this._activitiesDataService = activitiesDataService;
                 this._mapper = mapper;
             }
 

@@ -10,10 +10,10 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.Common;
 
 namespace API.Activities.Controllers
 {
-    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
         public ActivitiesController(IMediator mediator, IMapper mapper)
@@ -32,6 +32,7 @@ namespace API.Activities.Controllers
                     await this.Mediator.Send(new Details.Query(id)));
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> DeleteActivity(int id)
             => this.HandleResult(await this.Mediator.Send(new Delete.Command(id)));
 
@@ -41,8 +42,9 @@ namespace API.Activities.Controllers
                 await this.Mediator.Send(new Categories.Query()));
 
         [HttpPost("updateStatus/{id}")]
+        [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> UpdateStatus(int id)
-            => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(id, this.GetCurrentUserId())));
+            => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(id)));
 
         [HttpPost("attend/{id}")]
         public async Task<IActionResult> Attend(int id)
@@ -53,17 +55,18 @@ namespace API.Activities.Controllers
         {
             var inputModel = this.Mapper.Map<CreateActivityInputModel>(request);
 
-            inputModel.SetHost(this.GetCurrentUserId());
+            inputModel.SetHostId(this.GetCurrentUserId());
 
             return this.HandleResult(await this.Mediator.Send(new Create.Command(inputModel)));
         }
 
         [HttpPut]
+        [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> EditActivity(ActivityApiModel request)
         {
             var inputModel = this.Mapper.Map<EditActivityInputModel>(request);
 
-            inputModel.SetHost(this.GetCurrentUserId());
+            inputModel.SetHostId(this.GetCurrentUserId());
 
             return this.HandleResult(await this.Mediator.Send(new Edit.Command(inputModel)));
         }

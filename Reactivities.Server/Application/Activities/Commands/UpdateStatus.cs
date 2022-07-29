@@ -13,14 +13,12 @@ public class UpdateStatus
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Command(int activityId, string userId)
+        public Command(int activityId)
         {
             ActivityId = activityId;
-            UserId = userId;
         }
         
         public int ActivityId { get; }
-        public string UserId { get; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -42,17 +40,6 @@ public class UpdateStatus
             {
                 return Result<Unit>.NotFound(string.Format(
                     ActivitiesErrorMessages.DoesNotExist, request.ActivityId));
-            }
-
-            var user = await this._userManager.FindByIdAsync(request.UserId);
-            if (user == null)
-            {
-                return Result<Unit>.NotFound(IdentityErrorMessages.InvalidUser);
-            }
-
-            if (activity.HostId != user.Id)
-            {
-                return Result<Unit>.Failure(ActivitiesErrorMessages.UpdateStatusNotFromHost);
             }
 
             activity.IsCancelled = !activity.IsCancelled;

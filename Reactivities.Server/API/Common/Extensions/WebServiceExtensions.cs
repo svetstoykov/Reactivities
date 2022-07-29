@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using API.Common.Identity.Services;
 using Domain.Common.Identity;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -56,6 +57,16 @@ namespace API.Common.Extensions
                         ValidateAudience = false
                     };
                 });
+
+            services.AddAuthorization(cfg =>
+            {
+                cfg.AddPolicy(GlobalConstants.IsActivityHostPolicy, policy =>
+                {
+                    policy.Requirements.Add(new IsHostRequirement());
+                });
+            });
+
+            services.AddScoped<IAuthorizationHandler, IsHostRequirementHandler>();
 
             return services;
         }
