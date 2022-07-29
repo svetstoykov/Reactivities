@@ -26,29 +26,35 @@ namespace API.Activities.Controllers
             => this.HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityApiModel>>(
                 await this.Mediator.Send(new List.Query()));
 
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetActivity(int id)
             =>  this.HandleMappingResult<ActivityOutputModel, ActivityApiModel>(
                     await this.Mediator.Send(new Details.Query(id)));
 
+        
         [HttpDelete("{id}")]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> DeleteActivity(int id)
             => this.HandleResult(await this.Mediator.Send(new Delete.Command(id)));
 
+        
         [HttpGet("categories")]
         public async Task<IActionResult> GetActivityCategories()
             => this.HandleMappingResult<IEnumerable<CategoryOutputModel>, IEnumerable<CategoryApiModel>>(
                 await this.Mediator.Send(new Categories.Query()));
 
+        
         [HttpPost("updateStatus/{id}")]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> UpdateStatus(int id)
             => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(id)));
 
+        
         [HttpPost("attend/{id}")]
         public async Task<IActionResult> Attend(int id)
             => this.HandleResult(await this.Mediator.Send(new Attend.Command(id, this.GetCurrentUserId())));
+        
         
         [HttpPost]
         public async Task<IActionResult> CreateActivity(ActivityApiModel request)
@@ -59,6 +65,7 @@ namespace API.Activities.Controllers
 
             return this.HandleResult(await this.Mediator.Send(new Create.Command(inputModel)));
         }
+        
 
         [HttpPut]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]

@@ -1,8 +1,5 @@
-import { BaseApiModel } from '../../base-api-model';
+import { BaseUserApiModel } from './base/base-user-api-model';
 
-export class UserApiModel extends BaseApiModel {
-    displayName: string;
+export class UserApiModel extends BaseUserApiModel {
     token: string;
-    username: string;
-    image: string;
 }

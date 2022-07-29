@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Activities.Models;
@@ -9,6 +10,7 @@ using Application.Activities.DataServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace API.Common.Identity.Services
 {
@@ -56,16 +58,23 @@ namespace API.Common.Identity.Services
 
             if (idFromQuery != default) return idFromQuery;
 
-            using var content = new StreamContent(request.Body);
-            
-            var contentString = await content.ReadAsStringAsync();
+            var requestContent = await GetRequestBodyContent(request);
 
-            var activityApiModel = JsonSerializer.Deserialize<ActivityApiModel>(contentString, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
+            var activityApiModel = JsonConvert.DeserializeObject<ActivityApiModel>(requestContent);
 
             return activityApiModel?.Id ?? default;
+        }
+
+        private static async Task<string> GetRequestBodyContent(HttpRequest request)
+        {
+            request.EnableBuffering();
+            var buffer = new byte[Convert.ToInt32(request.ContentLength)];
+            await request.Body.ReadAsync(buffer, 0, buffer.Length);
+
+            var requestContent = Encoding.UTF8.GetString(buffer);
+
+            request.Body.Position = 0;
+            return requestContent;
         }
     }
 }
