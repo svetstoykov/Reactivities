@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models.Base;
+using Application.Common.Identity.Models;
 using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
@@ -58,12 +58,7 @@ public class Register
             var profile = Profile.New(
                 request.Username, request.Email, request.DisplayName);
 
-            var user = new User
-            {
-                Email = profile.Email,
-                UserName = profile.UserName,
-                Profile = profile
-            };
+            var user = this._mapper.Map<User>(profile);
 
             var registerUser = await this._userManager.CreateAsync(user, request.Password);
 

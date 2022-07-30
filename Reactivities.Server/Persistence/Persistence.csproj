@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\DataServices\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 

@@ -4,7 +4,7 @@ using Application.Activities.DataServices;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
-using User = Application.Common.Identity.Models.Base.User;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Activities.Commands;
 
@@ -14,7 +14,7 @@ public class UpdateStatus
     {
         public Command(int activityId)
         {
-            ActivityId = activityId;
+            this.ActivityId = activityId;
         }
 
         public int ActivityId { get; }
@@ -23,12 +23,10 @@ public class UpdateStatus
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly IActivitiesDataService _activitiesDataService;
-        private readonly UserManager<User> _userManager;
 
-        public Handler(IActivitiesDataService activitiesDataService, UserManager<User> userManager)
+        public Handler(IActivitiesDataService activitiesDataService)
         {
-            _activitiesDataService = activitiesDataService;
-            _userManager = userManager;
+            this._activitiesDataService = activitiesDataService;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -38,7 +36,7 @@ public class UpdateStatus
 
             activity.IsCancelled = !activity.IsCancelled;
 
-            await _activitiesDataService.SaveChangesAsync(cancellationToken);
+            await this._activitiesDataService.SaveChangesAsync(cancellationToken);
             
             return Result<Unit>.Success(Unit.Value);
         }

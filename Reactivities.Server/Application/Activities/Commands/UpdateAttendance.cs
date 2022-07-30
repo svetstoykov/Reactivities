@@ -1,11 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
+using Application.Profiles.DataServices;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using User = Application.Common.Identity.Models.Base.User;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Activities.Commands;
 
@@ -26,33 +28,36 @@ public class UpdateAttendance
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly IActivitiesDataService _activitiesDataService;
-        private readonly UserManager<User> _userManager;
+        private readonly IProfileDataService _profileDataService;
 
-        public Handler(IActivitiesDataService activitiesDataService, UserManager<User> userManager)
+        public Handler(IActivitiesDataService activitiesDataService, IProfileDataService profileDataService)
         {
             this._activitiesDataService = activitiesDataService;
-            this._userManager = userManager;
+            this._profileDataService = profileDataService;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var activity = await this._activitiesDataService
                 .GetByIdAsync(request.ActivityId);
-            
-            var user = await this._userManager.FindByIdAsync(request.UserToAttend.ToString());
+
+            var user = await this._profileDataService
+                .GetByIdAsync(request.UserToAttend);
             if (user == null)
             {
-                return Result<Unit>.NotFound(IdentityErrorMessages.InvalidUser);
+                return Result<Unit>.NotFound(
+                    IdentityErrorMessages.InvalidUser);
             }
 
-            if (activity.HostId == user.ProfileId)
+            if (activity.HostId == user.Id)
             {
-                return Result<Unit>.Failure(ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
+                return Result<Unit>.Failure(
+                    ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
             }
 
-            if (!activity.Attendees.Remove(user.Profile))
+            if (!activity.Attendees.Remove(user))
             {
-                activity.Attendees.Add(user.Profile);
+                activity.Attendees.Add(user);
             }
 
             await this._activitiesDataService.SaveChangesAsync(cancellationToken);

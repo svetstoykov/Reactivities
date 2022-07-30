@@ -1,9 +1,13 @@
-﻿using Application.Common.Identity.Models.Base;
-
-namespace Application.Profiles.Models
+﻿namespace Application.Profiles.Models
 {
-    public class ProfileOutputModel : BaseUserOutputModel
+    public class ProfileOutputModel
     {
         public string Bio { get; set; }
+
+        public string DisplayName { get; set; }
+
+        public string Username { get; set; }
+
+        public string Image { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using Domain.Profiles;
 
 namespace Domain.Activities
 {
-    public class Activity : DomainModel
+    public class Activity : DomainEntity
     {
         public string Title { get; set; }
 

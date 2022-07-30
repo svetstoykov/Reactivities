@@ -1,4 +1,4 @@
-﻿using Application.Common.Identity.Models.Base;
+﻿using Application.Common.Identity.Models;
 using Domain.Activities;
 using Domain.Profiles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

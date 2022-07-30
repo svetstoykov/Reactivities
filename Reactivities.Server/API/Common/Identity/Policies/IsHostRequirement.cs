@@ -36,7 +36,7 @@ namespace API.Common.Identity.Policies
             var activityId = await this.GetActivityIdFromRequestAsync();
 
             var activity = await this._activitiesDataService
-                .GetActivitiesQueryable()
+                .GetAsQueryable()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == activityId);
 

@@ -32,7 +32,7 @@ namespace Application.Activities.Queries
                 CancellationToken cancellationToken)
             {
                 var activities = await this._activitiesDataService
-                    .GetActivitiesQueryable()
+                    .GetAsQueryable()
                     .ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 

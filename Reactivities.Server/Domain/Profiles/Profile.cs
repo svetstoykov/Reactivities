@@ -2,10 +2,11 @@
 using System.Security.Authentication;
 using Domain.Activities;
 using Domain.Activities.ErrorHandling;
+using Domain.Common.Base;
 
 namespace Domain.Profiles
 {
-    public class Profile
+    public class Profile : DomainEntity
     {
         private Profile()
         {

@@ -1,6 +1,6 @@
 ﻿using Application.Common.Identity.Models.Output;
 using AutoMapper;
-using User = Application.Common.Identity.Models.Base.User;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.MappingProfiles
 {
@@ -10,7 +10,15 @@ namespace Application.Common.MappingProfiles
         {
             this.CreateMap<User, UserOutputModel>()
                 .ForMember(dest => dest.Username,
-                    opt => opt.MapFrom(src => src.UserName));
+                    opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.DisplayName,
+                    opt => opt.MapFrom(src => src.Profile.DisplayName))
+                .ForMember(dest => dest.ProfileImage,
+                    opt => opt.MapFrom(src => src.Profile.ProfilePictureUrl));
+
+            this.CreateMap<Profile, User>()
+                .ForMember(dest => dest.Profile,
+                    opt => opt.MapFrom(src => src));
         }
     }
 }

@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models.Base;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Models.ErrorHandling.Helpers;
 using Persistence;
+using Application.Common.Identity.Models;
+using Persistence.Profiles;
 
 namespace API
 {
@@ -26,9 +27,10 @@ namespace API
             {
                 var context = services.GetRequiredService<DataContext>();
                 var userManager = services.GetRequiredService<UserManager<User>>();
+                var profileDataService = services.GetRequiredService<ProfilesDataService>();
 
                 await context.Database.MigrateAsync();
-                await Seed.SeedData(context, userManager);
+                await Seed.SeedData(context, userManager, profileDataService);
             }
             catch (Exception e)
             {

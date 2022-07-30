@@ -1,7 +1,7 @@
 ﻿using Domain.Profiles;
 using Microsoft.AspNetCore.Identity;
 
-namespace Application.Common.Identity.Models.Base
+namespace Application.Common.Identity.Models
 {
     public class User : IdentityUser
     {

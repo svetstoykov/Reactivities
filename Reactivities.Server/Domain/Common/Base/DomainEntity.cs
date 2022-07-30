@@ -1,6 +1,6 @@
 ﻿namespace Domain.Common.Base
 {
-    public abstract class DomainModel
+    public abstract class DomainEntity
     {
         public int Id { get; set; }
     }

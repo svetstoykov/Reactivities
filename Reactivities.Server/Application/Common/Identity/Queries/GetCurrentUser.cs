@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using User = Application.Common.Identity.Models.Base.User;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.Identity.Queries
 {

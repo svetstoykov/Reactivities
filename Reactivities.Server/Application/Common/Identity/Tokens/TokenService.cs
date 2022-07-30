@@ -7,7 +7,7 @@ using Application.Common.Identity.Tokens.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models.Common;
-using User = Application.Common.Identity.Models.Base.User;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.Identity.Tokens
 {

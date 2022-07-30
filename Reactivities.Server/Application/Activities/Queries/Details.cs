@@ -36,7 +36,7 @@ namespace Application.Activities.Queries
             public async Task<Result<ActivityOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var activity = await this._activitiesDataService
-                    .GetActivitiesQueryable()
+                    .GetAsQueryable()
                     .ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(a => a.Id == request.Id, cancellationToken);
 

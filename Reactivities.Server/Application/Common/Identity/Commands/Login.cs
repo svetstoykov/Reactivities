@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using User = Application.Common.Identity.Models.Base.User;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.Identity.Commands;
 
@@ -45,7 +45,6 @@ public class Login
             this._mapper = mapper;
         }
 
-
         public async Task<Result<UserOutputModel>> Handle(Command request, CancellationToken cancellationToken)
         {
             var user = await this._userManager.FindByEmailAsync(request.Email);
@@ -56,7 +55,8 @@ public class Login
                     IdentityErrorMessages.InvalidEmail);
             }
 
-            var signInResult = await this._signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            var signInResult = await this._signInManager
+                .CheckPasswordSignInAsync(user, request.Password, false);
 
             if (signInResult.Succeeded)
             {

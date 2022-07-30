@@ -2,7 +2,7 @@
 
 namespace Domain.Activities
 {
-    public class Category : DomainModel
+    public class Category : DomainEntity
     {
         public string Name { get; set; }
     }
