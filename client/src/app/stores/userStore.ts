@@ -18,9 +18,9 @@ export default class UserStore {
         return !!this.user;
     }
 
-    get currentUser(){
+    get currentUser() {
         return this.user;
-    };
+    }
 
     login = async (creds: LoginApiModel) => {
         try {
@@ -57,8 +57,9 @@ export default class UserStore {
         return this.user?.username === activityHostUsername;
     };
 
-    isUserGoingToActivity = (acivityAttendees: ProfileApiModel[] | undefined) => {
-        return acivityAttendees?.some((a) => a.username === this.user?.username);
+    isUserGoingToActivity = (activityId: number) => {
+        return store.activityStore.activitiesRegistry.get(activityId)
+            ?.attendees.some((a) => a.username === this.user?.username);
     };
 
     loadCurrentUser = async () => {
@@ -70,16 +71,16 @@ export default class UserStore {
         }
     };
 
-    getUserProfileModel = (user: UserApiModel) =>{
+    getUserProfileModel = (user: UserApiModel) => {
         const profileApiModel: ProfileApiModel = {
             displayName: user.displayName,
             username: user.username,
             image: user.image,
-            bio: ""
-        }
+            bio: "",
+        };
 
         return profileApiModel;
-    }
+    };
 
     private setUserAndCloseModal = (user: UserApiModel) => {
         if (user) {

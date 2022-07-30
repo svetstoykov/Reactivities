@@ -24,12 +24,22 @@ interface Props {
 }
 
 export default observer(function ActivityDetailedHeader({ activity }: Props) {
-    const { userStore, activityStore: {updateAttendance, loading} } = useStore();
-
+    const {
+        userStore,
+        activityStore: { updateAttendance, updateStatus, loading },
+    } = useStore();
 
     return (
         <Segment.Group>
             <Segment basic attached="top" style={{ padding: "0" }}>
+                {activity.isCancelled && (
+                    <Label
+                        content="Cancelled"
+                        color="red"
+                        style={{ position: "absolute", zIndex: 1000, left: -14, top: 20 }}
+                        ribbon
+                    />
+                )}
                 <Image
                     src={`/assets/categoryImages/${activity.category}.jpg`}
                     fluid
@@ -55,13 +65,31 @@ export default observer(function ActivityDetailedHeader({ activity }: Props) {
             </Segment>
             <Segment clearing attached="bottom">
                 {userStore.isUserActivityHost(activity.host.username) ? (
-                    <Button as={Link} to={`/manage/${activity.id}`} color="orange" floated="right">
-                        Manage Event
+                    <>
+                        <Button
+                            loading={loading}
+                            onClick={updateStatus}
+                            color={activity.isCancelled ? "green" : "red"}
+                            content={
+                                activity.isCancelled ? "Re-activate Activity" : "Cancel Activity"
+                            }
+                        />
+                        <Button
+                            as={Link}
+                            to={`/manage/${activity.id}`}
+                            color="orange"
+                            floated="right">
+                            Manage Event
+                        </Button>
+                    </>
+                ) : userStore.isUserGoingToActivity(activity.id!) ? (
+                    <Button onClick={updateAttendance} loading={loading}>
+                        Cancel attendance
                     </Button>
-                ) : userStore.isUserGoingToActivity(activity.attendees) ? (
-                    <Button onClick={updateAttendance} loading={loading}>Cancel attendance</Button>
                 ) : (
-                    <Button onClick={updateAttendance} loading={loading} color="teal">Join Activity</Button>
+                    <Button onClick={updateAttendance} loading={loading} color="teal">
+                        Join Activity
+                    </Button>
                 )}
             </Segment>
         </Segment.Group>

@@ -16,6 +16,7 @@ export default function ActivityListItem({ activity }: Props) {
 
     return (
         <Segment.Group>
+            {activity.isCancelled && <Label attached="top" color="red" content="Cancelled" />}
             <Segment>
                 <Item.Group>
                     <Item>
@@ -44,7 +45,7 @@ export default function ActivityListItem({ activity }: Props) {
                                     </Label>
                                 </Item.Description>
                             )}
-                            {userStore.isUserGoingToActivity(activity.attendees) && (
+                            {userStore.isUserGoingToActivity(activity.id!) && (
                                 <Item.Description>
                                     <Label basic color="green">
                                         You are going to this activity

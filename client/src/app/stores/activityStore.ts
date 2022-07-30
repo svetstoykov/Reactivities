@@ -86,7 +86,7 @@ export default class ActivityStore {
     };
 
     createActivity = async (newActivity: ActivityApiModel) => {
-        this.loading = true;
+        this.setLoading(true);
         try {
             var id = await agent.Activities.create(newActivity);
             newActivity.id = id;
@@ -97,13 +97,13 @@ export default class ActivityStore {
 
             this.closeLoadingAndSelectActivity(newActivity);
         } catch (ex) {
-            this.loading = false;
+            this.setLoading(false);
             throw new Error();
         }
     };
 
     updateActivity = async (activity: ActivityApiModel) => {
-        this.loading = true;
+        this.setLoading(true);
         try {
             await agent.Activities.update(activity);
             runInAction(() => {
@@ -112,19 +112,19 @@ export default class ActivityStore {
 
             this.closeLoadingAndSelectActivity(activity);
         } catch (ex) {
-            this.loading = false;
+            this.setLoading(false);
             throw new Error();
         }
     };
 
     deleteActivity = async (id: number) => {
-        this.loading = true;
+        this.setLoading(true);
         try {
             await agent.Activities.delete(id);
             runInAction(() => {
                 this.activitiesRegistry.delete(id);
-                this.loading = false;
             });
+            this.setLoading(false);
         } catch (ex) {
             this.logException(ex);
         }
@@ -133,13 +133,14 @@ export default class ActivityStore {
     updateAttendance = async () => {
         const user = store.userStore.currentUser;
         const activityId = this.selectedActivity!.id!;
-        this.loading = true;
+        this.setLoading(true);
         try {
             await agent.Activities.updateAttendance(activityId);
-            if (store.userStore.isUserGoingToActivity(this.selectedActivity?.attendees)) {
+            if (store.userStore.isUserGoingToActivity(this.selectedActivity?.id!)) {
                 this.setAttendees(
-                    this.selectedActivity!.attendees?.filter((a) => a.username !== user?.username));
-                    
+                    this.selectedActivity!.attendees?.filter((a) => a.username !== user?.username)
+                );
+
                 return;
             }
 
@@ -148,8 +149,22 @@ export default class ActivityStore {
             this.addAtendee(newAttendee);
         } catch (error) {
             this.logException(error);
-        } finally{
-            runInAction(() => this.loading = false)
+        } finally {
+            this.setLoading(false);
+        }
+    };
+
+    updateStatus = async () => {
+        this.setLoading(true);
+        try {
+            await agent.Activities.updateStatus(this.selectedActivity?.id!);
+            runInAction(
+                () => (this.selectedActivity!.isCancelled = !this.selectedActivity?.isCancelled)
+            );
+        } catch (error) {
+            this.logException(error);
+        } finally {
+            this.setLoading(false);
         }
     };
 
@@ -176,6 +191,10 @@ export default class ActivityStore {
     private logException = (ex: any) => {
         console.log(ex);
         this.loading = false;
+    };
+
+    private setLoading = (state: boolean) => {
+        this.loading = state;
     };
 
     private setActivity(activity: ActivityApiModel) {
