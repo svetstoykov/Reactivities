@@ -30,22 +30,13 @@ namespace Application.Activities.Commands
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var domainDto = await this._activitiesDataService.GetByIdAsync(request.Id);
-
-                if (domainDto == null)
-                {
-                    return Result<Unit>.NotFound(
-                        ActivitiesErrorMessages.DoesNotExist);
-                }
+                var domainDto = await this._activitiesDataService
+                    .GetByIdAsync(request.Id);
 
                 this._activitiesDataService.Remove(domainDto);
 
-                var deleteResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken) > 0;
-                if (!deleteResult)
-                {
-                    return Result<Unit>.Failure(
-                        ActivitiesErrorMessages.DeleteError);
-                }
+                await this._activitiesDataService.SaveChangesAsync(
+                    cancellationToken, ActivitiesErrorMessages.DeleteError);
 
                 return Result<Unit>.Success(Unit.Value);
             }

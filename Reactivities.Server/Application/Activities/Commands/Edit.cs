@@ -34,24 +34,15 @@ namespace Application.Activities.Commands
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var domainDto = await this._activitiesDataService.GetByIdAsync(request.Dto.Id);
-
-                if (domainDto == null)
-                {
-                    return Result<Unit>.NotFound(
-                        ActivitiesErrorMessages.DoesNotExist);
-                }
-
+                var domainDto = await this._activitiesDataService
+                    .GetByIdAsync(request.Dto.Id);
+                
                 this._mapper.Map(request.Dto, domainDto);
 
                 this._activitiesDataService.Update(domainDto);
 
-                var editResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken) > 0;
-                if (!editResult)
-                {
-                    return Result<Unit>.Failure(
-                        ActivitiesErrorMessages.EditError);
-                }
+                await this._activitiesDataService.SaveChangesAsync(
+                    cancellationToken, ActivitiesErrorMessages.EditError);
 
                 return Result<Unit>.Success(Unit.Value);
             }

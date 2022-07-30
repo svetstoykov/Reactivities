@@ -47,9 +47,9 @@ namespace API.Activities.Controllers
         public async Task<IActionResult> UpdateStatus(int id)
             => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(id)));
 
-        [HttpPost("attend/{id}")]
-        public async Task<IActionResult> Attend(int id)
-            => this.HandleResult(await this.Mediator.Send(new Attend.Command(id, this.GetCurrentUserId())));
+        [HttpPost("updateAttendance/{id}")]
+        public async Task<IActionResult> UpdateAttendance(int id)
+            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(id, this.GetCurrentUserId())));
 
         [HttpPost]
         public async Task<IActionResult> CreateActivity(ActivityApiModel request)

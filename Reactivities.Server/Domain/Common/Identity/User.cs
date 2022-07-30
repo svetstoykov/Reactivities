@@ -31,7 +31,7 @@ namespace Domain.Common.Identity
                 Bio = bio
             };
         }
-
+        
         private static void ValidateUser(string userName, string email, string displayName)
         {
             if (string.IsNullOrEmpty(userName))

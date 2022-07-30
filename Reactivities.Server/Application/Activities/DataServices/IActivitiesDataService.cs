@@ -14,14 +14,14 @@ namespace Application.Activities.DataServices
 
         Task<ICollection<Category>> GetCategoriesAsync(Func<Category, bool> predicate = null);
 
-        Task<Activity> GetByIdAsync(int id);
- 
+        Task<Activity> GetByIdAsync(int id, bool throwExceptionIfNull = true);
+
         public void Create(Activity activity);
 
         public void Update(Activity activity);
 
         public void Remove(Activity activity);
 
-        Task<int> SaveChangesAsync(CancellationToken token = default);
+        Task SaveChangesAsync(CancellationToken token = default, string errorToShow = null);
     }
 }

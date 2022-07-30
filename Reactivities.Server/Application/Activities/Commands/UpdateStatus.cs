@@ -17,7 +17,7 @@ public class UpdateStatus
         {
             ActivityId = activityId;
         }
-        
+
         public int ActivityId { get; }
     }
 
@@ -36,17 +36,12 @@ public class UpdateStatus
         {
             var activity = await this._activitiesDataService
                 .GetByIdAsync(request.ActivityId);
-            if (activity == null)
-            {
-                return Result<Unit>.NotFound(string.Format(
-                    ActivitiesErrorMessages.DoesNotExist, request.ActivityId));
-            }
 
             activity.IsCancelled = !activity.IsCancelled;
 
-            return await _activitiesDataService.SaveChangesAsync(cancellationToken) > 0
-                ? Result<Unit>.Success(Unit.Value)
-                : Result<Unit>.Failure();
+            await _activitiesDataService.SaveChangesAsync(cancellationToken);
+            
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

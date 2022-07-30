@@ -9,7 +9,6 @@ import { store } from "./store";
 
 export default class UserStore {
     private user: UserApiModel | null = null;
-    isUserGoingToActivity2: boolean;
 
     constructor() {
         makeAutoObservable(this);
@@ -18,6 +17,10 @@ export default class UserStore {
     get IsLoggedIn() {
         return !!this.user;
     }
+
+    get currentUser(){
+        return this.user;
+    };
 
     login = async (creds: LoginApiModel) => {
         try {
@@ -50,16 +53,12 @@ export default class UserStore {
         history.push("/");
     };
 
-    isUserActivityHost = (activityHostUsername: string) => {
+    isUserActivityHost = (activityHostUsername: string | undefined) => {
         return this.user?.username === activityHostUsername;
     };
 
-    isUserGoingToActivity = (acivityAttendees: ProfileApiModel[]) => {
-        return acivityAttendees.some((a) => a.username === this.user?.username);
-    };
-
-    getCurrentUser = () => {
-        return this.user;
+    isUserGoingToActivity = (acivityAttendees: ProfileApiModel[] | undefined) => {
+        return acivityAttendees?.some((a) => a.username === this.user?.username);
     };
 
     loadCurrentUser = async () => {
@@ -70,6 +69,17 @@ export default class UserStore {
             console.log(error);
         }
     };
+
+    getUserProfileModel = (user: UserApiModel) =>{
+        const profileApiModel: ProfileApiModel = {
+            displayName: user.displayName,
+            username: user.username,
+            image: user.image,
+            bio: ""
+        }
+
+        return profileApiModel;
+    }
 
     private setUserAndCloseModal = (user: UserApiModel) => {
         if (user) {

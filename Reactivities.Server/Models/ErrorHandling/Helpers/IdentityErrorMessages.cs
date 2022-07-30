@@ -14,7 +14,7 @@
 
         public const string InvalidUser = "Failed to load user";
 
-        public const string InvalidEmail = "Invalid user email.";
+        public const string InvalidEmail = "Invalid user email";
 
         public const string FailedLogin = "Incorrect user credentials. Please double check email/password";
     }
