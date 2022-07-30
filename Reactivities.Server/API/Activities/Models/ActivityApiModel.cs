@@ -23,7 +23,7 @@ namespace API.Activities.Models
         
         public string Venue { get; set; }
         
-        public string HostName { get; set; }
+        public ProfileApiModel Host { get; set; }
         
         public bool IsCancelled { get; set; }
 

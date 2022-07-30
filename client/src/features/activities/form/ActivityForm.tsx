@@ -39,7 +39,7 @@ function ActivityForm() {
         category: "",
         city: "",
         venue: "",
-        hostName: "",
+        host: new ProfileApiModel(),
         attendees: new Array<ProfileApiModel>(),
         isCancelled: false
     };

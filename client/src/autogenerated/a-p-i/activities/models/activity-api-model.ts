@@ -10,7 +10,7 @@ export class ActivityApiModel extends BaseApiModel {
     category: string;
     city: string;
     venue: string;
-    hostName: string;
+    host = new ProfileApiModel();
     isCancelled: boolean;
     attendees = new Array<ProfileApiModel>();
 }
