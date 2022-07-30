@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 using API.Activities.Models;
 using Application.Activities.DataServices;
@@ -12,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
-namespace API.Common.Identity.Services
+namespace API.Common.Identity.Policies
 {
     public class IsHostRequirement : IAuthorizationRequirement
     {

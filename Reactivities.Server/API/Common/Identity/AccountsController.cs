@@ -21,31 +21,17 @@ namespace API.Common.Identity
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginApiModel request)
-        {
-            var loginResult = await this.Mediator.Send(
-                new Login.Command(request.Email, request.Password));
-
-            return this.HandleMappingResult<UserOutputModel, UserApiModel>(loginResult);
-        }
+            => this.HandleMappingResult<UserOutputModel, UserApiModel>(await this.Mediator.Send(
+                new Login.Command(request.Email, request.Password)));
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterApiModel request)
-        {
-            var registrationResult = await this.Mediator.Send(
-                new Register.Command(request.DisplayName, request.Username, request.Password, request.Email));
-
-            return this.HandleMappingResult<UserOutputModel, UserApiModel>(registrationResult);
-        }
-
+            => this.HandleMappingResult<UserOutputModel, UserApiModel>(await this.Mediator.Send(
+                new Register.Command(request.DisplayName, request.Username, request.Password, request.Email)));
+        
         [HttpGet]
         public async Task<IActionResult> GetCurrentUser()
-        {
-            var currentUserEmail = this.GetCurrentUserEmail();
-
-            var currentUserResult = await this.Mediator.Send(
-                new GetCurrentUser.Query(currentUserEmail));
-
-            return this.HandleMappingResult<UserOutputModel, UserApiModel>(currentUserResult);
-        }
+            => this.HandleMappingResult<UserOutputModel, UserApiModel>(await this.Mediator.Send(
+                new GetCurrentUser.Query(this.GetCurrentUserEmail())));
     }
 }
