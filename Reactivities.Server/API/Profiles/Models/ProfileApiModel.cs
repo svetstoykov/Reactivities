@@ -1,6 +1,6 @@
 ﻿using API.Common.Identity.Models.Base;
 
-namespace API.Common.Identity.Models;
+namespace API.Profiles.Models;
 
 public class ProfileApiModel : BaseUserApiModel
 {

@@ -94,6 +94,8 @@ const showToasterErrorNotification = (status: number, data: any) => {
             store.commonStore.setServerError(data);
             history.push("/server-error");
             break;
+        default:
+            toast.warning("Unable to perform action.")
     }
 }
 

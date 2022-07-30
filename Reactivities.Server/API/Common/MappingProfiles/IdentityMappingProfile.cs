@@ -1,4 +1,5 @@
 ﻿using API.Common.Identity.Models;
+using API.Profiles.Models;
 using Application.Common.Identity.Models.Output;
 using AutoMapper;
 
@@ -9,8 +10,6 @@ namespace API.Common.MappingProfiles
         public IdentityMappingProfile()
         {
             this.CreateMap<UserOutputModel, UserApiModel>();
-            
-            this.CreateMap<UserOutputModel, ProfileApiModel>();
         }
     }
 }

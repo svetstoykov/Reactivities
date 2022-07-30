@@ -7,9 +7,9 @@ using Models.Enumerations;
 
 namespace API.Common.MappingProfiles
 {
-    public class ActivityMappingProfile : Profile
+    public class ActivitiesMappingProfile : Profile
     {
-        public ActivityMappingProfile()
+        public ActivitiesMappingProfile()
         {
             this.CreateMap<ActivityApiModel, CreateEditActivityBaseInputModel>()
                 .Include<ActivityApiModel, CreateActivityInputModel>()

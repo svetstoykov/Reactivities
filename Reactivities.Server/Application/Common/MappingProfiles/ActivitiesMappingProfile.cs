@@ -7,10 +7,10 @@ using Models.Enumerations;
 
 namespace Application.Common.MappingProfiles
 {
-    public class ActivityMappingProfile : Profile
+    public class ActivitiesMappingProfile : Profile
     {
 
-        public ActivityMappingProfile()
+        public ActivitiesMappingProfile()
         {
             this.CreateMap<CreateActivityInputModel, Activity>();
 
