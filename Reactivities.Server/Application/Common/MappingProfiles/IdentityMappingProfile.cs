@@ -13,7 +13,7 @@ namespace Application.Common.MappingProfiles
                     opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.DisplayName,
                     opt => opt.MapFrom(src => src.Profile.DisplayName))
-                .ForMember(dest => dest.ProfileImage,
+                .ForMember(dest => dest.ProfilePictureUrl,
                     opt => opt.MapFrom(src => src.Profile.ProfilePictureUrl));
 
             this.CreateMap<Profile, User>()

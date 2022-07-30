@@ -4,7 +4,7 @@ using Domain.Profiles;
 
 namespace Application.Profiles.DataServices
 {
-    public interface IProfileDataService : IEntityDataService<Profile>
+    public interface IProfilesDataService : IEntityDataService<Profile>
     {
         Task<Profile> GetByIdAsync(int id);
     }

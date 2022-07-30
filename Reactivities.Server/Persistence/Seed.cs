@@ -14,11 +14,11 @@ namespace Persistence
 {
     public class Seed
     {
-        public static async Task SeedData(DataContext context, UserManager<User> userManager, ProfilesDataService profilesDataService)
+        public static async Task SeedData(DataContext context, UserManager<User> userManager)
         {
             await SeedUsers(userManager);
             await SeedCategories(context);
-            //await SeedActivities(context, userManager);
+            await SeedActivities(context, userManager);
 
             await context.SaveChangesAsync();
         }
@@ -60,12 +60,14 @@ namespace Persistence
             await context.Categories.AddRangeAsync(categories);
         }
 
-        private static async Task SeedActivities(DataContext context, ProfilesDataService profilesDataService)
+        private static async Task SeedActivities(DataContext context, UserManager<User> userManager)
         {
             if (context.Activities.Any())
                 return;
 
-            var profiles = await profilesDataService.GetAsQueryable().ToListAsync();
+            var profiles = await userManager.Users
+                .Select(u => u.Profile)
+                .ToListAsync();
 
             var random = new Random();
 

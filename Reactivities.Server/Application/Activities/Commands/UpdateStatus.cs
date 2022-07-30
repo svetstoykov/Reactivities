@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Models.Common;
-using User = Application.Common.Identity.Models.User;
 
 namespace Application.Activities.Commands;
 

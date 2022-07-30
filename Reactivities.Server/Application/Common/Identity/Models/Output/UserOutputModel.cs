@@ -8,6 +8,6 @@
 
         public string Token { get; set; }
 
-        public string ProfileImage { get; set; }
+        public string ProfilePictureUrl { get; set; }
     }
 }

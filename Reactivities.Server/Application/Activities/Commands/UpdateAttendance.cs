@@ -3,11 +3,8 @@ using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Profiles.DataServices;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
-using User = Application.Common.Identity.Models.User;
 
 namespace Application.Activities.Commands;
 
@@ -28,12 +25,12 @@ public class UpdateAttendance
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly IActivitiesDataService _activitiesDataService;
-        private readonly IProfileDataService _profileDataService;
+        private readonly IProfilesDataService _profilesDataService;
 
-        public Handler(IActivitiesDataService activitiesDataService, IProfileDataService profileDataService)
+        public Handler(IActivitiesDataService activitiesDataService, IProfilesDataService profilesDataService)
         {
             this._activitiesDataService = activitiesDataService;
-            this._profileDataService = profileDataService;
+            this._profilesDataService = profilesDataService;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
@@ -41,23 +38,23 @@ public class UpdateAttendance
             var activity = await this._activitiesDataService
                 .GetByIdAsync(request.ActivityId);
 
-            var user = await this._profileDataService
+            var profile = await this._profilesDataService
                 .GetByIdAsync(request.UserToAttend);
-            if (user == null)
+            if (profile == null)
             {
                 return Result<Unit>.NotFound(
                     IdentityErrorMessages.InvalidUser);
             }
 
-            if (activity.HostId == user.Id)
+            if (activity.HostId == profile.Id)
             {
                 return Result<Unit>.Failure(
                     ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
             }
 
-            if (!activity.Attendees.Remove(user))
+            if (!activity.Attendees.Remove(profile))
             {
-                activity.Attendees.Add(user);
+                activity.Attendees.Add(profile);
             }
 
             await this._activitiesDataService.SaveChangesAsync(cancellationToken);

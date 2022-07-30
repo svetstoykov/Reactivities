@@ -17,7 +17,7 @@ namespace API
     {
         public static async Task Main(string[] args)
         {
-            var host = Program.CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
             using var scope = host.Services.CreateScope();
 
@@ -27,10 +27,9 @@ namespace API
             {
                 var context = services.GetRequiredService<DataContext>();
                 var userManager = services.GetRequiredService<UserManager<User>>();
-                var profileDataService = services.GetRequiredService<ProfilesDataService>();
 
                 await context.Database.MigrateAsync();
-                await Seed.SeedData(context, userManager, profileDataService);
+                await Seed.SeedData(context, userManager);
             }
             catch (Exception e)
             {

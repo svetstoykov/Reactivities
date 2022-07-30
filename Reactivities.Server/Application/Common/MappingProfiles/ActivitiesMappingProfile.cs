@@ -1,7 +1,6 @@
 ﻿using Application.Activities.Models.Base;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
-using AutoMapper;
 using Domain.Activities;
 using Models.Enumerations;
 
