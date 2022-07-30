@@ -6,7 +6,7 @@ namespace Persistence.Common.Extensions
 {
     public static class PersistenceExtensions
     {
-        public static IServiceCollection AddInfrastructureServices(
+        public static IServiceCollection AddPersistenceServices(
             this IServiceCollection services,
             IConfiguration config)
         {

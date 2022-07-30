@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using API.Common.Middleware.ErrorHandling;
+using Infrastructure.Common.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Models.Common;
@@ -26,8 +27,9 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddWebServices(this._config)
                 .AddApplicationServices()
+                .AddWebServices(this._config)
+                .AddPersistenceServices(this._config)
                 .AddInfrastructureServices(this._config);
         }
 

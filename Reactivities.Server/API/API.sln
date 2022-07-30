@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebAPI", "WebAPI", "{CA9F4B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPIGenerator", "..\WebAPIProxyGenerator\WebAPIGenerator.csproj", "{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "..\Infrastructure\Infrastructure.csproj", "{CA74E3B3-750C-406F-928F-C2B9EE650BA1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA74E3B3-750C-406F-928F-C2B9EE650BA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA74E3B3-750C-406F-928F-C2B9EE650BA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA74E3B3-750C-406F-928F-C2B9EE650BA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA74E3B3-750C-406F-928F-C2B9EE650BA1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{8AB90331-8806-483B-A0E6-D2F94F9B0C31} = {2810E847-4B44-4BA3-9690-460C41402EE0}
 		{E087EB85-47DA-45D2-9ED6-B24101E923F7} = {11F96B55-6858-4479-A10F-83565E4D1A77}
 		{B1C8CB8A-EE70-47B7-AB08-D783FE079E2A} = {D94CE2AE-0067-4EFB-9CE0-7120EB431CF2}
+		{CA74E3B3-750C-406F-928F-C2B9EE650BA1} = {2810E847-4B44-4BA3-9690-460C41402EE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {64C4C174-2BB1-4748-BDD3-0428EE09A295}
