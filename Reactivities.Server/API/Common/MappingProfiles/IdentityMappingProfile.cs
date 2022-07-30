@@ -1,5 +1,4 @@
 ﻿using API.Common.Identity.Models;
-using API.Profiles.Models;
 using Application.Common.Identity.Models.Output;
 using AutoMapper;
 

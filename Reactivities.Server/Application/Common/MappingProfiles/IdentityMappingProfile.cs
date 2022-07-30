@@ -1,6 +1,6 @@
 ﻿using Application.Common.Identity.Models.Output;
 using AutoMapper;
-using Domain.Common.Identity;
+using User = Application.Common.Identity.Models.Base.User;
 
 namespace Application.Common.MappingProfiles
 {

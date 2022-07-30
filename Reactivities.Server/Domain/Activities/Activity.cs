@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain.Common.Base;
-using Domain.Common.Identity;
+using Domain.Profiles;
 
 namespace Domain.Activities
 {
@@ -21,12 +21,12 @@ namespace Domain.Activities
         
         public Category Category { get; set; }
         
-        public string HostId { get; set; }
+        public int HostId { get; set; }
         
-        public User Host { get; set; }
+        public Profile Host { get; set; }
 
         public bool IsCancelled { get; set; }
 
-        public ICollection<User> Attendees { get; set; } = new List<User>();
+        public ICollection<Profile> Attendees { get; set; } = new List<Profile>();
     }
 }

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.DataServices;
 using Domain.Activities;
 
 namespace Application.Activities.DataServices
 {
-    public interface IActivitiesDataService : IBaseDataService
+    public interface IActivitiesDataService
     {
         public IQueryable<Activity> GetActivitiesQueryable();
 

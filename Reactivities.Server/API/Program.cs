@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Application.Common.Identity.Models.Base;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 using Models.ErrorHandling.Helpers;
 using Persistence;
-using Domain.Common.Identity;
 
 namespace API
 {

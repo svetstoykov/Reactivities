@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
-using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
+using User = Application.Common.Identity.Models.Base.User;
 
 namespace Application.Common.Identity.Commands;
 

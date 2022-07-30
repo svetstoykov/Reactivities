@@ -42,7 +42,7 @@ namespace API.Common.Identity.Policies
 
             if (activity == null) return;
             
-            if(activity.HostId == userId) context.Succeed(requirement);
+            if(activity.HostId == Convert.ToInt32(userId)) context.Succeed(requirement);
         }
 
         private async Task<int> GetActivityIdFromRequestAsync()

@@ -7,7 +7,7 @@ using Models.Enumerations;
 
 namespace Application.Common.MappingProfiles
 {
-    public class ActivitiesMappingProfile : Profile
+    public class ActivitiesMappingProfile : AutoMapper.Profile
     {
 
         public ActivitiesMappingProfile()

@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
-using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
+using User = Application.Common.Identity.Models.Base.User;
 
 namespace Application.Activities.Commands;
 

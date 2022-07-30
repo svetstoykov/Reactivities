@@ -17,8 +17,8 @@ namespace Application.Activities.Models.Base
 
         public string Venue { get; init; }
         
-        public string HostId { get; private set; }
+        public int HostId { get; private set; }
 
-        public void SetHostId(string hostId) => HostId = hostId;
+        public void SetHostId(int hostId) => this.HostId = hostId;
     }
 }

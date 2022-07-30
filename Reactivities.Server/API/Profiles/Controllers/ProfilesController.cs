@@ -2,9 +2,7 @@
 using API.Common.Controllers;
 using AutoMapper;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Common;
 
 namespace API.Profiles.Controllers
 {

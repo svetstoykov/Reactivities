@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Models.ErrorHandling;
 using Models.ErrorHandling.Helpers;
 
-namespace Persistence.DataServices
+namespace Persistence.Activities
 {
     public class ActivitiesDataService : IActivitiesDataService
     {

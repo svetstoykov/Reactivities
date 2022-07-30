@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using Application.Profiles.Models;
+using AutoMapper;
+using User = Application.Common.Identity.Models.Base.User;
 
 namespace Application.Common.MappingProfiles
 {
@@ -6,6 +8,10 @@ namespace Application.Common.MappingProfiles
     {
         public ProfilesMappingProfile()
         {
+
+            this.CreateMap<User, ProfileOutputModel>()
+                .ForMember(dest => dest.Username,
+                    opt => opt.MapFrom(src => src.UserName));
         }
     }
 }

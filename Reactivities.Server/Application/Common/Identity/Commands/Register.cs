@@ -1,14 +1,15 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.Identity.Models.Base;
 using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
-using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Models.ErrorHandling.Helpers;
+using Profile = Domain.Profiles.Profile;
 
 namespace Application.Common.Identity.Commands;
 
@@ -54,8 +55,15 @@ public class Register
                 return validationResult;
             }
 
-            var user = User.New(
+            var profile = Profile.New(
                 request.Username, request.Email, request.DisplayName);
+
+            var user = new User
+            {
+                Email = profile.Email,
+                UserName = profile.UserName,
+                Profile = profile
+            };
 
             var registerUser = await this._userManager.CreateAsync(user, request.Password);
 

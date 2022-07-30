@@ -1,5 +1,6 @@
-﻿using Domain.Activities;
-using Domain.Common.Identity;
+﻿using Application.Common.Identity.Models.Base;
+using Domain.Activities;
+using Domain.Profiles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,8 @@ namespace Persistence
 
         public DbSet<Category> Categories { get; set; }
 
+        public DbSet<Profile> Profiles { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Activity>()
@@ -26,8 +29,10 @@ namespace Persistence
                 .ValueGeneratedNever();
 
             modelBuilder.Entity<Activity>()
-                .HasOne(a => a.Host);
-            
+                .HasOne(a => a.Host)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
             modelBuilder.Entity<Activity>()
                 .HasMany(a => a.Attendees)
                 .WithMany(a => a.AttendingActivities);
