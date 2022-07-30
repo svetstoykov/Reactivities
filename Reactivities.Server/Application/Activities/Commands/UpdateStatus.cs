@@ -5,7 +5,6 @@ using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 
 namespace Application.Activities.Commands;
 

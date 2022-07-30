@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Photos.Models
+﻿namespace Infrastructure.Images.Models
 {
     public class CloudinarySettings
     {

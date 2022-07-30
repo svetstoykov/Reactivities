@@ -17,11 +17,13 @@ namespace Domain.Common.Identity
 
         public string Bio { get; set; }
 
+        public string ProfilePictureUrl { get; set; }
+
         public ICollection<Activity> AttendingActivities { get; set; } = new List<Activity>();
 
         public static User New(string userName, string email, string displayName, string bio = null)
         {
-            User.ValidateUser(userName, email, displayName);
+            ValidateUser(userName, email, displayName);
 
             return new User
             {
