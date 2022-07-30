@@ -57,6 +57,8 @@ const Activities = {
     update: (activity: ActivityApiModel) => requests.put(`/activities/`, activity),
     delete: (id: number) => requests.delete(`/activities/${id}`),
     categories: () => requests.get<CategoryApiModel[]>(`/activities/categories`),
+    updateAttendance: (id:number) => requests.post(`/activities/updateAttendance/${id}`, {}),
+    updateStatus: (id: number) => requests.post(`/activities/updateStatus/${id}`, {})
 };
 
 const Accounts = {
@@ -79,7 +81,7 @@ const showToasterErrorNotification = (status: number, data: any) => {
 
                 toast.error(modelStateErrors.join(", "));
             } else {
-                toast.error(data);
+                toast.error(data.message || data);
             }
             break;
         case 401:

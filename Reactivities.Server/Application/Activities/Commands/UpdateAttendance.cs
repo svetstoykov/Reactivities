@@ -9,7 +9,7 @@ using Models.ErrorHandling.Helpers;
 
 namespace Application.Activities.Commands;
 
-public class Attend
+public class UpdateAttendance
 {
     public class Command : IRequest<Result<Unit>>
     {
@@ -22,7 +22,7 @@ public class Attend
         public int ActivityId { get; }
         public string UserToAttend { get; }
     }
-    
+
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly IActivitiesDataService _activitiesDataService;
@@ -38,12 +38,7 @@ public class Attend
         {
             var activity = await this._activitiesDataService
                 .GetByIdAsync(request.ActivityId);
-            if (activity == null)
-            {
-                return Result<Unit>.NotFound(string.Format(
-                    ActivitiesErrorMessages.DoesNotExist, request.ActivityId));
-            }
-
+            
             var user = await this._userManager.FindByIdAsync(request.UserToAttend);
             if (user == null)
             {
@@ -54,12 +49,15 @@ public class Attend
             {
                 return Result<Unit>.Failure(ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
             }
-            
-            activity.Attendees.Add(user);
 
-            return await _activitiesDataService.SaveChangesAsync(cancellationToken) > 0
-                ? Result<Unit>.Success(Unit.Value) 
-                : Result<Unit>.Failure();
+            if (!activity.Attendees.Remove(user))
+            {
+                activity.Attendees.Add(user);
+            }
+
+            await _activitiesDataService.SaveChangesAsync(cancellationToken);
+
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

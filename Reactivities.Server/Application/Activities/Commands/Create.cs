@@ -39,11 +39,10 @@ namespace Application.Activities.Commands
 
                 this._activitiesDataService.Create(domainDto);
 
-                var entityChangeResult = await this._activitiesDataService.SaveChangesAsync(cancellationToken);
+                await this._activitiesDataService
+                    .SaveChangesAsync(cancellationToken, ActivitiesErrorMessages.CreateError);
 
-                return entityChangeResult <= 0 
-                    ? Result<int>.Failure(ActivitiesErrorMessages.CreateError) 
-                    : Result<int>.Success(domainDto.Id);
+                return Result<int>.Success(domainDto.Id);
             }
         }
     }

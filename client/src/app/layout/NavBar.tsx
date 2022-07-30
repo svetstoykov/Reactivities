@@ -5,6 +5,7 @@ import { useStore } from "../stores/store";
 
 function NavBar() {
     const { userStore } = useStore();
+    const user = userStore.currentUser;
 
     return (
         <Menu inverted fixed="top">
@@ -26,15 +27,15 @@ function NavBar() {
                 </Menu.Item>
                 <Menu.Item position="right">
                     <Image
-                        src={userStore.user?.image || "/assets/user.png"}
+                        src={user?.image || "/assets/user.png"}
                         avatar
                         spaced="right"
                     />
-                    <Dropdown pointing="top left" text={userStore.user?.displayName}>
+                    <Dropdown pointing="top left" text={user?.displayName}>
                         <DropdownMenu>
                             <Dropdown.Item
                                 as={Link}
-                                to={`/profile/${userStore.user?.username}`}
+                                to={`/profile/${user?.username}`}
                                 text="My Profile"
                                 icon="user"
                             />
