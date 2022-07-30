@@ -11,5 +11,6 @@ export class ActivityApiModel extends BaseApiModel {
     city: string;
     venue: string;
     hostName: string;
+    isCancelled: boolean;
     attendees = new Array<ProfileApiModel>();
 }

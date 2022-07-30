@@ -24,6 +24,8 @@ namespace API.Activities.Models
         public string Venue { get; set; }
         
         public string HostName { get; set; }
+        
+        public bool IsCancelled { get; set; }
 
         public ICollection<ProfileApiModel> Attendees { get; set; } = new List<ProfileApiModel>();
     }

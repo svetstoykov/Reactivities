@@ -21,6 +21,8 @@ namespace Application.Activities.Models.Output
         
         public string Venue { get; set; }
         
+        public bool IsCancelled { get; set; }
+
         public UserOutputModel Host { get; set; }
 
         public ICollection<UserOutputModel> Attendees { get; set; } = new List<UserOutputModel>();
