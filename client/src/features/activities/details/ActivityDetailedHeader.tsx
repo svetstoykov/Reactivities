@@ -25,8 +25,8 @@ interface Props {
 
 export default observer(function ActivityDetailedHeader({ activity }: Props) {
     const {
-        userStore,
         activityStore: { updateAttendance, updateStatus, loading },
+        profileStore
     } = useStore();
 
     return (
@@ -64,7 +64,7 @@ export default observer(function ActivityDetailedHeader({ activity }: Props) {
                 </Segment>
             </Segment>
             <Segment clearing attached="bottom">
-                {userStore.isUserActivityHost(activity.host.username) ? (
+                {profileStore.isActivityHost(activity.host.username) ? (
                     <>
                         <Button
                             loading={loading}
@@ -82,7 +82,7 @@ export default observer(function ActivityDetailedHeader({ activity }: Props) {
                             Manage Event
                         </Button>
                     </>
-                ) : userStore.isUserGoingToActivity(activity.id!) ? (
+                ) : profileStore.isGoingToActivity(activity.id!) ? (
                     <Button onClick={updateAttendance} loading={loading}>
                         Cancel attendance
                     </Button>

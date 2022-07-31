@@ -20,15 +20,15 @@ import ModalContainer from "../common/modals/ModalContainer";
 
 function App() {
     const location = useLocation();
-    const { userStore, commonStore } = useStore();
+    const { profileStore, commonStore } = useStore();
 
     useEffect(() => {
         if (commonStore.token) {
-            userStore.loadCurrentUser().finally(() => commonStore.setAppLoaded());
+            profileStore.loadCurrentProfile().finally(() => commonStore.setAppLoaded());
             return;
         }
         commonStore.setAppLoaded();
-    }, [commonStore, userStore]);
+    }, [commonStore, profileStore]);
 
     if(!commonStore.appLoaded) return <LoadingComponent content="Loading app..."/>
 

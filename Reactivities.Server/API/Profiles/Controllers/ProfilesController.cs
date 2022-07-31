@@ -1,5 +1,8 @@
 ﻿using System.Threading.Tasks;
 using API.Common.Controllers;
+using API.Profiles.Models;
+using Application.Profiles.Models;
+using Application.Profiles.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +16,15 @@ namespace API.Profiles.Controllers
         {
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetProfile(string id)
-        {
-            return this.Ok();
-        }
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetProfile(string username)
+            => this.HandleMappingResult<ProfileOutputModel, ProfileApiModel>(
+                await this.Mediator.Send(new GetProfile.Query(username)));
 
-        [HttpGet()]
+        [HttpGet]
         public async Task<IActionResult> GetCurrentProfile()
-        {
-            return this.Ok();
-        }
+            => this.HandleMappingResult<ProfileOutputModel, ProfileApiModel>(
+                await this.Mediator.Send(new GetProfile.Query(this.GetCurrentUserUsername())));
 
         [HttpPost("uploadPhoto/{imageId}")]
         public async Task<IActionResult> UploadProfilePhoto(string imageId)

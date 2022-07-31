@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

@@ -1,5 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-using Application.Common.Identity.Models;
+﻿using Application.Common.Identity.Models;
 using Domain.Activities;
 using Domain.Profiles;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;

@@ -8,7 +8,6 @@ using Domain.Profiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Enumerations;
-using Persistence.Profiles;
 
 namespace Persistence
 {

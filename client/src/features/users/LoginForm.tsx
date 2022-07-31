@@ -1,6 +1,5 @@
 import { Form, Formik } from "formik";
 import { observer } from "mobx-react-lite";
-import React from "react";
 import { Button, Header } from "semantic-ui-react";
 import ReactivitiesTextInput from "../../app/common/form/ReactivitiesTextInput";
 import { useStore } from "../../app/stores/store";

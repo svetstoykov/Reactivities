@@ -1,5 +1,5 @@
 ﻿using API.Profiles.Models;
-using Application.Common.Identity.Models.Output;
+using Application.Profiles.Models;
 using AutoMapper;
 
 namespace API.Common.MappingProfiles
@@ -8,7 +8,7 @@ namespace API.Common.MappingProfiles
     {
         public ProfilesMappingProfile()
         {
-            this.CreateMap<UserOutputModel, ProfileApiModel>();
+            this.CreateMap<ProfileOutputModel, ProfileApiModel>();
         }
     }
 }
