@@ -28,7 +28,7 @@ function NavBar() {
                     />
                 </Menu.Item>
                 <Menu.Item position="right">
-                    <Image src={currentProfile?.profilePictureUrl || "/assets/user.png"} avatar spaced="right" />
+                    <Image src={currentProfile?.pictureUrl || "/assets/user.png"} avatar spaced="right" />
                     <Dropdown pointing="top left" text={currentProfile?.displayName}>
                         <DropdownMenu>
                             <Dropdown.Item

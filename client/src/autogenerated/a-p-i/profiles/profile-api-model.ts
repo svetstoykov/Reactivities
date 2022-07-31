@@ -5,5 +5,5 @@ export class ProfileApiModel extends BaseApiModel {
     bio: string;
     displayName: string;
     username: string;
-    profilePictureUrl: string;
+    pictureUrl: string;
 }

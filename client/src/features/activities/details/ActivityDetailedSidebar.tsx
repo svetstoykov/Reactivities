@@ -27,7 +27,7 @@ export default observer(function ActivityDetailedSidebar({ attendees, host }: Pr
                         <Label style={{ position: "absolute" }} color="orange" ribbon="right">
                             Host
                         </Label>
-                        <Image size="tiny" src={host.profilePictureUrl || "/assets/user.png"} />
+                        <Image size="tiny" src={host.pictureUrl || "/assets/user.png"} />
                         <Item.Content verticalAlign="middle">
                             <Item.Header as="h3">
                                 <Link to={`/profiles/${host.username}`}>{host.displayName}</Link>
@@ -38,7 +38,7 @@ export default observer(function ActivityDetailedSidebar({ attendees, host }: Pr
 
                     {attendees.map((a) => (
                         <Item key={a.username} style={{ position: "relative" }}>
-                            <Image size="tiny" src={a.profilePictureUrl || "/assets/user.png"} />
+                            <Image size="tiny" src={a.pictureUrl || "/assets/user.png"} />
                             <Item.Content verticalAlign="middle">
                                 <Item.Header as="h3">
                                 <Link to={`/profiles/${a.username}`}>{a.displayName}</Link>

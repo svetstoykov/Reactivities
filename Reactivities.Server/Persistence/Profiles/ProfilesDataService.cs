@@ -17,6 +17,7 @@ namespace Persistence.Profiles
         public async Task<Profile> GetByUsernameAsync(string username, bool throwExceptionIfNull = true)
         {
             var profile = await this.DataSet
+                .Include(p => p.Picture)
                 .FirstOrDefaultAsync(p => p.UserName == username);
 
             if (throwExceptionIfNull && profile == null)

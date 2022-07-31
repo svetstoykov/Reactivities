@@ -15,7 +15,7 @@ namespace Application.Common.MappingProfiles
                     opt => opt.MapFrom(src => src.UserName));
 
             this.CreateMap<DomainEntity.Profile, ProfileOutputModel>()
-                .ForMember(dest => dest.ProfilePictureUrl,
+                .ForMember(dest => dest.PictureUrl,
                     opt => opt.MapFrom(src => src.Picture == null 
                         ? string.Empty 
                         : src.Picture.Url));

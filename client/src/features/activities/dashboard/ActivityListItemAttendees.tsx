@@ -18,7 +18,7 @@ function ActivityListItemAttendees({ attendees }: Props) {
                         key={a.username}
                         trigger={
                             <List.Item key={a.username} as={Link} to={`/profiles/${a.username}`}>
-                                <Image size="mini" circular src={a.profilePictureUrl || "/assets/user.png"} />
+                                <Image size="mini" circular src={a.pictureUrl || "/assets/user.png"} />
                             </List.Item>
                         }>
                         <Popup.Content>
