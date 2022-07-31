@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 using Domain.Activities;
 using Domain.Activities.ErrorHandling;
@@ -24,8 +25,10 @@ namespace Domain.Profiles
 
         public int Id { get; init; }
 
+        [StringLength(256)]
         public string UserName { get; init; }
 
+        [StringLength(256)]
         public string Email { get; }
 
         public string DisplayName { get; init; }
