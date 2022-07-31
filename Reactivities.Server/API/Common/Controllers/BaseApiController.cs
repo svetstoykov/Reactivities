@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -54,8 +55,8 @@ namespace API.Common.Controllers
         protected string GetCurrentUserEmail()
             => this.User.FindFirstValue(ClaimTypes.Email);
         
-        protected string GetCurrentUserId()
-            => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        protected int GetCurrentUserId()
+            => Convert.ToInt32(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
         
         protected string GetCurrentUserUsername()
             => this.User.FindFirstValue(ClaimTypes.Name);

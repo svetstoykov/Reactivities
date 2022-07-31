@@ -1,12 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
+using Application.Activities.ErrorHandling;
 using Application.Activities.Models.Input;
 using AutoMapper;
 using Domain.Activities;
 using MediatR;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 
 namespace Application.Activities.Commands
 {

@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using System.Text;
 using API.Common.Identity.Policies;
-using Domain.Common.Identity;
+using Application.Common.Identity.Models;
 using FluentValidation.AspNetCore;
+using Infrastructure.Images.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -21,6 +21,7 @@ namespace API.Common.Extensions
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
+            services.Configure<CloudinarySettings>(configuration.GetSection(GlobalConstants.Cloudinary));
 
             return services
                 .AddAutoMapper(Assembly.GetExecutingAssembly())

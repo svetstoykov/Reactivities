@@ -6,7 +6,7 @@ import LoginForm from "../users/LoginForm";
 import RegisterForm from "../users/RegisterForm";
 
 function HomePage() {
-    const { userStore, modalStore } = useStore();
+    const { profileStore, modalStore } = useStore();
 
     return (
         <Segment inverted textAlign="center" vertical className="masthead">
@@ -20,7 +20,7 @@ function HomePage() {
                     />
                     Reactivities
                 </Header>
-                {userStore.IsLoggedIn ? (
+                {profileStore.isLoggedIn ? (
                     <>
                         <Header as="h2" inverted content="Welcome to Reactivities" />
                         <Button as={Link} to="/activities" size="huge" inverted>

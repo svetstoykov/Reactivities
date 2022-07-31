@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
+using Application.Activities.ErrorHandling;
 using MediatR;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 
 namespace Application.Activities.Commands
 {

@@ -7,9 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using API.Common.Middleware.ErrorHandling;
 using Infrastructure.Common.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
-using Models.Common;
 using Persistence.Common.Extensions;
 
 namespace API

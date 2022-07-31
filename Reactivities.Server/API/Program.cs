@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
+using Application.Common.ErrorHandling;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using Models.ErrorHandling.Helpers;
 using Persistence;
-using Domain.Common.Identity;
+using Application.Common.Identity.Models;
 
 namespace API
 {
@@ -16,7 +16,7 @@ namespace API
     {
         public static async Task Main(string[] args)
         {
-            var host = Program.CreateHostBuilder(args).Build();
+            var host = CreateHostBuilder(args).Build();
 
             using var scope = host.Services.CreateScope();
 

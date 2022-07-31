@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Common.Identity.Models;
 using Domain.Activities;
-using Domain.Common.Identity;
+using Domain.Profiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Enumerations;
@@ -25,28 +26,15 @@ namespace Persistence
         {
             if (!userManager.Users.Any())
             {
-                var users = new List<User>()
+                var profiles = new List<Profile>()
                 {
-                    new()
-                    {
-                        DisplayName = "Michael Scott",
-                        UserName = "mikescott",
-                        Email = "mikescott@dundermifflin.com"
-                    },
-                    new()
-                    {
-                        DisplayName = "Dwight Shrute",
-                        UserName = "dwightshrute",
-                        Email = "dwightshrute@dundermifflin.com"
-                    },
-                    new() 
-                    {
-                        DisplayName = "Pam Beasley",
-                        UserName = "pambeasley",
-                        Email = "pambeasley@dundermifflin.com"
-
-                    }
+                    Profile.New("mikescott", "mikescott@dundermifflin.com", "Michael Scott"),
+                    Profile.New("dwightshrute", "dwightshrute@dundermifflin.com", "Dwight Shrute"),
+                    Profile.New("pambeasley", "pambeasley@dundermifflin.com", "Pam Beasley")
                 };
+
+                var users = profiles.Select(profile => 
+                    new User {Email = profile.Email, UserName = profile.UserName, Profile = profile}).ToList();
 
                 foreach (var user in users)
                 {
@@ -76,7 +64,9 @@ namespace Persistence
             if (context.Activities.Any())
                 return;
 
-            var users = await userManager.Users.ToListAsync();
+            var profiles = await userManager.Users
+                .Select(u => u.Profile)
+                .ToListAsync();
 
             var random = new Random();
 
@@ -90,7 +80,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Culture,
                     City = "London",
                     Venue = "Pub",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -100,7 +90,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Film,
                     City = "Paris",
                     Venue = "Louvre",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -110,7 +100,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Food,
                     City = "London",
                     Venue = "Natural History Museum",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -120,7 +110,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Drinks,
                     City = "London",
                     Venue = "O2 Arena",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -130,7 +120,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Drinks,
                     City = "London",
                     Venue = "Another pub",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -140,7 +130,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Music,
                     City = "London",
                     Venue = "Yet another pub",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -150,7 +140,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Music,
                     City = "London",
                     Venue = "Just another pub",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -160,7 +150,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Music,
                     City = "London",
                     Venue = "Roundhouse Camden",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -170,7 +160,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Travel,
                     City = "London",
                     Venue = "Somewhere on the Thames",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 },
                 new()
                 {
@@ -180,7 +170,7 @@ namespace Persistence
                     CategoryId = (int) CategoryType.Film,
                     City = "London",
                     Venue = "Cinema",
-                    HostId = users[random.Next(0, users.Count - 1)].Id
+                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
                 }
             };
 

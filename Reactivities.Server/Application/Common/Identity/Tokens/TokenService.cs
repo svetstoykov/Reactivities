@@ -4,10 +4,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Common.Identity.Tokens.Interfaces;
-using Domain.Common.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models.Common;
+using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.Identity.Tokens
 {
@@ -27,8 +27,9 @@ namespace Application.Common.Identity.Tokens
             var claims = new List<Claim>()
             {
                 new(ClaimTypes.Name, user.UserName),
-                new(ClaimTypes.NameIdentifier, user.Id),
-                new(ClaimTypes.Email, user.Email)
+                new(ClaimTypes.NameIdentifier, user.ProfileId.ToString()),
+                new(ClaimTypes.Email, user.Email),
+                new(ClaimTypes.Sid, user.Id)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration[GlobalConstants.TokenKey]));

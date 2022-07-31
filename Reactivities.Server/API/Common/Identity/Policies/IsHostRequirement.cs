@@ -23,8 +23,8 @@ namespace API.Common.Identity.Policies
 
         public IsHostRequirementHandler(IActivitiesDataService activitiesDataService, IHttpContextAccessor httpContextAccessor)
         {
-            _activitiesDataService = activitiesDataService;
-            _httpContextAccessor = httpContextAccessor;
+            this._activitiesDataService = activitiesDataService;
+            this._httpContextAccessor = httpContextAccessor;
         }
         
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, IsHostRequirement requirement)
@@ -33,21 +33,21 @@ namespace API.Common.Identity.Policies
             
             if (userId == null) return;
 
-            var activityId = await GetActivityIdFromRequestAsync();
+            var activityId = await this.GetActivityIdFromRequestAsync();
 
-            var activity = await _activitiesDataService
-                .GetActivitiesQueryable()
+            var activity = await this._activitiesDataService
+                .GetAsQueryable()
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == activityId);
 
             if (activity == null) return;
             
-            if(activity.HostId == userId) context.Succeed(requirement);
+            if(activity.HostId == Convert.ToInt32(userId)) context.Succeed(requirement);
         }
 
         private async Task<int> GetActivityIdFromRequestAsync()
         {
-            var request = _httpContextAccessor.HttpContext?.Request;
+            var request = this._httpContextAccessor.HttpContext?.Request;
 
             if (request == null) return default;
             

@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-using Application.Common.Identity.Models.Output;
+using Application.Profiles.Models;
 using Models.Enumerations;
 
 namespace Application.Activities.Models.Output
@@ -23,8 +23,8 @@ namespace Application.Activities.Models.Output
         
         public bool IsCancelled { get; set; }
 
-        public UserOutputModel Host { get; set; }
+        public ProfileOutputModel Host { get; set; }
 
-        public ICollection<UserOutputModel> Attendees { get; set; } = new List<UserOutputModel>();
+        public ICollection<ProfileOutputModel> Attendees { get; set; } = new List<ProfileOutputModel>();
     }
 }

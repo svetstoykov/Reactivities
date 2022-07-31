@@ -1,20 +1,20 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Identity.Models.Output;
+using Application.Common.ErrorHandling;
+using Application.Common.Identity.Models;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
-using Domain.Common.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
+using Profile = Domain.Profiles.Profile;
 
 namespace Application.Common.Identity.Commands;
 
 public class Register
 {
-    public class Command : IRequest<Result<UserOutputModel>>
+    public class Command : IRequest<Result<string>>
     {
         public Command(string displayName, string username, string password, string email)
         {
@@ -33,7 +33,7 @@ public class Register
         public string Email { get; init; }
     }
 
-    public class Handler : IRequestHandler<Command, Result<UserOutputModel>>
+    public class Handler : IRequestHandler<Command, Result<string>>
     {
         private readonly UserManager<User> _userManager;
         private readonly ITokenService _tokenService;
@@ -46,7 +46,7 @@ public class Register
             this._mapper = mapper;
         }
 
-        public async Task<Result<UserOutputModel>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
         {
             var validationResult = await this.ValidateUserDetails(request);
             if (!validationResult.IsSuccessful)
@@ -54,40 +54,40 @@ public class Register
                 return validationResult;
             }
 
-            var user = User.New(
+            var profile = Profile.New(
                 request.Username, request.Email, request.DisplayName);
+
+            var user = this._mapper.Map<User>(profile);
 
             var registerUser = await this._userManager.CreateAsync(user, request.Password);
 
             if (registerUser.Succeeded)
             {
-                var userOutputModel = this._mapper.Map<UserOutputModel>(user);
-                userOutputModel.Token = this._tokenService.GenerateToken(user);
-
-                return Result<UserOutputModel>.Success(userOutputModel);
+                return Result<string>.Success(
+                    this._tokenService.GenerateToken(user));
             }
 
-            return Result<UserOutputModel>.Failure(
-                IdentityErrorMessages.FailedToCreateUser);
+            return Result<string>.Failure(
+                CommonErrorMessages.FailedToCreateUser);
         }
 
-        private async Task<Result<UserOutputModel>> ValidateUserDetails(Command request)
+        private async Task<Result<string>> ValidateUserDetails(Command request)
         {
             if (await this._userManager.Users.AnyAsync(u => 
                     u.Email.ToLower() == request.Email.ToLower()))
             {
-                return Result<UserOutputModel>.Failure(
-                    string.Format(IdentityErrorMessages.EmailTaken, request.Email));
+                return Result<string>.Failure(
+                    string.Format(CommonErrorMessages.EmailTaken, request.Email));
             }
 
             if (await this._userManager.Users.AnyAsync(u => 
                     u.UserName.ToLower() == request.Username.ToLower()))
             {
-                return Result<UserOutputModel>.Failure(
-                    string.Format(IdentityErrorMessages.UsernameTaken, request.Username));
+                return Result<string>.Failure(
+                    string.Format(CommonErrorMessages.UsernameTaken, request.Username));
             }
 
-            return Result<UserOutputModel>.Success(null);
+            return Result<string>.Success(null);
         }
     }
 }

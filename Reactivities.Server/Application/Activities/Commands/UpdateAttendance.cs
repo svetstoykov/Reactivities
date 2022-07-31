@@ -1,11 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
-using Domain.Common.Identity;
+using Application.Activities.ErrorHandling;
+using Application.Profiles.DataServices;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 
 namespace Application.Activities.Commands;
 
@@ -13,49 +12,47 @@ public class UpdateAttendance
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Command(int activityId, string userToAttend)
+        public Command(int activityId, string usernameToAttend)
         {
-            ActivityId = activityId;
-            UserToAttend = userToAttend;
+            this.ActivityId = activityId;
+            this.UsernameToAttend = usernameToAttend;
         }
 
         public int ActivityId { get; }
-        public string UserToAttend { get; }
+        public string UsernameToAttend { get; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
     {
         private readonly IActivitiesDataService _activitiesDataService;
-        private readonly UserManager<User> _userManager;
+        private readonly IProfilesDataService _profilesDataService;
 
-        public Handler(IActivitiesDataService activitiesDataService, UserManager<User> userManager)
+        public Handler(IActivitiesDataService activitiesDataService, IProfilesDataService profilesDataService)
         {
-            _activitiesDataService = activitiesDataService;
-            _userManager = userManager;
+            this._activitiesDataService = activitiesDataService;
+            this._profilesDataService = profilesDataService;
         }
 
         public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
             var activity = await this._activitiesDataService
                 .GetByIdAsync(request.ActivityId);
-            
-            var user = await this._userManager.FindByIdAsync(request.UserToAttend);
-            if (user == null)
+
+            var profile = await this._profilesDataService
+                .GetByUsernameAsync(request.UsernameToAttend);
+
+            if (activity.HostId == profile.Id)
             {
-                return Result<Unit>.NotFound(IdentityErrorMessages.InvalidUser);
+                return Result<Unit>.Failure(
+                    ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
             }
 
-            if (activity.HostId == user.Id)
+            if (!activity.Attendees.Remove(profile))
             {
-                return Result<Unit>.Failure(ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
+                activity.Attendees.Add(profile);
             }
 
-            if (!activity.Attendees.Remove(user))
-            {
-                activity.Attendees.Add(user);
-            }
-
-            await _activitiesDataService.SaveChangesAsync(cancellationToken);
+            await this._activitiesDataService.SaveChangesAsync(cancellationToken);
 
             return Result<Unit>.Success(Unit.Value);
         }

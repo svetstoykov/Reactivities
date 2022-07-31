@@ -1,4 +1,4 @@
-﻿using Domain.Common.Identity;
+﻿using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.Identity.Tokens.Interfaces
 {
