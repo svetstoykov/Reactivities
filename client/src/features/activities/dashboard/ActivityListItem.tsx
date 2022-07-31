@@ -33,7 +33,7 @@ export default function ActivityListItem({ activity }: Props) {
                             <Item.Description>
                                 Hosted by{" "}
                                 <strong>
-                                    <Link to={`/profiles/${activity.host.username}`}>
+                                    <Link to={`/profile/${activity.host.username}`}>
                                         {activity.host.displayName}
                                     </Link>
                                 </strong>
