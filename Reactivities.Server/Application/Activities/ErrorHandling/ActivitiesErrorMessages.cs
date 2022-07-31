@@ -1,4 +1,4 @@
-﻿namespace Models.ErrorHandling.Helpers
+﻿namespace Application.Activities.ErrorHandling
 {
     public static class ActivitiesErrorMessages
     {

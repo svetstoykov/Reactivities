@@ -4,7 +4,6 @@ using Application.Profiles.DataServices;
 using Application.Profiles.Models;
 using AutoMapper;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Models.Common;
 
 namespace Application.Profiles.Queries
@@ -35,8 +34,7 @@ namespace Application.Profiles.Queries
             public async Task<Result<ProfileOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var profile = await this._profilesDataService
-                    .GetAsQueryable()
-                    .FirstOrDefaultAsync(p => p.UserName == request.Username);
+                    .GetByUsernameAsync(request.Username);
 
                 var outputModel = this._mapper.Map<ProfileOutputModel>(profile);
 

@@ -6,8 +6,8 @@ namespace Application.Common.Images
 {
     public interface IImageOperationsService
     {
-        Task<ImageUploadResult> UploadImage(IFormFile file);
+        Task<ImageUploadResult> UploadImageAsync(byte[] fileByteArray, string fileName);
 
-        Task DeleteImage(string publicId);
+        Task DeleteImageAsync(string publicId);
     }
 }

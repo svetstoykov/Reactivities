@@ -1,4 +1,4 @@
-﻿namespace Domain.Activities.ErrorHandling
+﻿namespace Domain.Profiles.ErrorHandling
 {
     internal static class UserErrorMessages
     {

@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Application.Activities.ErrorHandling;
 using Application.Common.DataServices;
 using Domain.Common.Base;
 using Microsoft.EntityFrameworkCore;
 using Models.ErrorHandling;
-using Models.ErrorHandling.Helpers;
 
 namespace Persistence.Common.DataServices
 {

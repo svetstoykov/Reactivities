@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Profiles\Commands\" />
-  </ItemGroup>
-
 </Project>

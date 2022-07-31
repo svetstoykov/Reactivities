@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.ErrorHandling;
 using Application.Common.Identity.Models;
 using Application.Common.Identity.Tokens.Interfaces;
 using AutoMapper;
@@ -7,7 +8,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 using Profile = Domain.Profiles.Profile;
 
 namespace Application.Common.Identity.Commands;
@@ -68,7 +68,7 @@ public class Register
             }
 
             return Result<string>.Failure(
-                IdentityErrorMessages.FailedToCreateUser);
+                CommonErrorMessages.FailedToCreateUser);
         }
 
         private async Task<Result<string>> ValidateUserDetails(Command request)
@@ -77,14 +77,14 @@ public class Register
                     u.Email.ToLower() == request.Email.ToLower()))
             {
                 return Result<string>.Failure(
-                    string.Format(IdentityErrorMessages.EmailTaken, request.Email));
+                    string.Format(CommonErrorMessages.EmailTaken, request.Email));
             }
 
             if (await this._userManager.Users.AnyAsync(u => 
                     u.UserName.ToLower() == request.Username.ToLower()))
             {
                 return Result<string>.Failure(
-                    string.Format(IdentityErrorMessages.UsernameTaken, request.Username));
+                    string.Format(CommonErrorMessages.UsernameTaken, request.Username));
             }
 
             return Result<string>.Success(null);

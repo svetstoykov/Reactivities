@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using API.Activities.Models;
+using Application.Activities.ErrorHandling;
 using FluentValidation;
 using Models.Enumerations;
-using Models.ErrorHandling.Helpers;
 
 namespace API.Activities.Validators
 {

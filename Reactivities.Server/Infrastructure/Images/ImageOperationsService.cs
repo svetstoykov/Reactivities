@@ -2,7 +2,6 @@
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Infrastructure.Images.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Models.ErrorHandling;
 using ApplicationModels = Application.Common.Images.Models;
@@ -23,14 +22,14 @@ namespace Infrastructure.Images
             this._cloudinary = new Cloudinary(account);
         }
 
-        public async Task<ApplicationModels.ImageUploadResult> UploadImage(IFormFile file)
+        public async Task<ApplicationModels.ImageUploadResult> UploadImageAsync(byte[] fileByteArray, string fileName)
         {
-            if (file.Length > 0)
+            if (fileByteArray.Length > 0)
             {
-                await using var fileStream = file.OpenReadStream();
+                var fileStream = new MemoryStream(fileByteArray);
                 var uploadParams = new ImageUploadParams
                 {
-                    File = new FileDescription(file.FileName, fileStream),
+                    File = new FileDescription(fileName, fileStream),
                     Transformation = new Transformation().Height(500).Width(500).Crop("fill"),
                 };
 
@@ -44,10 +43,10 @@ namespace Infrastructure.Images
                     uploadResult.PublicId, uploadResult.SecureUrl.ToString());
             }
 
-            return null;
+            throw new AppException("Invalid uploaded image.");
         }
 
-        public async Task DeleteImage(string publicId)
+        public async Task DeleteImageAsync(string publicId)
         {
             var deleteParams = new DeletionParams(publicId);
 

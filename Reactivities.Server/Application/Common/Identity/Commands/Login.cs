@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Application.Common.ErrorHandling;
 using Application.Common.Identity.Tokens.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 using User = Application.Common.Identity.Models.User;
 
 namespace Application.Common.Identity.Commands;
@@ -47,7 +47,7 @@ public class Login
             if (user == null)
             {
                 return Result<string>.Unauthorized(
-                    IdentityErrorMessages.InvalidEmail);
+                    CommonErrorMessages.InvalidEmail);
             }
 
             var signInResult = await this._signInManager
@@ -59,7 +59,7 @@ public class Login
             }
 
             return Result<string>.Unauthorized(
-                IdentityErrorMessages.FailedLogin);
+                CommonErrorMessages.FailedLogin);
         }
     }
 }

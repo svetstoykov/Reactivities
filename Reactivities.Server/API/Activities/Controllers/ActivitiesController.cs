@@ -54,7 +54,7 @@ namespace API.Activities.Controllers
 
         [HttpPost("updateAttendance/{id}")]
         public async Task<IActionResult> UpdateAttendance(int id)
-            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(id, this.GetCurrentUserId())));
+            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(id, this.GetCurrentUserUsername())));
 
 
         [HttpPost]

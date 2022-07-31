@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
+using Application.Activities.ErrorHandling;
 using Application.Profiles.DataServices;
 using MediatR;
 using Models.Common;
-using Models.ErrorHandling.Helpers;
 
 namespace Application.Activities.Commands;
 
@@ -12,14 +12,14 @@ public class UpdateAttendance
 {
     public class Command : IRequest<Result<Unit>>
     {
-        public Command(int activityId, int userToAttend)
+        public Command(int activityId, string usernameToAttend)
         {
             this.ActivityId = activityId;
-            this.UserToAttend = userToAttend;
+            this.UsernameToAttend = usernameToAttend;
         }
 
         public int ActivityId { get; }
-        public int UserToAttend { get; }
+        public string UsernameToAttend { get; }
     }
 
     public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -39,12 +39,7 @@ public class UpdateAttendance
                 .GetByIdAsync(request.ActivityId);
 
             var profile = await this._profilesDataService
-                .GetByIdAsync(request.UserToAttend);
-            if (profile == null)
-            {
-                return Result<Unit>.NotFound(
-                    IdentityErrorMessages.InvalidUser);
-            }
+                .GetByUsernameAsync(request.UsernameToAttend);
 
             if (activity.HostId == profile.Id)
             {

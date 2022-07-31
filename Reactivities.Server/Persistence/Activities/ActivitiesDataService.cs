@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
+using Application.Activities.ErrorHandling;
 using Domain.Activities;
 using Microsoft.EntityFrameworkCore;
-using Models.ErrorHandling.Helpers;
 using Persistence.Common.DataServices;
 
 namespace Persistence.Activities

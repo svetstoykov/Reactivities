@@ -14,7 +14,11 @@ namespace Application.Common.MappingProfiles
                 .ForMember(dest => dest.Username,
                     opt => opt.MapFrom(src => src.UserName));
 
-            this.CreateMap<DomainEntity.Profile, ProfileOutputModel>();
+            this.CreateMap<DomainEntity.Profile, ProfileOutputModel>()
+                .ForMember(dest => dest.ProfilePictureUrl,
+                    opt => opt.MapFrom(src => src.Picture == null 
+                        ? string.Empty 
+                        : src.Picture.Url));
         }
     }
 }

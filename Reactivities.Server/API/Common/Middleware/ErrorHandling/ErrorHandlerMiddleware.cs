@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Application.Common.ErrorHandling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Models.ErrorHandling;
-using Models.ErrorHandling.Helpers;
 
 namespace API.Common.Middleware.ErrorHandling
 {
