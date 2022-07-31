@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Application.Common.Identity.Models.Output;
 using Application.Common.Identity.Tokens.Interfaces;
-using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
@@ -13,7 +12,7 @@ namespace Application.Common.Identity.Commands;
 
 public class Login
 {
-    public class Command: IRequest<Result<UserOutputModel>>
+    public class Command: IRequest<Result<string>>
     {
         public Command(string email, string password)
         {
@@ -26,32 +25,29 @@ public class Login
         public string Password { get; init; }
     }
 
-    public class Handler : IRequestHandler<Command, Result<UserOutputModel>>
+    public class Handler : IRequestHandler<Command, Result<string>>
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ITokenService _tokenService;
-        private readonly IMapper _mapper;
 
         public Handler(
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            ITokenService tokenService,
-            IMapper mapper)
+            ITokenService tokenService)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
             this._tokenService = tokenService;
-            this._mapper = mapper;
         }
 
-        public async Task<Result<UserOutputModel>> Handle(Command request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
         {
             var user = await this._userManager.FindByEmailAsync(request.Email);
 
             if (user == null)
             {
-                return Result<UserOutputModel>.Unauthorized(
+                return Result<string>.Unauthorized(
                     IdentityErrorMessages.InvalidEmail);
             }
 
@@ -60,14 +56,10 @@ public class Login
 
             if (signInResult.Succeeded)
             {
-                var userOutputModel = this._mapper.Map<UserOutputModel>(user);
-
-                userOutputModel.Token = this._tokenService.GenerateToken(user);
-
-                return Result<UserOutputModel>.Success(userOutputModel);
+                return Result<string>.Success(this._tokenService.GenerateToken(user));
             }
 
-            return Result<UserOutputModel>.Unauthorized(
+            return Result<string>.Unauthorized(
                 IdentityErrorMessages.FailedLogin);
         }
     }

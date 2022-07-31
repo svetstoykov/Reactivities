@@ -19,6 +19,12 @@ namespace API.Profiles.Controllers
             return this.Ok();
         }
 
+        [HttpGet()]
+        public async Task<IActionResult> GetCurrentProfile()
+        {
+            return this.Ok();
+        }
+
         [HttpPost("uploadPhoto/{imageId}")]
         public async Task<IActionResult> UploadProfilePhoto(string imageId)
         {
