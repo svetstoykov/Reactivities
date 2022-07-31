@@ -34,10 +34,9 @@ namespace API.Profiles.Controllers
             => this.HandleResult(await this.Mediator.Send(new UploadProfilePicture.Command(
                 await file.GetBytesAsync(), file.FileName, this.GetCurrentUserUsername())));
 
-        [HttpDelete("deleteProfilePicture/{imageId}")]
-        public async Task<IActionResult> DeleteProfilePicture(string imageId)
-        {
-            return this.Ok();
-        }
+        [HttpDelete("deleteProfilePicture")]
+        public async Task<IActionResult> DeleteProfilePicture()
+            => this.HandleResult(await this.Mediator.Send(new DeleteProfilePicture.Command(
+                this.GetCurrentUserUsername())));
     }
 }
