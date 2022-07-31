@@ -1,4 +1,4 @@
-import { BaseApiModel } from '../../base-api-model';
+import { BaseApiModel } from '../base-api-model';
 
 export class RegisterApiModel extends BaseApiModel {
     displayName: string;

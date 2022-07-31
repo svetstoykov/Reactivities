@@ -32,7 +32,7 @@ namespace API.Common.Controllers
         [HttpGet("unauthorised")]
         public ActionResult GetUnauthorised()
         {
-            return this.Unauthorized();
+            return this.Unauthorized("A diff message");
         }
     }
 }

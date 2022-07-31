@@ -1,5 +1,5 @@
-import { BaseApiModel } from '../../common/base-api-model';
-import { ProfileApiModel } from '../../profiles/models/profile-api-model';
+import { BaseApiModel } from '../common/base-api-model';
+import { ProfileApiModel } from '../profiles/profile-api-model';
 
 export class ActivityApiModel extends BaseApiModel {
     id?: number;

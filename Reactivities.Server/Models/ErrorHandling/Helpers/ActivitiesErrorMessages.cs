@@ -10,11 +10,11 @@
         
         public const string DoesNotExist = "Activity Id: '{0}' does not exist";
 
-        public const string InvalidCategory = "Invalid Category";
+        public const string InvalidCategory = "'Category' is invalid";
+
+        public const string InvalidDate = "'Date' is invalid";
 
         public const string ActivityTitleLength = "Activity title must be at least 3 letters long.";
-
-        public const string UpdateStatusNotFromHost = "Activity status can only be updated by the activity host";
 
         public const string HostCannotBeAddedAsAttendee = "Host cannot be added as attendee";
 
