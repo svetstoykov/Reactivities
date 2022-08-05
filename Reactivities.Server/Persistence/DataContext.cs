@@ -19,6 +19,8 @@ namespace Persistence
 
         public DbSet<Profile> Profiles { get; set; }
 
+        public DbSet<Picture> Pictures { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Activity>()

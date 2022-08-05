@@ -34,7 +34,7 @@ export default class UserStore {
     logout = () => {
         store.commonStore.setToken(null);
         window.localStorage.removeItem("userToken");
-        store.profileStore.setProfile(null);
+        store.profileStore.setCurrentProfile(null);
         history.push("/");
     };
 

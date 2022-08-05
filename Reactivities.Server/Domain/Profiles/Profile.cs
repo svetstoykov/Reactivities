@@ -23,8 +23,6 @@ namespace Domain.Profiles
             this.Picture = picture;
         }
 
-        public int Id { get; init; }
-
         [StringLength(256)]
         public string UserName { get; set; }
 

@@ -17,6 +17,7 @@ import { useStore } from "../stores/store";
 import { useEffect } from "react";
 import LoadingComponent from "./LoadingComponent";
 import ModalContainer from "../common/modals/ModalContainer";
+import ProfilePage from "../../features/profiles/ProfilePage";
 
 function App() {
     const location = useLocation();
@@ -54,6 +55,7 @@ function App() {
                                 <Route path="/errors" component={TestErrors} />
                                 <Route path="/server-error" component={ServerError} />
                                 <Route path="/login" component={LoginForm} />
+                                <Route path="/profile/:username" component={ProfilePage}/>
                                 <Route component={NotFound} />
                             </Switch>
                         </Container>

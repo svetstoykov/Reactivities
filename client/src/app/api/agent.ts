@@ -68,7 +68,15 @@ const Accounts = {
 
 const Profiles = {
     get: (username: string) => requests.get<ProfileApiModel>(`/profiles/${username}`),
-    getCurrent: () => requests.get<ProfileApiModel>(`/profiles`)  
+    getCurrent: () => requests.get<ProfileApiModel>(`/profiles`),
+    uploadPhoto: (file: Blob) => {
+        let formData = new FormData();
+        formData.append('File', file);
+        return axios.post<string>('/profiles/uploadProfilePicture', formData, {
+            headers: { 'Content-type': 'multipart/form-data' }
+        })
+    },
+    deletePhoto: () => requests.delete('/profiles/deleteProfilePicture')
 }
 
 const showToasterErrorNotification = (status: number, data: any) => {

@@ -9,7 +9,7 @@ interface Props {
 
 function ProfileCard({ profile }: Props) {
     return (
-        <Card as={Link} to={`/profiles/${profile.username}`}>
+        <Card as={Link} to={`/profile/${profile.username}`}>
             <Image src={profile.pictureUrl || "/assets/user.png"} wrapped ui={false} />
             <Card.Content>
                 <Card.Header>{profile.displayName}</Card.Header>

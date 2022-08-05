@@ -55,7 +55,7 @@ export default observer(function ActivityDetailedHeader({ activity }: Props) {
                                     style={{ color: "white" }}
                                 />
                                 <p>{format(activity.date, reactivitiesDateFormat)}</p>
-                                <Label as={Link} to={`/profiles/${activity.host.username}`}>
+                                <Label as={Link} to={`/profile/${activity.host.username}`}>
                                     Hosted by <strong>{activity.host.displayName}</strong>
                                 </Label>
                             </Item.Content>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Application.Profiles.DataServices;
 using Application.Profiles.ErrorHandling;
@@ -13,7 +14,7 @@ namespace Persistence.Profiles
         public ProfilesDataService(DataContext dataContext) : base(dataContext)
         {
         }
-        
+
         public async Task<Profile> GetByUsernameAsync(string username, bool throwExceptionIfNull = true)
         {
             var profile = await this.DataSet
