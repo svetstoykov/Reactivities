@@ -28,7 +28,7 @@ function PhotoUploadWidget() {
     }, [files]);
 
     return (
-        <Grid columns={15} divided padded='horizontally' textAlign="center">
+        <Grid columns={15} divided padded="horizontally" textAlign="center">
             <Grid.Row>
                 <Grid.Column width={5}>
                     <Header sub color="teal" content="Step 1 - Add Picture"></Header>
@@ -48,25 +48,30 @@ function PhotoUploadWidget() {
                     {files && files.length > 0 && (
                         <Item
                             className="img-preview"
-                            style={{ minHeight: 200, marginLeft:'4.5em', overflow: "hidden" }}/>
+                            style={{ minHeight: 200, marginLeft: "4.5em", overflow: "hidden" }}
+                        />
                     )}
                 </Grid.Column>
             </Grid.Row>
-            <Grid.Row>
-                <Grid.Column width={5}></Grid.Column>
-                <Grid.Column width={5}>
-                    <Button.Group fluid>
-                        <Button disabled={uploading} onClick={() => setFiles([])}>
-                            Cancel
-                        </Button>
-                        <Button.Or />
-                        <Button loading={uploading} onClick={onCrop} positive>
-                            Save
-                        </Button>
-                    </Button.Group>
-                </Grid.Column>
-                <Grid.Column width={5}></Grid.Column>
-            </Grid.Row>
+            {files && files.length > 0 && (
+                <>
+                    <Grid.Row>
+                        <Grid.Column width={5}></Grid.Column>
+                        <Grid.Column width={5}>
+                            <Button.Group fluid>
+                                <Button disabled={uploading} onClick={() => setFiles([])}>
+                                    Cancel
+                                </Button>
+                                <Button.Or />
+                                <Button loading={uploading} onClick={onCrop} positive>
+                                    Save
+                                </Button>
+                            </Button.Group>
+                        </Grid.Column>
+                        <Grid.Column width={5}></Grid.Column>
+                    </Grid.Row>
+                </>
+            )}
         </Grid>
     );
 }
