@@ -1,18 +1,18 @@
 ﻿using Application.Common.Images;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Infrastructure.Images.Models;
+using Infrastructure.Pictures.Models;
 using Microsoft.Extensions.Options;
 using Models.ErrorHandling;
 using ApplicationModels = Application.Common.Images.Models;
 
-namespace Infrastructure.Images
+namespace Infrastructure.Pictures
 {
-    public class ImageOperationsService : IImageOperationsService
+    public class PictureOperationsService : IPictureOperationsService
     {
         private readonly Cloudinary _cloudinary;
 
-        public ImageOperationsService(IOptionsMonitor<CloudinarySettings> cloudinarySettings)
+        public PictureOperationsService(IOptionsMonitor<CloudinarySettings> cloudinarySettings)
         {
             var account = new Account(
                 cloudinarySettings.CurrentValue.CloudName, 
@@ -22,7 +22,7 @@ namespace Infrastructure.Images
             this._cloudinary = new Cloudinary(account);
         }
 
-        public async Task<ApplicationModels.ImageUploadResult> UploadImageAsync(byte[] fileByteArray, string fileName)
+        public async Task<ApplicationModels.ImageUploadResult> UploadPictureAsync(byte[] fileByteArray, string fileName)
         {
             if (fileByteArray.Length > 0)
             {
@@ -46,7 +46,7 @@ namespace Infrastructure.Images
             throw new AppException("Invalid uploaded image.");
         }
 
-        public async Task DeleteImageAsync(string publicId)
+        public async Task DeletePictureAsync(string publicId)
         {
             var deleteParams = new DeletionParams(publicId);
 

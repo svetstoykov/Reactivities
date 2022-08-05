@@ -3,7 +3,7 @@ using System.Text;
 using API.Common.Identity.Policies;
 using Application.Common.Identity.Models;
 using FluentValidation.AspNetCore;
-using Infrastructure.Images.Models;
+using Infrastructure.Pictures.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

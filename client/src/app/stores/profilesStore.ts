@@ -61,6 +61,19 @@ export default class ProfileStore {
         }
     };
 
+    deleteProfilePicture = async () => {
+        this.setUploading(true);
+        try{
+            await agent.Profiles.deletePhoto();
+
+            this.setProfilePicture('')
+        }catch(error){
+            console.log(error)
+        }finally{
+            this.setUploading(false);
+        }
+    };
+
     isActivityHost = (activityHostUsername: string | undefined) => {
         return this.profile?.username === activityHostUsername;
     };

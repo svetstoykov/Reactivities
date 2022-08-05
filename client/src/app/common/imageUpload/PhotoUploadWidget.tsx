@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite";
 import { useEffect, useState } from "react";
-import { Button, Grid, GridColumn, Header, Item } from "semantic-ui-react";
+import { Button, Grid, Header, Item } from "semantic-ui-react";
 import { useStore } from "../../stores/store";
 import PhotoWidgetCropper from "./PhotoWidgetCropper";
 import PhotoWidgetDropzone from "./PhotoWidgetDropzone";
@@ -8,17 +8,18 @@ import PhotoWidgetDropzone from "./PhotoWidgetDropzone";
 function PhotoUploadWidget() {
     const [files, setFiles] = useState<any>([]);
     const [cropper, setCropper] = useState<Cropper>();
-    const {
-        profileStore: { uploading, uploadProfilePicture },
-        modalStore: { closeModal },
-    } = useStore();
+    const { profileStore, modalStore: {closeModal}} = useStore();
 
     function onCrop() {
         if (cropper) {
             cropper.getCroppedCanvas().toBlob((blob) => {
-                uploadProfilePicture(blob!).then(() => closeModal());
+                profileStore.uploadProfilePicture(blob!).then(() => closeModal());
             });
         }
+    }
+
+    function handleDeleteProfilePicture() {
+        profileStore.deleteProfilePicture().then(() => closeModal());
     }
 
     useEffect(() => {
@@ -53,17 +54,34 @@ function PhotoUploadWidget() {
                     )}
                 </Grid.Column>
             </Grid.Row>
+            {!files.length && profileStore.currentProfile!.pictureUrl && (
+                <>
+                    <Grid.Row>
+                        <Grid.Column width={5}></Grid.Column>
+                        <Grid.Column width={5}>
+                            <Button
+                                fluid
+                                negative
+                                loading={profileStore.uploading}
+                                onClick={handleDeleteProfilePicture}>
+                                Delete current profile picture
+                            </Button>
+                        </Grid.Column>
+                        <Grid.Column width={5}></Grid.Column>
+                    </Grid.Row>
+                </>
+            )}
             {files && files.length > 0 && (
                 <>
                     <Grid.Row>
                         <Grid.Column width={5}></Grid.Column>
                         <Grid.Column width={5}>
                             <Button.Group fluid>
-                                <Button disabled={uploading} onClick={() => setFiles([])}>
+                                <Button disabled={profileStore.uploading} onClick={() => setFiles([])}>
                                     Cancel
                                 </Button>
                                 <Button.Or />
-                                <Button loading={uploading} onClick={onCrop} positive>
+                                <Button loading={profileStore.uploading} onClick={onCrop} positive>
                                     Save
                                 </Button>
                             </Button.Group>
