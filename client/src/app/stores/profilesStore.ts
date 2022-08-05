@@ -7,6 +7,7 @@ export default class ProfileStore {
     private profile: ProfileApiModel | null = null;
     private selectedProfile: ProfileApiModel | null = null;
     loadingUser = false;
+    uploading = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -46,6 +47,20 @@ export default class ProfileStore {
         }
     };
 
+    uploadProfilePicture = async (file: Blob) => {
+        this.setUploading(true);
+        try{
+            const response = await agent.Profiles.uploadPhoto(file);
+            const pictureUrl = response.data;
+
+            this.setProfilePicture(pictureUrl)
+        }catch(error){
+            console.log(error)
+        }finally{
+            this.setUploading(false);
+        }
+    };
+
     isActivityHost = (activityHostUsername: string | undefined) => {
         return this.profile?.username === activityHostUsername;
     };
@@ -60,7 +75,15 @@ export default class ProfileStore {
         this.profile = profile;
     };
 
-    setSelectedProfile = (selectedProfile: ProfileApiModel | null) => {
+    private setProfilePicture = (pictureUrl: string) => {
+        this.currentProfile!.pictureUrl = pictureUrl;
+    }
+
+    private setUploading = (state: boolean) => {
+        this.uploading = state;
+    };
+
+    private setSelectedProfile = (selectedProfile: ProfileApiModel | null) => {
         this.selectedProfile = selectedProfile;
     };
 
