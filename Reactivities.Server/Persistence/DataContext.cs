@@ -20,6 +20,8 @@ namespace Persistence
         public DbSet<Profile> Profiles { get; set; }
 
         public DbSet<Picture> Pictures { get; set; }
+        
+        public DbSet<Comment> Comments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +67,11 @@ namespace Persistence
             modelBuilder.Entity<Profile>()
                 .Property(p => p.Email)
                 .IsRequired();
+
+            modelBuilder.Entity<Profile>()
+                .HasMany(p => p.Comments)
+                .WithOne(c => c.Author)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

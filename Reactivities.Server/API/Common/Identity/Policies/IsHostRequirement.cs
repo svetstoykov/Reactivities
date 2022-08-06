@@ -8,6 +8,7 @@ using Application.Activities.DataServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Models.Common;
 using Newtonsoft.Json;
 
 namespace API.Common.Identity.Policies
@@ -52,7 +53,7 @@ namespace API.Common.Identity.Policies
             if (request == null) return default;
             
             var idFromQuery = int.Parse(request.RouteValues
-                .SingleOrDefault(v => v.Key == "id").Value?.ToString() ?? default(int).ToString());
+                .SingleOrDefault(v => v.Key == GlobalConstants.ActivityIdQueryParam).Value?.ToString() ?? default(int).ToString());
 
             if (idFromQuery != default) return idFromQuery;
 

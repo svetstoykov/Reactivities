@@ -1,4 +1,5 @@
 ﻿using API.Activities.Models;
+using API.Activities.Models.Comments;
 using Application.Activities.Models.Base;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
@@ -23,6 +24,8 @@ namespace API.Common.MappingProfiles
 
             this.CreateMap<CategoryOutputModel, CategoryApiModel>();
 
+            this.CreateMap<CommentOutputModel, CommentApiModel>();
+            
             this.CreateMap<ActivityOutputModel, ActivityApiModel>()
                 .ForMember(dest => dest.CategoryId,
                     opt => opt.MapFrom(src => (int) src.CategoryType))

@@ -38,18 +38,18 @@ namespace Application.Activities.Commands
                 var activity = await this._activitiesDataService
                     .GetByIdAsync(request.ActivityId);
 
-                var profile = await this._profilesDataService
+                var profileToAttend = await this._profilesDataService
                     .GetByUsernameAsync(request.UsernameToAttend);
 
-                if (activity.HostId == profile.Id)
+                if (activity.HostId == profileToAttend.Id)
                 {
                     return Result<Unit>.Failure(
                         ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
                 }
 
-                if (!activity.Attendees.Remove(profile))
+                if (!activity.Attendees.Remove(profileToAttend))
                 {
-                    activity.Attendees.Add(profile);
+                    activity.Attendees.Add(profileToAttend);
                 }
 
                 await this._activitiesDataService.SaveChangesAsync(cancellationToken);

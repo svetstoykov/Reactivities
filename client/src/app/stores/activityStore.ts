@@ -170,6 +170,10 @@ export default class ActivityStore {
         }
     };
 
+    clearSelectedActivity = () => {
+        this.selectedActivity = undefined;
+    }
+
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
     };
@@ -200,7 +204,7 @@ export default class ActivityStore {
     };
 
     private setActivity(activity: ActivityApiModel) {
-        activity.date = new Date(activity.date);
+        activity.date = new Date(activity.date + "Z");
         this.activitiesRegistry.set(activity.id!, activity);
     }
 

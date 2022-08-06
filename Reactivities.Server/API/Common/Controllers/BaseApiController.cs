@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models.Common;
 using Models.Enumerations;
@@ -9,6 +10,7 @@ using Models.Enumerations;
 namespace API.Common.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
@@ -20,6 +22,10 @@ namespace API.Common.Controllers
             this.Mediator = mediator;
             this.Mapper = mapper;
         }
+        
+        protected int GetCurrentUserId => Convert.ToInt32(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+        
+        protected string GetCurrentUserUsername => this.User.FindFirstValue(ClaimTypes.Name);
 
         protected ActionResult HandleMappingResult<TOutputData, TViewModel>(Result<TOutputData> result)
             where TOutputData : class
@@ -51,14 +57,5 @@ namespace API.Common.Controllers
                 _ => this.BadRequest(message)
             };
         }
-        
-        protected string GetCurrentUserEmail()
-            => this.User.FindFirstValue(ClaimTypes.Email);
-        
-        protected int GetCurrentUserId()
-            => Convert.ToInt32(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-        
-        protected string GetCurrentUserUsername()
-            => this.User.FindFirstValue(ClaimTypes.Name);
     }
 }

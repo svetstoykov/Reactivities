@@ -11,14 +11,16 @@ import ActivityDetailedSidebar from "./ActivityDetailedSidebar";
 
 function ActivityDetails() {
     const { activityStore } = useStore();
-    const { selectedActivity, loadActivity, loadingInitial } = activityStore;
+    const { selectedActivity, loadActivity, loadingInitial, clearSelectedActivity } = activityStore;
     const { id } = useParams<{ id: string }>();
-    
+
     useEffect(() => {
         if (id) {
             loadActivity(+id);
         }
-    }, [id, loadActivity]);
+
+        return () => clearSelectedActivity();
+    }, [id, loadActivity, clearSelectedActivity]);
 
     if (loadingInitial || !selectedActivity) return <LoadingComponent />;
 
@@ -27,10 +29,13 @@ function ActivityDetails() {
             <GridColumn width={10}>
                 <ActivityDetaledHeader activity={selectedActivity} />
                 <ActivityDetailedInfo activity={selectedActivity} />
-                <ActivityDetailedChat />
+                <ActivityDetailedChat activityId={selectedActivity.id!} />
             </GridColumn>
             <GridColumn width={6}>
-                <ActivityDetailedSidebar attendees={selectedActivity.attendees} host={selectedActivity.host} />
+                <ActivityDetailedSidebar
+                    attendees={selectedActivity.attendees}
+                    host={selectedActivity.host}
+                />
             </GridColumn>
         </Grid>
     );
