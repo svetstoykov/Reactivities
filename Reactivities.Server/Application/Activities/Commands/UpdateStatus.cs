@@ -4,39 +4,40 @@ using Application.Activities.DataServices;
 using MediatR;
 using Models.Common;
 
-namespace Application.Activities.Commands;
-
-public class UpdateStatus
+namespace Application.Activities.Commands
 {
-    public class Command : IRequest<Result<Unit>>
+    public class UpdateStatus
     {
-        public Command(int activityId)
+        public class Command : IRequest<Result<Unit>>
         {
-            this.ActivityId = activityId;
+            public Command(int activityId)
+            {
+                this.ActivityId = activityId;
+            }
+
+            public int ActivityId { get; }
         }
 
-        public int ActivityId { get; }
-    }
-
-    public class Handler : IRequestHandler<Command, Result<Unit>>
-    {
-        private readonly IActivitiesDataService _activitiesDataService;
-
-        public Handler(IActivitiesDataService activitiesDataService)
+        public class Handler : IRequestHandler<Command, Result<Unit>>
         {
-            this._activitiesDataService = activitiesDataService;
-        }
+            private readonly IActivitiesDataService _activitiesDataService;
 
-        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
-        {
-            var activity = await this._activitiesDataService
-                .GetByIdAsync(request.ActivityId);
+            public Handler(IActivitiesDataService activitiesDataService)
+            {
+                this._activitiesDataService = activitiesDataService;
+            }
 
-            activity.IsCancelled = !activity.IsCancelled;
+            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var activity = await this._activitiesDataService
+                    .GetByIdAsync(request.ActivityId);
 
-            await this._activitiesDataService.SaveChangesAsync(cancellationToken);
+                activity.IsCancelled = !activity.IsCancelled;
+
+                await this._activitiesDataService.SaveChangesAsync(cancellationToken);
             
-            return Result<Unit>.Success(Unit.Value);
+                return Result<Unit>.Success(Unit.Value);
+            }
         }
     }
 }

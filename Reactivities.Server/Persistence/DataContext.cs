@@ -23,6 +23,14 @@ namespace Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            BuildActivityEntity(modelBuilder);
+            BuildProfileEntity(modelBuilder);
+
+            base.OnModelCreating(modelBuilder);
+        }
+
+        private static void BuildActivityEntity(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Activity>()
                 .HasOne(a => a.Category);
 
@@ -34,28 +42,29 @@ namespace Persistence
                 .HasOne(a => a.Host)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<User>()
-                .HasOne<Profile>()
-                .WithOne()
-                .HasForeignKey<User>(u => u.UserName)
-                .HasPrincipalKey<Profile>(p => p.UserName)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
-
-            modelBuilder.Entity<User>()
-                .HasOne<Profile>()
-                .WithOne()
-                .HasForeignKey<User>(u => u.Email)
-                .HasPrincipalKey<Profile>(p => p.Email)
-                .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();
-
+            
             modelBuilder.Entity<Activity>()
                 .HasMany(a => a.Attendees)
                 .WithMany(a => a.AttendingActivities);
+        }
 
-            base.OnModelCreating(modelBuilder);
+        private static void BuildProfileEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Profile>()
+                .HasIndex(p => p.UserName)
+                .IsUnique();
+
+            modelBuilder.Entity<Profile>()
+                .Property(p => p.UserName)
+                .IsRequired();
+
+            modelBuilder.Entity<Profile>()
+                .HasIndex(p => p.Email)
+                .IsUnique();
+
+            modelBuilder.Entity<Profile>()
+                .Property(p => p.Email)
+                .IsRequired();
         }
     }
 }

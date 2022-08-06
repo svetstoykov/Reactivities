@@ -62,7 +62,7 @@ function PhotoUploadWidget() {
                             <Button
                                 fluid
                                 negative
-                                loading={profileStore.uploading}
+                                loading={profileStore.loading}
                                 onClick={handleDeleteProfilePicture}>
                                 Delete current profile picture
                             </Button>
@@ -77,11 +77,11 @@ function PhotoUploadWidget() {
                         <Grid.Column width={5}></Grid.Column>
                         <Grid.Column width={5}>
                             <Button.Group fluid>
-                                <Button disabled={profileStore.uploading} onClick={() => setFiles([])}>
+                                <Button disabled={profileStore.loading} onClick={() => setFiles([])}>
                                     Cancel
                                 </Button>
                                 <Button.Or />
-                                <Button loading={profileStore.uploading} onClick={onCrop} positive>
+                                <Button loading={profileStore.loading} onClick={onCrop} positive>
                                     Save
                                 </Button>
                             </Button.Group>

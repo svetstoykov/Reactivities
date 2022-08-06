@@ -10,84 +10,85 @@ using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Profile = Domain.Profiles.Profile;
 
-namespace Application.Common.Identity.Commands;
-
-public class Register
+namespace Application.Common.Identity.Commands
 {
-    public class Command : IRequest<Result<string>>
+    public class Register
     {
-        public Command(string displayName, string username, string password, string email)
+        public class Command : IRequest<Result<string>>
         {
-            this.DisplayName = displayName;
-            this.Username = username;
-            this.Password = password;
-            this.Email = email;
-        }
-
-        public string DisplayName { get; init; }
-
-        public string Username { get; init; }
-
-        public string Password { get; init; }
-
-        public string Email { get; init; }
-    }
-
-    public class Handler : IRequestHandler<Command, Result<string>>
-    {
-        private readonly UserManager<User> _userManager;
-        private readonly ITokenService _tokenService;
-        private readonly IMapper _mapper;
-
-        public Handler(UserManager<User> userManager, ITokenService tokenService,IMapper mapper)
-        {
-            this._userManager = userManager;
-            this._tokenService = tokenService;
-            this._mapper = mapper;
-        }
-
-        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
-        {
-            var validationResult = await this.ValidateUserDetails(request);
-            if (!validationResult.IsSuccessful)
+            public Command(string displayName, string username, string password, string email)
             {
-                return validationResult;
+                this.DisplayName = displayName;
+                this.Username = username;
+                this.Password = password;
+                this.Email = email;
             }
 
-            var profile = Profile.New(
-                request.Username, request.Email, request.DisplayName);
+            public string DisplayName { get; init; }
 
-            var user = this._mapper.Map<User>(profile);
+            public string Username { get; init; }
 
-            var registerUser = await this._userManager.CreateAsync(user, request.Password);
+            public string Password { get; init; }
 
-            if (registerUser.Succeeded)
-            {
-                return Result<string>.Success(
-                    this._tokenService.GenerateToken(user));
-            }
-
-            return Result<string>.Failure(
-                CommonErrorMessages.FailedToCreateUser);
+            public string Email { get; init; }
         }
 
-        private async Task<Result<string>> ValidateUserDetails(Command request)
+        public class Handler : IRequestHandler<Command, Result<string>>
         {
-            if (await this._userManager.Users.AnyAsync(u => 
-                    u.Email.ToLower() == request.Email.ToLower()))
+            private readonly UserManager<User> _userManager;
+            private readonly ITokenService _tokenService;
+            private readonly IMapper _mapper;
+
+            public Handler(UserManager<User> userManager, ITokenService tokenService,IMapper mapper)
             {
+                this._userManager = userManager;
+                this._tokenService = tokenService;
+                this._mapper = mapper;
+            }
+
+            public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var validationResult = await this.ValidateUserDetails(request);
+                if (!validationResult.IsSuccessful)
+                {
+                    return validationResult;
+                }
+
+                var profile = Profile.New(
+                    request.Username, request.Email, request.DisplayName);
+
+                var user = this._mapper.Map<User>(profile);
+
+                var registerUser = await this._userManager.CreateAsync(user, request.Password);
+
+                if (registerUser.Succeeded)
+                {
+                    return Result<string>.Success(
+                        this._tokenService.GenerateToken(user));
+                }
+
                 return Result<string>.Failure(
-                    string.Format(CommonErrorMessages.EmailTaken, request.Email));
+                    CommonErrorMessages.FailedToCreateUser);
             }
 
-            if (await this._userManager.Users.AnyAsync(u => 
-                    u.UserName.ToLower() == request.Username.ToLower()))
+            private async Task<Result<string>> ValidateUserDetails(Command request)
             {
-                return Result<string>.Failure(
-                    string.Format(CommonErrorMessages.UsernameTaken, request.Username));
-            }
+                if (await this._userManager.Users.AnyAsync(u => 
+                        u.Email.ToLower() == request.Email.ToLower()))
+                {
+                    return Result<string>.Failure(
+                        string.Format(CommonErrorMessages.EmailTaken, request.Email));
+                }
 
-            return Result<string>.Success(null);
+                if (await this._userManager.Users.AnyAsync(u => 
+                        u.UserName.ToLower() == request.Username.ToLower()))
+                {
+                    return Result<string>.Failure(
+                        string.Format(CommonErrorMessages.UsernameTaken, request.Username));
+                }
+
+                return Result<string>.Success(null);
+            }
         }
     }
 }

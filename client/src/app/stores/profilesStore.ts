@@ -7,7 +7,8 @@ export default class ProfileStore {
     private profile: ProfileApiModel | null = null;
     private selectedProfile: ProfileApiModel | null = null;
     loadingUser = false;
-    uploading = false;
+    loading = false;
+    editDetailsMode = false;
 
     constructor() {
         makeAutoObservable(this);
@@ -48,30 +49,47 @@ export default class ProfileStore {
     };
 
     uploadProfilePicture = async (file: Blob) => {
-        this.setUploading(true);
-        try{
+        this.setLoading(true);
+        try {
             const response = await agent.Profiles.uploadPhoto(file);
             const pictureUrl = response.data;
 
-            this.setProfilePicture(pictureUrl)
-        }catch(error){
-            console.log(error)
-        }finally{
-            this.setUploading(false);
+            this.setProfilePicture(pictureUrl);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setLoading(false);
         }
     };
 
     deleteProfilePicture = async () => {
-        this.setUploading(true);
-        try{
+        this.setLoading(true);
+        try {
             await agent.Profiles.deletePhoto();
 
-            this.setProfilePicture('')
-        }catch(error){
-            console.log(error)
-        }finally{
-            this.setUploading(false);
+            this.setProfilePicture("");
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setLoading(false);
         }
+    };
+
+    updateDetails = async (profile: ProfileApiModel) => {
+        this.setLoading(true);
+        try {
+            await agent.Profiles.updateDetails(profile);
+
+            await this.loadCurrentProfile();
+        } catch (error) {
+            console.log(error);
+        } finally {
+            this.setLoading(false);
+        }
+    };
+
+    setEditDetailsMode = (state: boolean) => {
+        this.editDetailsMode = state;
     };
 
     isActivityHost = (activityHostUsername: string | undefined) => {
@@ -90,10 +108,10 @@ export default class ProfileStore {
 
     private setProfilePicture = (pictureUrl: string) => {
         this.currentProfile!.pictureUrl = pictureUrl;
-    }
+    };
 
-    private setUploading = (state: boolean) => {
-        this.uploading = state;
+    private setLoading = (state: boolean) => {
+        this.loading = state;
     };
 
     private setSelectedProfile = (selectedProfile: ProfileApiModel | null) => {
