@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220806190151_AddProfileFollowings")]
+    partial class AddProfileFollowings
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,7 +259,7 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("ObserverId")
+                    b.Property<int>("ObserverId")
                         .HasColumnType("int");
 
                     b.Property<int>("TargetId")
@@ -268,6 +270,9 @@ namespace Persistence.Migrations
                     b.HasIndex("ObserverId");
 
                     b.HasIndex("TargetId");
+
+                    b.HasIndex("TargetId", "ObserverId")
+                        .IsUnique();
 
                     b.ToTable("ProfileFollowings");
                 });
@@ -483,7 +488,8 @@ namespace Persistence.Migrations
                     b.HasOne("Domain.Profiles.Profile", "Observer")
                         .WithMany("Followings")
                         .HasForeignKey("ObserverId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Domain.Profiles.Profile", "Target")
                         .WithMany("Followers")

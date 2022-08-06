@@ -15,6 +15,10 @@ namespace Application.Common.MappingProfiles
                     opt => opt.MapFrom(src => src.UserName));
 
             this.CreateMap<DomainEntity.Profile, ProfileOutputModel>()
+                .ForMember(dest => dest.Followers,
+                    opt => opt.MapFrom(src => src.Followers.Count))
+                .ForMember(dest => dest.Followings,
+                    opt => opt.MapFrom(src => src.Followings.Count))
                 .ForMember(dest => dest.PictureUrl,
                     opt => opt.MapFrom(src => src.Picture == null 
                         ? string.Empty 

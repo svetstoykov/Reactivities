@@ -43,7 +43,7 @@ export default class CommentStore {
 
     addComment = async (request: AddCommentRequestModel) => {
         request.activityId = store.activityStore.selectedActivity?.id!;
-        request.username = store.profileStore.currentProfile?.username!;
+        request.username = store.profileStore.currentProfile.username;
         try {
             await this.hubConnection?.invoke("SendComment", request);
         } catch (error) {

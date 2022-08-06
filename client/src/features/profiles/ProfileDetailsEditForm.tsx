@@ -32,7 +32,7 @@ function ProfileDetailsEditForm() {
                 <Formik
                     enableReinitialize
                     validationSchema={validationSchema}
-                    initialValues={profileStore.currentProfile!}
+                    initialValues={profileStore.currentProfile}
                     onSubmit={(values) => handleFormSubmit(values)}>
                     {({ handleSubmit, isSubmitting, isValid, dirty }) => (
                         <Form className="ui form" onSubmit={handleSubmit} autoComplete="off">

@@ -24,8 +24,8 @@ function ProfilePage() {
             <Grid.Column width={16}>
                 {selectedProfile && (
                     <>
-                        <ProfileHeader profile={selectedProfile!} />
-                        <ProfileContent profile={selectedProfile!} />
+                        <ProfileHeader />
+                        <ProfileContent />
                     </>
                 )}
             </Grid.Column>

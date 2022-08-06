@@ -7,6 +7,10 @@
         public string Bio { get; set; }
 
         public string DisplayName { get; set; }
+        
+        public int Followers { get; set; }
+        
+        public int Followings { get; set; }
 
         public string Username { get; set; }
 

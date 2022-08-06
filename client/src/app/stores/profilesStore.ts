@@ -15,7 +15,7 @@ export default class ProfileStore {
     }
 
     get currentProfile() {
-        return this.profile;
+        return this.profile!;
     }
 
     get isLoggedIn() {
@@ -115,7 +115,7 @@ export default class ProfileStore {
     };
 
     private setProfilePicture = (pictureUrl: string) => {
-        this.currentProfile!.pictureUrl = pictureUrl;
+        this.currentProfile.pictureUrl = pictureUrl;
     };
 
     private setLoading = (state: boolean) => {

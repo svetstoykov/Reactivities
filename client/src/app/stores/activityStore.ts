@@ -141,14 +141,14 @@ export default class ActivityStore {
             if (store.profileStore.isGoingToActivity(this.selectedActivity?.id!)) {
                 this.setAttendees(
                     this.selectedActivity!.attendees?.filter(
-                        (a) => a.username !== profile?.username
+                        (a) => a.username !== profile.username
                     )
                 );
 
                 return;
             }
 
-            this.addAtendee(profile!);
+            this.addAtendee(profile);
         } catch (error) {
             this.logException(error);
         } finally {

@@ -3,7 +3,9 @@ using System.Threading.Tasks;
 using Application.Profiles.DataServices;
 using Application.Profiles.Models;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Models.Common;
 
 namespace Application.Profiles.Queries
@@ -34,11 +36,11 @@ namespace Application.Profiles.Queries
             public async Task<Result<ProfileOutputModel>> Handle(Query request, CancellationToken cancellationToken)
             {
                 var profile = await this._profilesDataService
-                    .GetByUsernameAsync(request.Username);
+                    .GetAsQueryable()
+                    .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(p => p.Username == request.Username, cancellationToken);
 
-                var outputModel = this._mapper.Map<ProfileOutputModel>(profile);
-
-                return Result<ProfileOutputModel>.Success(outputModel);
+                return Result<ProfileOutputModel>.Success(profile);
             }
         }
     }

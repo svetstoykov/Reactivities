@@ -28,12 +28,12 @@ function NavBar() {
                     />
                 </Menu.Item>
                 <Menu.Item position="right">
-                    <Image src={currentProfile?.pictureUrl || "/assets/user.png"} avatar spaced="right" />
-                    <Dropdown pointing="top left" text={currentProfile?.displayName}>
+                    <Image src={currentProfile.pictureUrl || "/assets/user.png"} avatar spaced="right" />
+                    <Dropdown pointing="top left" text={currentProfile.displayName}>
                         <DropdownMenu>
                             <Dropdown.Item
                                 as={Link}
-                                to={`/profile/${currentProfile?.username}`}
+                                to={`/profile/${currentProfile.username}`}
                                 text="My Profile"
                                 icon="user"
                             />

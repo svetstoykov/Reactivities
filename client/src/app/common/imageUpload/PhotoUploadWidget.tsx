@@ -54,7 +54,7 @@ function PhotoUploadWidget() {
                     )}
                 </Grid.Column>
             </Grid.Row>
-            {!files.length && profileStore.currentProfile!.pictureUrl && (
+            {!files.length && profileStore.currentProfile.pictureUrl && (
                 <>
                     <Grid.Row>
                         <Grid.Column width={5}></Grid.Column>
