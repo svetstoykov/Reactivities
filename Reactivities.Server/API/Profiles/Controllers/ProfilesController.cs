@@ -6,6 +6,7 @@ using Application.Profiles.Commands;
 using Application.Profiles.Models;
 using Application.Profiles.Queries;
 using AutoMapper;
+using Infrastructure.Common.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

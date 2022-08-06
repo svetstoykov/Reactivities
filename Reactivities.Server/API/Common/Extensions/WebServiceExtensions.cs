@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using API.Common.Identity.Policies;
 using Application.Common.Identity.Models;
 using FluentValidation.AspNetCore;
@@ -21,6 +22,7 @@ namespace API.Common.Extensions
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddControllers();
+            services.AddSignalR();
             services.Configure<CloudinarySettings>(configuration.GetSection(GlobalConstants.Cloudinary));
 
             return services
@@ -38,19 +40,7 @@ namespace API.Common.Extensions
                 .AddEntityFrameworkStores<DataContext>()
                 .AddSignInManager<SignInManager<User>>();
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[GlobalConstants.TokenKey]));
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(cfg =>
-                {
-                    cfg.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = key,
-                        ValidateIssuer = false,
-                        ValidateAudience = false
-                    };
-                });
+            services.AddJwtAuthentication(configuration);
 
             services.AddAuthorization(cfg =>
             {
@@ -63,6 +53,37 @@ namespace API.Common.Extensions
             services.AddScoped<IAuthorizationHandler, IsHostRequirementHandler>();
 
             return services;
+        }
+
+        private static void AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[GlobalConstants.TokenKey]));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(cfg =>
+                {
+                    cfg.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = key,
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                    cfg.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/comments"))
+                            {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
         }
 
         private static IServiceCollection AddCustomFluentValidation(this IServiceCollection services)

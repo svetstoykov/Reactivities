@@ -28,16 +28,16 @@ namespace API.Activities.Controllers
                 await this.Mediator.Send(new List.Query()));
         
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetActivity(int id)
+        [HttpGet("{activityId:int}")]
+        public async Task<IActionResult> GetActivity(int activityId)
             =>  this.HandleMappingResult<ActivityOutputModel, ActivityApiModel>(
-                    await this.Mediator.Send(new Details.Query(id)));
+                    await this.Mediator.Send(new Details.Query(activityId)));
         
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{activityId:int}")]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
-        public async Task<IActionResult> DeleteActivity(int id)
-            => this.HandleResult(await this.Mediator.Send(new Delete.Command(id)));
+        public async Task<IActionResult> DeleteActivity(int activityId)
+            => this.HandleResult(await this.Mediator.Send(new Delete.Command(activityId)));
 
 
         [HttpGet("categories")]
@@ -46,15 +46,15 @@ namespace API.Activities.Controllers
                 await this.Mediator.Send(new Categories.Query()));
         
 
-        [HttpPost("updateStatus/{id}")]
+        [HttpPost("updateStatus/{activityId:int}")]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
-        public async Task<IActionResult> UpdateStatus(int id)
-            => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(id)));
+        public async Task<IActionResult> UpdateStatus(int activityId)
+            => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(activityId)));
 
 
-        [HttpPost("updateAttendance/{id}")]
-        public async Task<IActionResult> UpdateAttendance(int id)
-            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(id, this.GetCurrentUserUsername)));
+        [HttpPost("updateAttendance/{activityId:int}")]
+        public async Task<IActionResult> UpdateAttendance(int activityId)
+            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(activityId, this.GetCurrentUserUsername)));
 
 
         [HttpPost]

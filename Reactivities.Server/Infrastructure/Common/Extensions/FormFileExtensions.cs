@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace API.Common.Extensions
+namespace Infrastructure.Common.Extensions
 {
     public static class FormFileExtensions
     {

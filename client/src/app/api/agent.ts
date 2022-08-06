@@ -52,13 +52,13 @@ const requests = {
 
 const Activities = {
     list: () => requests.get<ActivityApiModel[]>("/activities"),
-    details: (id: number) => requests.get<ActivityApiModel>(`/activities/${id}`),
+    details: (activityId: number) => requests.get<ActivityApiModel>(`/activities/${activityId}`),
     create: (activity: ActivityApiModel) => requests.post<number>("/activities", activity),
     update: (activity: ActivityApiModel) => requests.put(`/activities/`, activity),
-    delete: (id: number) => requests.delete(`/activities/${id}`),
+    delete: (activityId: number) => requests.delete(`/activities/${activityId}`),
     categories: () => requests.get<CategoryApiModel[]>(`/activities/categories`),
-    updateAttendance: (id:number) => requests.post(`/activities/updateAttendance/${id}`, {}),
-    updateStatus: (id: number) => requests.post(`/activities/updateStatus/${id}`, {})
+    updateAttendance: (activityId:number) => requests.post(`/activities/updateAttendance/${activityId}`, {}),
+    updateStatus: (activityId: number) => requests.post(`/activities/updateStatus/${activityId}`, {})
 };
 
 const Accounts = {
