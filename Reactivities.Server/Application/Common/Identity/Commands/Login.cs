@@ -7,59 +7,60 @@ using Microsoft.AspNetCore.Identity;
 using Models.Common;
 using User = Application.Common.Identity.Models.User;
 
-namespace Application.Common.Identity.Commands;
-
-public class Login
+namespace Application.Common.Identity.Commands
 {
-    public class Command: IRequest<Result<string>>
+    public class Login
     {
-        public Command(string email, string password)
+        public class Command: IRequest<Result<string>>
         {
-            this.Email = email;
-            this.Password = password;
-        }
-
-        public string Email { get; init; }
-
-        public string Password { get; init; }
-    }
-
-    public class Handler : IRequestHandler<Command, Result<string>>
-    {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ITokenService _tokenService;
-
-        public Handler(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            ITokenService tokenService)
-        {
-            this._userManager = userManager;
-            this._signInManager = signInManager;
-            this._tokenService = tokenService;
-        }
-
-        public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
-        {
-            var user = await this._userManager.FindByEmailAsync(request.Email);
-
-            if (user == null)
+            public Command(string email, string password)
             {
+                this.Email = email;
+                this.Password = password;
+            }
+
+            public string Email { get; init; }
+
+            public string Password { get; init; }
+        }
+
+        public class Handler : IRequestHandler<Command, Result<string>>
+        {
+            private readonly UserManager<User> _userManager;
+            private readonly SignInManager<User> _signInManager;
+            private readonly ITokenService _tokenService;
+
+            public Handler(
+                UserManager<User> userManager,
+                SignInManager<User> signInManager,
+                ITokenService tokenService)
+            {
+                this._userManager = userManager;
+                this._signInManager = signInManager;
+                this._tokenService = tokenService;
+            }
+
+            public async Task<Result<string>> Handle(Command request, CancellationToken cancellationToken)
+            {
+                var user = await this._userManager.FindByEmailAsync(request.Email);
+
+                if (user == null)
+                {
+                    return Result<string>.Unauthorized(
+                        CommonErrorMessages.InvalidEmail);
+                }
+                
+                var signInResult = await this._signInManager
+                    .CheckPasswordSignInAsync(user, request.Password, false);
+
+                if (signInResult.Succeeded)
+                {
+                    return Result<string>.Success(this._tokenService.GenerateToken(user));
+                }
+
                 return Result<string>.Unauthorized(
-                    CommonErrorMessages.InvalidEmail);
+                    CommonErrorMessages.FailedLogin);
             }
-
-            var signInResult = await this._signInManager
-                .CheckPasswordSignInAsync(user, request.Password, false);
-
-            if (signInResult.Succeeded)
-            {
-                return Result<string>.Success(this._tokenService.GenerateToken(user));
-            }
-
-            return Result<string>.Unauthorized(
-                CommonErrorMessages.FailedLogin);
         }
     }
 }

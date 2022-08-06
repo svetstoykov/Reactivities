@@ -76,7 +76,8 @@ const Profiles = {
             headers: { 'Content-type': 'multipart/form-data' }
         })
     },
-    deletePhoto: () => requests.delete('/profiles/deleteProfilePicture')
+    deletePhoto: () => requests.delete('/profiles/deleteProfilePicture'),
+    updateDetails: (profile: ProfileApiModel) => requests.put('profiles', profile)
 }
 
 const showToasterErrorNotification = (status: number, data: any) => {

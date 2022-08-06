@@ -29,6 +29,11 @@ namespace API.Profiles.Controllers
             => this.HandleMappingResult<ProfileOutputModel, ProfileApiModel>(
                 await this.Mediator.Send(new GetProfile.Query(this.GetCurrentUserUsername())));
 
+        [HttpPut]
+        public async Task<IActionResult> UpdateDetails(ProfileApiModel request)
+            => this.HandleResult( await this.Mediator.Send(new UpdateDetails.Command(
+                request.DisplayName, request.Bio, request.Email, request.Username)));
+
         [HttpPost("uploadProfilePicture")]
         public async Task<IActionResult> UploadProfilePicture([FromForm] IFormFile file)
             => this.HandleResult(await this.Mediator.Send(new UploadProfilePicture.Command(
