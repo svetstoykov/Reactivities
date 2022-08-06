@@ -40,6 +40,7 @@ namespace Application.Activities.Queries
                 var comments = await this._commentsDataService
                     .GetAsQueryable()
                     .Where(c => c.ActivityId == request.ActivityId)
+                    .OrderByDescending(c => c.CreatedAt)
                     .ProjectTo<CommentOutputModel>(this._mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);
 

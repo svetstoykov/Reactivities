@@ -11,5 +11,7 @@
         public const string IsActivityHostPolicy = "IsActivityHost";
 
         public const string Cloudinary = "Cloudinary";
+
+        public const string ActivityIdQueryParam = "activityId";
     }
 }

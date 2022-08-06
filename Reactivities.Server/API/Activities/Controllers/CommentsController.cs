@@ -21,7 +21,7 @@ namespace API.Activities.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment(AddCommentRequestModel request)
             => this.HandleMappingResult<CommentOutputModel, CommentApiModel>(
-                await this.Mediator.Send(new AddComment.Command(request.Content, request.ActivityId, this.GetCurrentUserUsername)));
+                await this.Mediator.Send(new AddComment.Command(request.Content, request.ActivityId, request.Username)));
 
         [HttpGet]
         public async Task<IActionResult> GetComments(int activityId)

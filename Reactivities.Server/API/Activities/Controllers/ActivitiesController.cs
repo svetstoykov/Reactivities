@@ -28,13 +28,13 @@ namespace API.Activities.Controllers
                 await this.Mediator.Send(new List.Query()));
         
 
-        [HttpGet("{activityId:int}")]
+        [HttpGet($"{{{GlobalConstants.ActivityIdQueryParam}:int}}")]
         public async Task<IActionResult> GetActivity(int activityId)
             =>  this.HandleMappingResult<ActivityOutputModel, ActivityApiModel>(
                     await this.Mediator.Send(new Details.Query(activityId)));
         
 
-        [HttpDelete("{activityId:int}")]
+        [HttpDelete($"{{{GlobalConstants.ActivityIdQueryParam}:int}}")]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> DeleteActivity(int activityId)
             => this.HandleResult(await this.Mediator.Send(new Delete.Command(activityId)));
@@ -46,13 +46,13 @@ namespace API.Activities.Controllers
                 await this.Mediator.Send(new Categories.Query()));
         
 
-        [HttpPost("updateStatus/{activityId:int}")]
+        [HttpPost($"updateStatus/{{{GlobalConstants.ActivityIdQueryParam}:int}}")]
         [Authorize(Policy = GlobalConstants.IsActivityHostPolicy)]
         public async Task<IActionResult> UpdateStatus(int activityId)
             => this.HandleResult(await this.Mediator.Send(new UpdateStatus.Command(activityId)));
 
 
-        [HttpPost("updateAttendance/{activityId:int}")]
+        [HttpPost($"updateAttendance/{{{GlobalConstants.ActivityIdQueryParam}:int}}")]
         public async Task<IActionResult> UpdateAttendance(int activityId)
             => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(activityId, this.GetCurrentUserUsername)));
 
