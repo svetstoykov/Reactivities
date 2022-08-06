@@ -54,7 +54,7 @@ namespace API.Activities.Controllers
 
         [HttpPost("updateAttendance/{id}")]
         public async Task<IActionResult> UpdateAttendance(int id)
-            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(id, this.GetCurrentUserUsername())));
+            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(id, this.GetCurrentUserUsername)));
 
 
         [HttpPost]
@@ -76,7 +76,7 @@ namespace API.Activities.Controllers
         {
             var inputModel = this.Mapper.Map<TInputModel>(request);
 
-            inputModel.SetHostId(this.GetCurrentUserId());
+            inputModel.SetHostId(this.GetCurrentUserId);
 
             return this.HandleResult(await this.Mediator.Send(commandCreator.Invoke(inputModel)));
         }

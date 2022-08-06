@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq.Expressions;
 using System.Security.Authentication;
 using Domain.Activities;
 using Domain.Common.Base;
@@ -37,9 +38,11 @@ namespace Domain.Profiles
 
         public ICollection<Activity> AttendingActivities { get; set; } = new List<Activity>();
 
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
         public void AddPicture(string publicId, string url)
         {
-            this.Picture = new Picture()
+            this.Picture = new Picture
             {
                 PublicId = publicId,
                 Url = url
@@ -49,12 +52,12 @@ namespace Domain.Profiles
         public static Profile New(
             string userName, string email, string displayName, string bio = null, Picture picture = null)
         {
-            ValidateUser(userName, email, displayName);
+            ValidateProfile(userName, email, displayName);
 
             return new Profile(userName, email, displayName, bio, picture);
         }
 
-        private static void ValidateUser(string userName, string email, string displayName)
+        private static void ValidateProfile(string userName, string email, string displayName)
         {
             if (string.IsNullOrEmpty(userName))
             {

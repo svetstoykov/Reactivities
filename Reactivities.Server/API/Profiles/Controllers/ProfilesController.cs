@@ -27,7 +27,7 @@ namespace API.Profiles.Controllers
         [HttpGet]
         public async Task<IActionResult> GetCurrentProfile()
             => this.HandleMappingResult<ProfileOutputModel, ProfileApiModel>(
-                await this.Mediator.Send(new GetProfile.Query(this.GetCurrentUserUsername())));
+                await this.Mediator.Send(new GetProfile.Query(this.GetCurrentUserUsername)));
 
         [HttpPut]
         public async Task<IActionResult> UpdateDetails(ProfileApiModel request)
@@ -37,11 +37,11 @@ namespace API.Profiles.Controllers
         [HttpPost("uploadProfilePicture")]
         public async Task<IActionResult> UploadProfilePicture([FromForm] IFormFile file)
             => this.HandleResult(await this.Mediator.Send(new UploadProfilePicture.Command(
-                await file.GetBytesAsync(), file.FileName, this.GetCurrentUserUsername())));
+                await file.GetBytesAsync(), file.FileName, this.GetCurrentUserUsername)));
 
         [HttpDelete("deleteProfilePicture")]
         public async Task<IActionResult> DeleteProfilePicture()
             => this.HandleResult(await this.Mediator.Send(new DeleteProfilePicture.Command(
-                this.GetCurrentUserUsername())));
+                this.GetCurrentUserUsername)));
     }
 }

@@ -1,8 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Application.Common.Images.Models;
-using Microsoft.AspNetCore.Http;
+using Application.Pictures.Models;
 
-namespace Application.Common.Images
+namespace Application.Pictures
 {
     public interface IPictureOperationsService
     {

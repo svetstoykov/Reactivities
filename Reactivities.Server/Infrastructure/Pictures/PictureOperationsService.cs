@@ -1,10 +1,10 @@
-﻿using Application.Common.Images;
+﻿using Application.Pictures;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Infrastructure.Pictures.Models;
 using Microsoft.Extensions.Options;
 using Models.ErrorHandling;
-using ApplicationModels = Application.Common.Images.Models;
+using ImageUploadResult = Application.Pictures.Models.ImageUploadResult;
 
 namespace Infrastructure.Pictures
 {
@@ -22,7 +22,7 @@ namespace Infrastructure.Pictures
             this._cloudinary = new Cloudinary(account);
         }
 
-        public async Task<ApplicationModels.ImageUploadResult> UploadPictureAsync(byte[] fileByteArray, string fileName)
+        public async Task<ImageUploadResult> UploadPictureAsync(byte[] fileByteArray, string fileName)
         {
             if (fileByteArray.Length > 0)
             {
@@ -39,7 +39,7 @@ namespace Infrastructure.Pictures
                     throw new AppException(uploadResult.Error.Message);
                 }
 
-                return new ApplicationModels.ImageUploadResult(
+                return new ImageUploadResult(
                     uploadResult.PublicId, uploadResult.SecureUrl.ToString());
             }
 

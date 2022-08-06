@@ -28,5 +28,7 @@ namespace Domain.Activities
         public bool IsCancelled { get; set; }
 
         public ICollection<Profile> Attendees { get; set; } = new List<Profile>();
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
