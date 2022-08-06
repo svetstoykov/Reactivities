@@ -5,7 +5,7 @@ import { store } from "./store";
 
 export default class ProfileStore {
     private profile: ProfileApiModel | null = null;
-    private selectedProfile: ProfileApiModel | null = null;
+    selectedProfile: ProfileApiModel | null = null;
     loadingUser = false;
     loading = false;
     editDetailsMode = false;
@@ -20,6 +20,14 @@ export default class ProfileStore {
 
     get isLoggedIn() {
         return !!this.profile;
+    }
+
+    get isCurrentProfile() {
+        if (this.profile && this.selectedProfile) {
+            return this.profile.username === this.selectedProfile.username;
+        }
+
+        return false;
     }
 
     loadProfile = async (username: string) => {
@@ -80,7 +88,7 @@ export default class ProfileStore {
         try {
             await agent.Profiles.updateDetails(profile);
 
-            await this.loadCurrentProfile();
+            this.setSelectedProfile(profile);
         } catch (error) {
             console.log(error);
         } finally {

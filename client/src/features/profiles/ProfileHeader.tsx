@@ -20,7 +20,10 @@ interface Props {
 }
 
 function ProfileHeader({ profile }: Props) {
-    const { modalStore } = useStore();
+    const {
+        modalStore,
+        profileStore: { currentProfile, isCurrentProfile },
+    } = useStore();
 
     return (
         <Segment>
@@ -28,20 +31,30 @@ function ProfileHeader({ profile }: Props) {
                 <Grid.Column width={12}>
                     <Item.Group>
                         <Item>
-                            <Popup
-                                position="bottom center"
-                                content="Click to change profile picture"
-                                inverted
-                                trigger={
-                                    <Item.Image
-                                        avatar
-                                        style={{ cursor: "pointer" }}
-                                        size="small"
-                                        src={profile.pictureUrl || "/assets/user.png"}
-                                        onClick={() => modalStore.openModal(<PhotoUploadWidget />,  true)}
-                                    />
-                                }
-                            />
+                            {isCurrentProfile ? (
+                                <Popup
+                                    position="bottom center"
+                                    content="Click to change profile picture"
+                                    inverted
+                                    trigger={
+                                        <Item.Image
+                                            avatar
+                                            style={{ cursor: "pointer" }}
+                                            size="small"
+                                            src={currentProfile!.pictureUrl || "/assets/user.png"}
+                                            onClick={() =>
+                                                modalStore.openModal(<PhotoUploadWidget />, true)
+                                            }
+                                        />
+                                    }
+                                />
+                            ) : (
+                                <Item.Image
+                                    avatar
+                                    size="small"
+                                    src={profile.pictureUrl || "/assets/user.png"}
+                                />
+                            )}
                             <Item.Content verticalAlign="middle">
                                 <Header as="h1" content={profile.displayName} />
                             </Item.Content>
