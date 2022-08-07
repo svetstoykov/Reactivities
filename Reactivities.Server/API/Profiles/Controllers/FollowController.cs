@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using API.Common.Controllers;
+using API.Profiles.Models;
 using Application.Profiles.Commands;
+using Application.Profiles.Models;
+using Application.Profiles.Queries;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +19,12 @@ namespace API.Profiles.Controllers
 
         [HttpPost("{username}")]
         public async Task<IActionResult> Follow(string username)
-            =>this.HandleResult(await this.Mediator.Send(new FollowToggle.Command(
+            => this.HandleResult(await this.Mediator.Send(new FollowToggle.Command(
                 this.GetCurrentUserUsername, username)));
+
+        [HttpGet("{username}")]
+        public async Task<IActionResult> GetFollowings(string username, bool getFollowers)
+            => this.HandleMappingResult<IEnumerable<ProfileOutputModel>, IEnumerable<ProfileApiModel>>(
+                await this.Mediator.Send(new GetFollowings.Query(username, getFollowers)));
     }
 }

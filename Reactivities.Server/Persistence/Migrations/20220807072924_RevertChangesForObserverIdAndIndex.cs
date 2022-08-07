@@ -4,25 +4,14 @@
 
 namespace Persistence.Migrations
 {
-    public partial class UpdateFKDeleteForProfileFollowings : Migration
+    public partial class RevertChangesForObserverIdAndIndex : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropIndex(
-                name: "IX_ProfileFollowings_TargetId_ObserverId",
+                name: "IX_ProfileFollowings_ObserverId",
                 table: "ProfileFollowings");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "ObserverId",
-                table: "ProfileFollowings",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
             migrationBuilder.AlterColumn<int>(
                 name: "ObserverId",
                 table: "ProfileFollowings",
@@ -34,10 +23,30 @@ namespace Persistence.Migrations
                 oldNullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfileFollowings_TargetId_ObserverId",
+                name: "IX_ProfileFollowings_ObserverId_TargetId",
                 table: "ProfileFollowings",
-                columns: new[] { "TargetId", "ObserverId" },
+                columns: new[] { "ObserverId", "TargetId" },
                 unique: true);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropIndex(
+                name: "IX_ProfileFollowings_ObserverId_TargetId",
+                table: "ProfileFollowings");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "ObserverId",
+                table: "ProfileFollowings",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProfileFollowings_ObserverId",
+                table: "ProfileFollowings",
+                column: "ObserverId");
         }
     }
 }

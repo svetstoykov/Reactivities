@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220806194128_UpdateFKDeleteForProfileFollowings")]
-    partial class UpdateFKDeleteForProfileFollowings
+    [Migration("20220807072709_UpdateFKDeleteForFollowings")]
+    partial class UpdateFKDeleteForFollowings
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

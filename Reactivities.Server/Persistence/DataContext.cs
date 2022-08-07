@@ -86,8 +86,7 @@ namespace Persistence
                     .HasForeignKey(t => t.TargetId)
                     .OnDelete(DeleteBehavior.Cascade);
 
-                profileFollowing.HasIndex(pf => pf.TargetId);
-                profileFollowing.HasIndex(pf => pf.ObserverId);
+                profileFollowing.HasIndex(p => new {p.ObserverId, p.TargetId}).IsUnique();
             });
         }
     }

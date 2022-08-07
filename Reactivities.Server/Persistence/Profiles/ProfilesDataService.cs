@@ -16,6 +16,9 @@ namespace Persistence.Profiles
         {
         }
 
+        public IQueryable<ProfileFollowing> GetProfileFollowingsAsQueryable()
+            => this.DataContext.ProfileFollowings;
+        
         public async Task<Profile> GetByUsernameAsync(string username, bool throwExceptionIfNull = true)
         {
             var profile = await this.DataSet

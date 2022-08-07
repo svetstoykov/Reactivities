@@ -4,7 +4,7 @@ namespace Domain.Profiles
 {
     public class ProfileFollowing : DomainEntity
     {
-        public int? ObserverId { get; set; }
+        public int ObserverId { get; set; }
     
         public Profile Observer { get; set; }
     
