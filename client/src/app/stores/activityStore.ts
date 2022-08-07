@@ -60,7 +60,7 @@ export default class ActivityStore {
             runInAction(() => {
                 this.categories = categories;
             });
-            
+
             this.setLoadingInitial(false);
         } catch (error) {
             console.log(error);
@@ -140,15 +140,13 @@ export default class ActivityStore {
             await agent.Activities.updateAttendance(activityId);
             if (store.profileStore.isGoingToActivity(this.selectedActivity?.id!)) {
                 this.setAttendees(
-                    this.selectedActivity!.attendees?.filter(
-                        (a) => a.username !== profile?.username
-                    )
+                    this.selectedActivity!.attendees?.filter((a) => a.username !== profile.username)
                 );
 
                 return;
             }
 
-            this.addAtendee(profile!);
+            this.addAtendee(profile);
         } catch (error) {
             this.logException(error);
         } finally {
@@ -172,10 +170,21 @@ export default class ActivityStore {
 
     clearSelectedActivity = () => {
         this.selectedActivity = undefined;
-    }
+    };
 
     setLoadingInitial = (state: boolean) => {
         this.loadingInitial = state;
+    };
+
+    updateAttendeeFollowingStatus = (targetUser: string) => {
+        this.activitiesRegistry.forEach((activity) => {
+            activity.attendees.forEach((attendee) => {
+                if (attendee.username === targetUser) {
+                    attendee.following = !attendee.following;
+                    attendee.following ? attendee.followersCount++ : attendee.followersCount--;
+                }
+            });
+        });
     };
 
     private addAtendee = (attendee: ProfileApiModel) => {

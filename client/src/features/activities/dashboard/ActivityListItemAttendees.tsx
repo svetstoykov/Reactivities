@@ -9,20 +9,31 @@ interface Props {
 }
 
 function ActivityListItemAttendees({ attendees }: Props) {
+    const styles = {
+        borderColor: "orange",
+        borderWidth: 3,
+    };
+
     if (attendees.length > 0) {
         return (
             <List horizontal>
-                {attendees.map((a) => (
+                {attendees.map((attendee) => (
                     <Popup
                         hoverable
-                        key={a.username}
+                        key={attendee.username}
                         trigger={
-                            <List.Item key={a.username} as={Link} to={`/profile/${a.username}`}>
-                                <Image size="mini" circular src={a.pictureUrl || "/assets/user.png"} />
+                            <List.Item key={attendee.username} as={Link} to={`/profile/${attendee.username}`}>
+                                <Image
+                                    size="mini"
+                                    circular
+                                    src={attendee.pictureUrl || "/assets/user.png"}
+                                    bordered
+                                    style ={attendee.following ? styles : null}
+                                />
                             </List.Item>
                         }>
                         <Popup.Content>
-                            <ProfileCard profile={a} />
+                            <ProfileCard profile={attendee} />
                         </Popup.Content>
                     </Popup>
                 ))}

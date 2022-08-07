@@ -40,6 +40,10 @@ namespace Domain.Profiles
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
+        public ICollection<ProfileFollowing> Followers { get; set; } = new List<ProfileFollowing>();
+
+        public ICollection<ProfileFollowing> Followings { get; set; } = new List<ProfileFollowing>();
+
         public void AddPicture(string publicId, string url)
         {
             this.Picture = new Picture

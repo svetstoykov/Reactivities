@@ -68,7 +68,6 @@ function ActivityDetailedChat({ activityId }: Props) {
                                 icon="edit"
                                 primary
                                 type="submit"
-                                floated="right"
                             />
                         </Form>
                     )}

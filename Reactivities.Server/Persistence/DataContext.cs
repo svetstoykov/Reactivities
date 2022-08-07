@@ -10,7 +10,6 @@ namespace Persistence
     {
         public DataContext(DbContextOptions options) : base(options)
         {
-
         }
 
         public DbSet<Activity> Activities { get; set; }
@@ -20,8 +19,10 @@ namespace Persistence
         public DbSet<Profile> Profiles { get; set; }
 
         public DbSet<Picture> Pictures { get; set; }
-        
+
         public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<ProfileFollowing> ProfileFollowings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,7 +45,7 @@ namespace Persistence
                 .HasOne(a => a.Host)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
-            
+
             modelBuilder.Entity<Activity>()
                 .HasMany(a => a.Attendees)
                 .WithMany(a => a.AttendingActivities);
@@ -72,6 +73,21 @@ namespace Persistence
                 .HasMany(p => p.Comments)
                 .WithOne(c => c.Author)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProfileFollowing>(profileFollowing =>
+            {
+                profileFollowing.HasOne(o => o.Observer)
+                    .WithMany(p => p.Followings)
+                    .HasForeignKey(o => o.ObserverId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                profileFollowing.HasOne(t => t.Target)
+                    .WithMany(p => p.Followers)
+                    .HasForeignKey(t => t.TargetId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                profileFollowing.HasIndex(p => new {p.ObserverId, p.TargetId}).IsUnique();
+            });
         }
     }
 }

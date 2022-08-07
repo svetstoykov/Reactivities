@@ -54,7 +54,7 @@ namespace API.Activities.Controllers
 
         [HttpPost($"updateAttendance/{{{GlobalConstants.ActivityIdQueryParam}:int}}")]
         public async Task<IActionResult> UpdateAttendance(int activityId)
-            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(activityId, this.GetCurrentUserUsername)));
+            => this.HandleResult(await this.Mediator.Send(new UpdateAttendance.Command(activityId)));
 
 
         [HttpPost]
