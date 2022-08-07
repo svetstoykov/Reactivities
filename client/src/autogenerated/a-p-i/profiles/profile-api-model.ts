@@ -6,7 +6,7 @@ export class ProfileApiModel extends BaseApiModel {
     displayName: string;
     followers: number;
     followings: number;
-    isFollowing: boolean;
+    following: boolean;
     username: string;
     pictureUrl: string;
 }

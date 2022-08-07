@@ -12,11 +12,10 @@ namespace Application.Profiles.Commands
     {
         public class Command : IRequest<Result<string>>
         {
-            public Command(byte[] fileByteArray, string fileName, string username)
+            public Command(byte[] fileByteArray, string fileName)
             {
                 this.FileByteArray = fileByteArray;
                 this.FileName = fileName;
-                this.Username = username;
             }
 
             public byte[] FileByteArray { get; }

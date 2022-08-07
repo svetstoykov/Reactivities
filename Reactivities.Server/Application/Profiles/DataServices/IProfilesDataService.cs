@@ -8,8 +8,6 @@ namespace Application.Profiles.DataServices
 {
     public interface IProfilesDataService : IEntityDataService<Profile>
     {
-        IQueryable<ProfileFollowing> GetProfileFollowingsAsQueryable();
-
         Task<Profile> GetByUsernameAsync(string username, bool throwExceptionIfNull = true);
     }
 }

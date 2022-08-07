@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Application.Profiles.DataServices;
 using Application.Profiles.ErrorHandling;
+using Application.Profiles.Services;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
@@ -13,38 +14,38 @@ namespace Application.Profiles.Commands
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Command(string observerUsername, string targetUsername)
+            public Command(string userToFollow)
             {
-                this.ObserverUsername = observerUsername;
-                this.TargetUsername = targetUsername;
+                this.UserToFollow = userToFollow;
             }
-
-            public string ObserverUsername { get; }
             
-            public string TargetUsername { get; }
+            public string UserToFollow { get; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly IProfilesDataService _profilesDataService;
             private readonly IProfileFollowingsDataService _profileFollowingsDataService;
+            private readonly IProfileAccessor _profileAccessor;
 
-            public Handler(IProfilesDataService profilesDataService, IProfileFollowingsDataService profileFollowingsDataService)
+            public Handler(IProfilesDataService profilesDataService, IProfileFollowingsDataService profileFollowingsDataService, IProfileAccessor profileAccessor)
             {
                 this._profilesDataService = profilesDataService;
                 this._profileFollowingsDataService = profileFollowingsDataService;
+                this._profileAccessor = profileAccessor;
             }
 
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
-                if (request.ObserverUsername == request.TargetUsername)
+                var loggedInUsername = this._profileAccessor.GetLoggedInUsername();
+                if (loggedInUsername == request.UserToFollow)
                 {
                     return Result<Unit>.Failure(ProfileErrorMessages.CannotFollowYourself);
                 }
                 
-                var observer = await this._profilesDataService.GetByUsernameAsync(request.ObserverUsername);
+                var observer = await this._profilesDataService.GetByUsernameAsync(loggedInUsername);
 
-                var target = await this._profilesDataService.GetByUsernameAsync(request.TargetUsername);
+                var target = await this._profilesDataService.GetByUsernameAsync(request.UserToFollow);
 
                 var following = await this._profileFollowingsDataService
                     .GetAsQueryable()

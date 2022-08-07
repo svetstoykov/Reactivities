@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Profiles.DataServices;
 using Application.Profiles.Models;
+using Application.Profiles.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -28,12 +29,14 @@ namespace Application.Profiles.Queries
         
         public class Handler : IRequestHandler<Query, Result<IEnumerable<ProfileOutputModel>>>
         {
-            private readonly IProfilesDataService _profilesDataService;
+            private readonly IProfileFollowingsDataService _profileFollowingsDataService;
+            private readonly IProfileAccessor _profileAccessor;
             private readonly IMapper _mapper;
             
-            public Handler(IProfilesDataService profilesDataService, IMapper mapper)
+            public Handler(IProfileFollowingsDataService profileFollowingsDataService, IProfileAccessor profileAccessor, IMapper mapper)
             {
-                this._profilesDataService = profilesDataService;
+                this._profileFollowingsDataService = profileFollowingsDataService;
+                this._profileAccessor = profileAccessor;
                 this._mapper = mapper;
             }
 
@@ -41,20 +44,19 @@ namespace Application.Profiles.Queries
             {
                 if (request.GetFollowers)
                 {
-                    var followers = await this._profilesDataService
-                        .GetProfileFollowingsAsQueryable()
-                        .Where(pf => pf.Target.UserName == request.Username)
+                    var followers = await this._profileFollowingsDataService
+                        .GetAsQueryable().Where(pf => pf.Target.UserName == request.Username)
                         .Select(pf => pf.Observer)
-                        .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider)
+                        .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider,
+                            new {currentProfile = this._profileAccessor.GetLoggedInUsername()})
                         .ToListAsync(cancellationToken);
                     
                     return Result<IEnumerable<ProfileOutputModel>>
                         .Success(followers);
                 }
                 
-                var followings = await this._profilesDataService
-                    .GetProfileFollowingsAsQueryable()
-                    .Where(pf => pf.Observer.UserName == request.Username)
+                var followings = await this._profileFollowingsDataService
+                    .GetAsQueryable().Where(pf => pf.Observer.UserName == request.Username)
                     .Select(pf => pf.Target)
                     .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider)
                     .ToListAsync(cancellationToken);

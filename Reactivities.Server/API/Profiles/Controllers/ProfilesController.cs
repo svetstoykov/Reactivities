@@ -38,11 +38,10 @@ namespace API.Profiles.Controllers
         [HttpPost("uploadProfilePicture")]
         public async Task<IActionResult> UploadProfilePicture([FromForm] IFormFile file)
             => this.HandleResult(await this.Mediator.Send(new UploadProfilePicture.Command(
-                await file.GetBytesAsync(), file.FileName, this.GetCurrentUserUsername)));
+                await file.GetBytesAsync(), file.FileName)));
 
         [HttpDelete("deleteProfilePicture")]
         public async Task<IActionResult> DeleteProfilePicture()
-            => this.HandleResult(await this.Mediator.Send(new DeleteProfilePicture.Command(
-                this.GetCurrentUserUsername)));
+            => this.HandleResult(await this.Mediator.Send(new DeleteProfilePicture.Command()));
     }
 }

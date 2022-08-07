@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Application.Profiles.DataServices;
 using Application.Profiles.Models;
+using Application.Profiles.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using MediatR;
@@ -25,11 +26,13 @@ namespace Application.Profiles.Queries
         public class Handler : IRequestHandler<Query, Result<ProfileOutputModel>>
         {
             private readonly IProfilesDataService _profilesDataService;
+            private readonly IProfileAccessor _profileAccessor;
             private readonly IMapper _mapper;
 
-            public Handler(IProfilesDataService profilesDataService, IMapper mapper)
+            public Handler(IProfilesDataService profilesDataService,IProfileAccessor profileAccessor, IMapper mapper)
             {
                 this._profilesDataService = profilesDataService;
+                this._profileAccessor = profileAccessor;
                 this._mapper = mapper;
             }
 
@@ -37,7 +40,8 @@ namespace Application.Profiles.Queries
             {
                 var profile = await this._profilesDataService
                     .GetAsQueryable()
-                    .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider)
+                    .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider,
+                        new {currentProfile = this._profileAccessor.GetLoggedInUsername()})
                     .FirstOrDefaultAsync(p => p.Username == request.Username, cancellationToken);
 
                 return Result<ProfileOutputModel>.Success(profile);

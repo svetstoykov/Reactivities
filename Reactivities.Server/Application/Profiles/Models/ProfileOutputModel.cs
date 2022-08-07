@@ -8,6 +8,8 @@
 
         public string DisplayName { get; set; }
         
+        public bool Following { get; set; }
+        
         public int Followers { get; set; }
         
         public int Followings { get; set; }

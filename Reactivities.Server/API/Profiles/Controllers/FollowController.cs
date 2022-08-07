@@ -19,8 +19,7 @@ namespace API.Profiles.Controllers
 
         [HttpPost("{username}")]
         public async Task<IActionResult> Follow(string username)
-            => this.HandleResult(await this.Mediator.Send(new FollowToggle.Command(
-                this.GetCurrentUserUsername, username)));
+            => this.HandleResult(await this.Mediator.Send(new FollowToggle.Command(username)));
 
         [HttpGet("{username}")]
         public async Task<IActionResult> GetFollowings(string username, bool getFollowers)
