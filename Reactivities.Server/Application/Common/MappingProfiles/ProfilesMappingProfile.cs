@@ -16,9 +16,9 @@ namespace Application.Common.MappingProfiles
 
             string currentProfile = null;
             this.CreateMap<DomainEntity.Profile, ProfileOutputModel>()
-                .ForMember(dest => dest.Followers,
+                .ForMember(dest => dest.FollowersCount,
                     opt => opt.MapFrom(src => src.Followers.Count))
-                .ForMember(dest => dest.Followings,
+                .ForMember(dest => dest.FollowingsCount,
                     opt => opt.MapFrom(src => src.Followings.Count))
                 .ForMember(dest => dest.Following,
                     opt => opt.MapFrom(src => src.Followers.Any(f => f.Observer.UserName == currentProfile)))

@@ -22,8 +22,8 @@ namespace API.Profiles.Controllers
             => this.HandleResult(await this.Mediator.Send(new FollowToggle.Command(username)));
 
         [HttpGet("{username}")]
-        public async Task<IActionResult> GetFollowings(string username, bool getFollowers)
+        public async Task<IActionResult> GetFollowings(string username, bool returnFollowersInsteadOfFollowings)
             => this.HandleMappingResult<IEnumerable<ProfileOutputModel>, IEnumerable<ProfileApiModel>>(
-                await this.Mediator.Send(new GetFollowings.Query(username, getFollowers)));
+                await this.Mediator.Send(new GetFollowings.Query(username, returnFollowersInsteadOfFollowings)));
     }
 }

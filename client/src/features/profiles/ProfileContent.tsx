@@ -1,17 +1,28 @@
 import { observer } from "mobx-react-lite";
 import { Tab } from "semantic-ui-react";
-import ProfileDetailsEditForm from "./ProfileDetailsEditForm";
-
+import { useStore } from "../../app/stores/store";
+import ProfileDetails from "./details/ProfileDetails";
+import ProfileFollowings from "./ProfileFollowings";
 
 function ProfileContent() {
+    const {
+        profileStore: { setActiveTab },
+    } = useStore();
+
     const panes = [
-        { menuItem: "About", render: () => <Tab.Pane><ProfileDetailsEditForm/></Tab.Pane> },
+        { menuItem: "About", render: () => <ProfileDetails /> },
         { menuItem: "Events", render: () => <Tab.Pane>Events content</Tab.Pane> },
-        { menuItem: "Followers", render: () => <Tab.Pane>Followers content</Tab.Pane> },
-        { menuItem: "Following", render: () => <Tab.Pane>Following content</Tab.Pane> },
+        { menuItem: "Followers", render: () => <ProfileFollowings /> },
+        { menuItem: "Following", render: () => <ProfileFollowings /> },
     ];
 
-    return <Tab menu={{ fluid: true, vertical: true, tabular: "right" }} panes={panes} />;
+    return (
+        <Tab
+            menu={{ fluid: true, vertical: true, tabular: "right" }}
+            panes={panes}
+            onTabChange={(e, data) => setActiveTab(+data.activeIndex!)}
+        />
+    );
 }
 
 export default observer(ProfileContent);

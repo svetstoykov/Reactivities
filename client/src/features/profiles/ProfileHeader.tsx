@@ -1,23 +1,22 @@
 import { observer } from "mobx-react-lite";
 import {
-    Button,
     Divider,
     Grid,
     Header,
     Item,
     Popup,
-    Reveal,
     Segment,
     Statistic,
     StatisticGroup,
 } from "semantic-ui-react";
 import PhotoUploadWidget from "../../app/common/imageUpload/PhotoUploadWidget";
 import { useStore } from "../../app/stores/store";
+import ProfilesFollowButton from "./ProfilesFollowButton";
 
 function ProfileHeader() {
     const {
         modalStore,
-        profileStore: { currentProfile, selectedProfile ,isCurrentProfile },
+        profileStore: { currentProfile, selectedProfile, isCurrentProfile },
     } = useStore();
 
     return (
@@ -47,34 +46,22 @@ function ProfileHeader() {
                                 <Item.Image
                                     avatar
                                     size="small"
-                                    src={selectedProfile?.pictureUrl || "/assets/user.png"}
+                                    src={selectedProfile.pictureUrl || "/assets/user.png"}
                                 />
                             )}
                             <Item.Content verticalAlign="middle">
-                                <Header as="h1" content={selectedProfile?.displayName} />
+                                <Header as="h1" content={selectedProfile.displayName} />
                             </Item.Content>
                         </Item>
                     </Item.Group>
                 </Grid.Column>
                 <Grid.Column width={4}>
                     <StatisticGroup>
-                        <Statistic label="Followers" value="42" />
-                        <Statistic label="Following" value="5" />
+                        <Statistic label="Followers" value={selectedProfile.followersCount} />
+                        <Statistic label="Following" value={selectedProfile.followingsCount} />
                     </StatisticGroup>
                     <Divider />
-                    <Reveal animated="move">
-                        <Reveal.Content visible style={{ width: "100%" }}>
-                            <Button fluid color="teal" content="Following" />
-                        </Reveal.Content>
-                        <Reveal.Content hidden style={{ width: "100%" }}>
-                            <Button
-                                fluid
-                                basic
-                                color={true ? "green" : "red"}
-                                content={true ? "Follow" : "Unfollow"}
-                            />
-                        </Reveal.Content>
-                    </Reveal>
+                    <ProfilesFollowButton profile={selectedProfile} />
                 </Grid.Column>
             </Grid>
         </Segment>

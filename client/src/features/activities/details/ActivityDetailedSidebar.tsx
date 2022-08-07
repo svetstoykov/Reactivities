@@ -27,23 +27,27 @@ export default observer(function ActivityDetailedSidebar({ attendees, host }: Pr
                         <Label style={{ position: "absolute" }} color="orange" ribbon="right">
                             Host
                         </Label>
-                        <Image size="tiny" src={host.pictureUrl || "/assets/user.png"} />
+                        <Image circular size="tiny" src={host.pictureUrl || "/assets/user.png"} />
                         <Item.Content verticalAlign="middle">
                             <Item.Header as="h3">
                                 <Link to={`/profile/${host.username}`}>{host.displayName}</Link>
                             </Item.Header>
-                            <Item.Extra style={{ color: "orange" }}>Following</Item.Extra>
+                            {host.following && (
+                                <Item.Extra style={{ color: "orange" }}>Following</Item.Extra>
+                            )}
                         </Item.Content>
                     </Item>
 
                     {attendees.map((a) => (
                         <Item key={a.username} style={{ position: "relative" }}>
-                            <Image size="tiny" src={a.pictureUrl || "/assets/user.png"} />
+                            <Image circular size="tiny" src={a.pictureUrl || "/assets/user.png"} />
                             <Item.Content verticalAlign="middle">
                                 <Item.Header as="h3">
-                                <Link to={`/profile/${a.username}`}>{a.displayName}</Link>
+                                    <Link to={`/profile/${a.username}`}>{a.displayName}</Link>
                                 </Item.Header>
-                                <Item.Extra style={{ color: "orange" }}>Following</Item.Extra>
+                                {a.following && (
+                                    <Item.Extra style={{ color: "orange" }}>Following</Item.Extra>
+                                )}
                             </Item.Content>
                         </Item>
                     ))}

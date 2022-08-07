@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Profiles.DataServices;
@@ -7,9 +9,11 @@ using Application.Profiles.Models;
 using Application.Profiles.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Domain.Profiles;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
+using Profile = Domain.Profiles.Profile;
 
 namespace Application.Profiles.Queries
 {
@@ -17,14 +21,14 @@ namespace Application.Profiles.Queries
     {
         public class Query : IRequest<Result<IEnumerable<ProfileOutputModel>>>
         {
-            public Query(string username, bool getFollowers)
+            public Query(string username, bool returnFollowersInsteadOfFollowings)
             {
                 this.Username = username;
-                this.GetFollowers = getFollowers;
+                this.ReturnFollowersInsteadOfFollowings = returnFollowersInsteadOfFollowings;
             }
             
             public string Username { get; }
-            public bool GetFollowers { get; }
+            public bool ReturnFollowersInsteadOfFollowings { get; }
         }
         
         public class Handler : IRequestHandler<Query, Result<IEnumerable<ProfileOutputModel>>>
@@ -42,27 +46,37 @@ namespace Application.Profiles.Queries
 
             public async Task<Result<IEnumerable<ProfileOutputModel>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                if (request.GetFollowers)
+                if (request.ReturnFollowersInsteadOfFollowings)
                 {
-                    var followers = await this._profileFollowingsDataService
-                        .GetAsQueryable().Where(pf => pf.Target.UserName == request.Username)
-                        .Select(pf => pf.Observer)
-                        .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider,
-                            new {currentProfile = this._profileAccessor.GetLoggedInUsername()})
-                        .ToListAsync(cancellationToken);
+                    var followers = await this.GetFollowEntitiesToListAsync(
+                        (p) => p.Target.UserName == request.Username,
+                        (p) => p.Observer,
+                        cancellationToken);
                     
                     return Result<IEnumerable<ProfileOutputModel>>
                         .Success(followers);
                 }
                 
-                var followings = await this._profileFollowingsDataService
-                    .GetAsQueryable().Where(pf => pf.Observer.UserName == request.Username)
-                    .Select(pf => pf.Target)
-                    .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+                var followings = await this.GetFollowEntitiesToListAsync(
+                    (p) => p.Observer.UserName == request.Username,
+                    (p) => p.Target,
+                    cancellationToken);
                 
                 return Result<IEnumerable<ProfileOutputModel>>
                     .Success(followings);
+            }
+
+            private async Task<List<ProfileOutputModel>> GetFollowEntitiesToListAsync<TTargetResult>(
+                Expression<Func<ProfileFollowing, bool>> filter,
+                Expression<Func<ProfileFollowing, TTargetResult>> selector,
+                CancellationToken cancellationToken)
+            {
+                return await this._profileFollowingsDataService
+                    .GetAsQueryable().Where(filter)
+                    .Select(selector)
+                    .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider,
+                        new {currentProfile = this._profileAccessor.GetLoggedInUsername()})
+                    .ToListAsync(cancellationToken);
             }
         }
     }

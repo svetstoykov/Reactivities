@@ -12,7 +12,7 @@ namespace Application.Profiles.Commands
 {
     public class FollowToggle
     {
-        public class Command : IRequest<Result<Unit>>
+        public class Command : IRequest<Result<bool>>
         {
             public Command(string userToFollow)
             {
@@ -22,7 +22,7 @@ namespace Application.Profiles.Commands
             public string UserToFollow { get; }
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public class Handler : IRequestHandler<Command, Result<bool>>
         {
             private readonly IProfilesDataService _profilesDataService;
             private readonly IProfileFollowingsDataService _profileFollowingsDataService;
@@ -35,12 +35,12 @@ namespace Application.Profiles.Commands
                 this._profileAccessor = profileAccessor;
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            public async Task<Result<bool>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var loggedInUsername = this._profileAccessor.GetLoggedInUsername();
                 if (loggedInUsername == request.UserToFollow)
                 {
-                    return Result<Unit>.Failure(ProfileErrorMessages.CannotFollowYourself);
+                    return Result<bool>.Failure(ProfileErrorMessages.CannotFollowYourself);
                 }
                 
                 var observer = await this._profilesDataService.GetByUsernameAsync(loggedInUsername);
@@ -62,7 +62,9 @@ namespace Application.Profiles.Commands
 
                 await this._profilesDataService.SaveChangesAsync(cancellationToken);
 
-                return Result<Unit>.Success(Unit.Value);
+                var isNowFollowed = following == null;
+                
+                return Result<bool>.Success(isNowFollowed);
             }
         }
     }

@@ -10,9 +10,9 @@
         
         public bool Following { get; set; }
         
-        public int Followers { get; set; }
+        public int FollowersCount { get; set; }
         
-        public int Followings { get; set; }
+        public int FollowingsCount { get; set; }
 
         public string Username { get; set; }
 
