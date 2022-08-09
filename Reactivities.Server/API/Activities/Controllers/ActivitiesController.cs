@@ -8,6 +8,7 @@ using Application.Activities.Models.Base;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using Application.Activities.Queries;
+using Application.Common.Models;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,9 +24,9 @@ namespace API.Activities.Controllers
         { }
 
         [HttpGet]
-        public async Task<IActionResult> GetActivities()
-            => this.HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityApiModel>>(
-                await this.Mediator.Send(new List.Query()));
+        public async Task<IActionResult> GetActivities([FromQuery] int? pageSize, int? pageNumber)
+            => this.HandleMappingResult<PaginatedResult<ActivityOutputModel>, PaginatedResult<ActivityApiModel>>(
+                await this.Mediator.Send(new List.Query(pageSize ?? 5, pageNumber ?? 1)));
         
 
         [HttpGet($"{{{GlobalConstants.ActivityIdQueryParam}:int}}")]

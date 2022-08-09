@@ -1,4 +1,4 @@
-﻿using API.Common;
+﻿using API.Common.Models;
 
 namespace API.Profiles.Models
 {
