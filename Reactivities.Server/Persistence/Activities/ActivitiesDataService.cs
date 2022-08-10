@@ -7,6 +7,7 @@ using Application.Activities.DataServices;
 using Application.Activities.ErrorHandling;
 using Application.Activities.Models.Output;
 using Application.Common.Models;
+using Application.Common.Models.Pagination;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Activities;
@@ -26,8 +27,8 @@ namespace Persistence.Activities
         }
 
         public async Task<PaginatedResult<ActivityOutputModel>> GetPaginatedActivitiesAsync
-            (int pageSize, int pageNumber, string loggedInUsername, CancellationToken cancellationToken = default)
-            => await this.DataSet
+            (IQueryable<Activity> activitiesQueryable, int pageSize, int pageNumber, string loggedInUsername, CancellationToken cancellationToken = default)
+            => await activitiesQueryable
                 .ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider, 
                     new { currentProfile = loggedInUsername })
                 .PaginateAsync(pageSize, pageNumber, cancellationToken);

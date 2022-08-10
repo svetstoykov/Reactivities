@@ -4,13 +4,13 @@ import { ProfileApiModel } from '../profiles/profile-api-model';
 export class ActivityApiModel extends BaseApiModel {
     id?: number;
     title: string;
-    date = new Date();
+    date: Date;
     description: string;
     categoryId: number;
     category: string;
     city: string;
     venue: string;
-    host = new ProfileApiModel();
+    host: ProfileApiModel;
     isCancelled: boolean;
-    attendees = new Array<ProfileApiModel>();
+    attendees: Array<ProfileApiModel>;
 }

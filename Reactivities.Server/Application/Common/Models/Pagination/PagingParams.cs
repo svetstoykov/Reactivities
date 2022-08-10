@@ -1,8 +1,8 @@
 ﻿using Models.ErrorHandling;
 
-namespace API.Common.Models
+namespace Application.Common.Models.Pagination
 {
-    public class PagingParams : BaseApiModel
+    public class PagingParams : BaseAppModel
     {
         private int _pageSize;
         private int _pageNumber;
@@ -11,7 +11,7 @@ namespace API.Common.Models
         private const int DefaultPageNumber = 1;
         private const int DefaultPageSize = 5;
 
-        public int PageSize
+        public int? PageSize
         {
             get => this._pageSize;
             set
@@ -21,18 +21,14 @@ namespace API.Common.Models
                     throw new AppException("Maximum page size is 50");
                 }
 
-                this._pageSize = value == default 
-                    ? DefaultPageSize
-                    : value;
+                this._pageSize = value ?? DefaultPageSize;
             }
         }
 
-        public int PageNumber
+        public int? PageNumber
         {
             get => this._pageNumber;
-            set => this._pageNumber = value == default 
-                ? DefaultPageNumber 
-                : value;
+            set => this._pageNumber = value ?? DefaultPageNumber;
         }
     }
 }

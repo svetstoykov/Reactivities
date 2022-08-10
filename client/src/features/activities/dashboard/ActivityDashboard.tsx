@@ -6,29 +6,31 @@ import { useStore } from "../../../app/stores/store";
 import ActivityFilters from "./ActivityFilters";
 import ActivityList from "./ActivityList";
 import InfiniteScroll from "react-infinite-scroller";
-import { defaultPageSize } from "../../../app/common/constants/GlobalConstants";
 
 function ActivityDashboard() {
     const { activityStore } = useStore();
-    const { loadActivities, activitiesRegistry, setPagingParams, pagination } = activityStore;
+    const {
+        loadActivities,
+        activitiesRegistry,
+        setActivityListParams,
+        activityListInputModel,
+        pagination,
+    } = activityStore;
     const [loadingNext, setLoadingNext] = useState(false);
 
     function handleGetNext() {
         setLoadingNext(true);
 
-        setPagingParams({
-            pageSize: defaultPageSize,
-            pageNumber: pagination.pageNumber + 1,
-        });
+        setActivityListParams({ ...activityListInputModel, pageNumber: pagination.pageNumber + 1 });
         loadActivities().then(() => setLoadingNext(false));
     }
 
     useEffect(() => {
         if (activitiesRegistry.size <= 1) loadActivities();
-        
     }, [loadActivities, activitiesRegistry.size]);
 
-    if (activityStore.loadingInitial && !loadingNext) return <LoadingComponent content="Loading Activities" />;
+    if (activityStore.loadingInitial && !loadingNext)
+        return <LoadingComponent content="Loading Activities" />;
 
     return (
         <Grid>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Application.Activities.Models.Enums;
 using Application.Common.Identity.Models;
 using Domain.Activities;
 using Domain.Profiles;
