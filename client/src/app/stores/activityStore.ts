@@ -239,7 +239,7 @@ export default class ActivityStore {
         };
     };
 
-    setActivityStartDateFilter = (startDate: Date) => {
+    setActivityStartDateFilter = (startDate: Date | undefined) => {
         this.activityListInputModel.startDate = startDate;
     };
 

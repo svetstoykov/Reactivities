@@ -51,7 +51,13 @@ function ActivityFilters() {
             </Menu>
             <Header />
             <Calendar
-                onChange={(date: Date) => activityStore.setActivityStartDateFilter(date)}
+                onChange={(date: Date) => {
+                    if (date.toISOString() === activityStore.activityListInputModel.startDate?.toISOString()) {
+                        activityStore.setActivityStartDateFilter(undefined);
+                        return;
+                    }
+                    activityStore.setActivityStartDateFilter(date);
+                }}
                 value={activityStore.activityListInputModel.startDate || new Date()}
             />
         </>
