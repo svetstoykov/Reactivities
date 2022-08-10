@@ -1,4 +1,6 @@
-﻿namespace API.Common.Identity.Models
+﻿using API.Common.Models;
+
+namespace API.Common.Identity.Models
 {
     public class LoginApiModel : BaseApiModel
     {

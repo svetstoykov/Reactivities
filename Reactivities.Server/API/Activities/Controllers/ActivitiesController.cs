@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Activities.Models;
 using API.Common.Controllers;
+using API.Common.Models;
 using Application.Activities.Commands;
 using Application.Activities.Models.Base;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using Application.Activities.Queries;
+using Application.Common.Models;
+using Application.Common.Models.Pagination;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -23,9 +26,9 @@ namespace API.Activities.Controllers
         { }
 
         [HttpGet]
-        public async Task<IActionResult> GetActivities()
-            => this.HandleMappingResult<IEnumerable<ActivityOutputModel>, IEnumerable<ActivityApiModel>>(
-                await this.Mediator.Send(new List.Query()));
+        public async Task<IActionResult> GetActivities([FromQuery] ActivityListInputModel requestInputModel)
+            => this.HandleMappingResult<PaginatedResult<ActivityOutputModel>, PaginatedResult<ActivityApiModel>>(
+                await this.Mediator.Send(new List.Query(requestInputModel)));
         
 
         [HttpGet($"{{{GlobalConstants.ActivityIdQueryParam}:int}}")]

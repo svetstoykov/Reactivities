@@ -1,4 +1,5 @@
 ﻿using Application.Activities.Models.Base;
+using Application.Activities.Models.Enums;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using Domain.Activities;

@@ -2,6 +2,7 @@
 using System.Linq;
 using API.Activities.Models;
 using Application.Activities.ErrorHandling;
+using Application.Activities.Models.Enums;
 using FluentValidation;
 using Models.Enumerations;
 

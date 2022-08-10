@@ -1,4 +1,5 @@
 ﻿using System;
+using Application.Activities.Models.Enums;
 using Models.Enumerations;
 
 namespace Application.Activities.Models.Base

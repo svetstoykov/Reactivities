@@ -2,6 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Tab } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import ProfileDetails from "./details/ProfileDetails";
+import ProfileEventsContent from "./ProfileEventsContent";
 import ProfileFollowings from "./ProfileFollowings";
 
 function ProfileContent() {
@@ -11,7 +12,7 @@ function ProfileContent() {
 
     const panes = [
         { menuItem: "About", render: () => <ProfileDetails /> },
-        { menuItem: "Events", render: () => <Tab.Pane>Events content</Tab.Pane> },
+        { menuItem: "Events", render: () => <ProfileEventsContent/> },
         { menuItem: "Followers", render: () => <ProfileFollowings /> },
         { menuItem: "Following", render: () => <ProfileFollowings /> },
     ];

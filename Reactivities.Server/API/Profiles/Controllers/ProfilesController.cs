@@ -1,9 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using API.Common.Controllers;
 using API.Common.Extensions;
 using API.Profiles.Models;
 using Application.Profiles.Commands;
 using Application.Profiles.Models;
+using Application.Profiles.Models.Enums;
 using Application.Profiles.Queries;
 using AutoMapper;
 using Infrastructure.Common.Extensions;
@@ -30,6 +32,10 @@ namespace API.Profiles.Controllers
             => this.HandleMappingResult<ProfileOutputModel, ProfileApiModel>(
                 await this.Mediator.Send(new GetProfile.Query(this.GetCurrentUserUsername)));
 
+        [HttpGet("activities")]
+        public async Task<IActionResult> GetProfileActivities(string username, int filterTypeId)
+            => this.HandleMappingResult<IEnumerable<ProfileActivityOutputModel>, IEnumerable<ProfileActivityApiModel>>(
+                await this.Mediator.Send(new GetProfileActivities.Query(username, (ProfileActivitiesFilterType)filterTypeId)));
         [HttpPut]
         public async Task<IActionResult> UpdateDetails(ProfileApiModel request)
             => this.HandleResult( await this.Mediator.Send(new UpdateDetails.Command(

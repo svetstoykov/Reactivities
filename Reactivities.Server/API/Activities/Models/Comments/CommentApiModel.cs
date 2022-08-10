@@ -1,6 +1,6 @@
 ﻿
 using System;
-using API.Common;
+using API.Common.Models;
 
 namespace API.Activities.Models.Comments
 {
