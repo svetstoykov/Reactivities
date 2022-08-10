@@ -6,6 +6,7 @@ import { useStore } from "../../../app/stores/store";
 import ActivityFilters from "./ActivityFilters";
 import ActivityList from "./ActivityList";
 import InfiniteScroll from "react-infinite-scroller";
+import { defaultPageSize } from "../../../app/common/constants/GlobalConstants";
 
 function ActivityDashboard() {
     const { activityStore } = useStore();
@@ -16,7 +17,7 @@ function ActivityDashboard() {
         setLoadingNext(true);
 
         setPagingParams({
-            pageSize: 5,
+            pageSize: defaultPageSize,
             pageNumber: pagination.pageNumber + 1,
         });
         loadActivities().then(() => setLoadingNext(false));

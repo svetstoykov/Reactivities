@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Activities.Models;
 using API.Common.Controllers;
+using API.Common.Models;
 using Application.Activities.Commands;
 using Application.Activities.Models.Base;
 using Application.Activities.Models.Input;
@@ -24,9 +25,9 @@ namespace API.Activities.Controllers
         { }
 
         [HttpGet]
-        public async Task<IActionResult> GetActivities([FromQuery] int? pageSize, int? pageNumber)
+        public async Task<IActionResult> GetActivities([FromQuery] PagingParams pagingParams)
             => this.HandleMappingResult<PaginatedResult<ActivityOutputModel>, PaginatedResult<ActivityApiModel>>(
-                await this.Mediator.Send(new List.Query(pageSize ?? 5, pageNumber ?? 1)));
+                await this.Mediator.Send(new List.Query(pagingParams.PageSize, pagingParams.PageNumber)));
         
 
         [HttpGet($"{{{GlobalConstants.ActivityIdQueryParam}:int}}")]
