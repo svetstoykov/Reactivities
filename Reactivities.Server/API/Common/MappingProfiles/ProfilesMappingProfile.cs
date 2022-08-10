@@ -9,6 +9,10 @@ namespace API.Common.MappingProfiles
         public ProfilesMappingProfile()
         {
             this.CreateMap<ProfileOutputModel, ProfileApiModel>();
+
+            this.CreateMap<ProfileActivityOutputModel, ProfileActivityApiModel>()
+                .ForMember(dest => dest.Category,
+                    opt => opt.MapFrom(src => src.Category.ToString()));
         }
     }
 }
