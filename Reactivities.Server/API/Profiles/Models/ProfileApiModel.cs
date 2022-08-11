@@ -15,6 +15,7 @@ namespace API.Profiles.Models
         public int FollowingsCount { get; set; }
 
         public bool Following { get; set; }
+
         public string Username { get; set; }
 
         public string PictureUrl { get; set; }

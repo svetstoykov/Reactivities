@@ -41,14 +41,13 @@ namespace Application.Profiles.Commands
                 var profile = await this._profilesDataService
                     .GetByUsernameAsync(request.UserName);
 
-                profile.Bio = request.Bio;
-                profile.DisplayName = request.DisplayName;
+                profile.UpdatePersonalInfo(request.Bio, request.DisplayName);
                 
                 if (profile.Email != request.Email)
                 {
                     await _userDataService.ChangeEmailAddress(profile.Email, request.Email);
 
-                    profile.Email = request.Email;
+                    profile.UpdateEmailAddress(request.Email);
                 }
 
                 await this._profilesDataService.SaveChangesAsync(cancellationToken);

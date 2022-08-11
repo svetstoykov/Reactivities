@@ -5,7 +5,7 @@ using Application.Activities.Models.Enums;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using AutoMapper;
-using Models.Enumerations;
+using Domain.Activities.Enums;
 
 namespace API.Common.MappingProfiles
 {

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Models;
 using Application.Common.Models.Pagination;
 using Microsoft.EntityFrameworkCore;
 

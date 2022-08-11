@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Application.Activities.Models.Enums;
 using Application.Common.Identity.Models;
 using Domain.Activities;
+using Domain.Activities.Enums;
 using Domain.Profiles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Models.Enumerations;
 
 namespace Persistence
 {
@@ -34,8 +33,8 @@ namespace Persistence
                     Profile.New("pambeasley", "pambeasley@dundermifflin.com", "Pam Beasley")
                 };
 
-                var users = profiles.Select(profile => 
-                    new User {Email = profile.Email, UserName = profile.UserName, Profile = profile}).ToList();
+                var users = profiles.Select(profile =>
+                    new User { Email = profile.Email, UserName = profile.UserName, Profile = profile }).ToList();
 
                 foreach (var user in users)
                 {
@@ -50,11 +49,7 @@ namespace Persistence
                 return;
 
             var categories = Enum.GetValues<CategoryType>()
-                .Select(c => new Category
-                {
-                    Id = (int)c,
-                    Name = c.ToString()
-                })
+                .Select(Category.New)
                 .ToList();
 
             await context.Categories.AddRangeAsync(categories);
@@ -73,106 +68,94 @@ namespace Persistence
 
             var activities = new List<Activity>
             {
-                new()
-                {
-                    Title = "Past Activity 1",
-                    Date = DateTime.Now.AddMonths(-2),
-                    Description = "Activity 2 months ago",
-                    CategoryId = (int) CategoryType.Culture,
-                    City = "London",
-                    Venue = "Pub",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Past Activity 2",
-                    Date = DateTime.Now.AddMonths(-1),
-                    Description = "Activity 1 month ago",
-                    CategoryId = (int) CategoryType.Film,
-                    City = "Paris",
-                    Venue = "Louvre",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 1",
-                    Date = DateTime.Now.AddMonths(1),
-                    Description = "Activity 1 month in future",
-                    CategoryId = (int) CategoryType.Food,
-                    City = "London",
-                    Venue = "Natural History Museum",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 2",
-                    Date = DateTime.Now.AddMonths(2),
-                    Description = "Activity 2 months in future",
-                    CategoryId = (int) CategoryType.Drinks,
-                    City = "London",
-                    Venue = "O2 Arena",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 3",
-                    Date = DateTime.Now.AddMonths(3),
-                    Description = "Activity 3 months in future",
-                    CategoryId = (int) CategoryType.Drinks,
-                    City = "London",
-                    Venue = "Another pub",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 4",
-                    Date = DateTime.Now.AddMonths(4),
-                    Description = "Activity 4 months in future",
-                    CategoryId = (int) CategoryType.Music,
-                    City = "London",
-                    Venue = "Yet another pub",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 5",
-                    Date = DateTime.Now.AddMonths(5),
-                    Description = "Activity 5 months in future",
-                    CategoryId = (int) CategoryType.Music,
-                    City = "London",
-                    Venue = "Just another pub",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 6",
-                    Date = DateTime.Now.AddMonths(6),
-                    Description = "Activity 6 months in future",
-                    CategoryId = (int) CategoryType.Music,
-                    City = "London",
-                    Venue = "Roundhouse Camden",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 7",
-                    Date = DateTime.Now.AddMonths(7),
-                    Description = "Activity 2 months ago",
-                    CategoryId = (int) CategoryType.Travel,
-                    City = "London",
-                    Venue = "Somewhere on the Thames",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                },
-                new()
-                {
-                    Title = "Future Activity 8",
-                    Date = DateTime.Now.AddMonths(8),
-                    Description = "Activity 8 months in future",
-                    CategoryId = (int) CategoryType.Film,
-                    City = "London",
-                    Venue = "Cinema",
-                    HostId = profiles[random.Next(0, profiles.Count - 1)].Id
-                }
+                Activity.New(
+                    "Past Activity 1", 
+                    DateTime.Now.AddMonths(-2),
+                    "Activity 2 months ago", 
+                    "London",
+                    "Pub",  
+                    (int) CategoryType.Culture,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Future Activity 1",
+                    DateTime.Now.AddMonths(+2),
+                    "Activity in 2 months",
+                    "London",
+                    "Pub",
+                    (int) CategoryType.Drinks,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Past Activity 2",
+                    DateTime.Now.AddMonths(-3),
+                    "Activity 3 months ago",
+                    "Vienna",
+                    "Movie",
+                    (int) CategoryType.Film,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Future Activity 2",
+                    DateTime.Now.AddMonths(+3),
+                    "Activity in 3 months",
+                    "London",
+                    "Club",
+                    (int) CategoryType.Music,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Future Activity 4",
+                    DateTime.Now.AddMonths(+5),
+                    "Activity in 5 months",
+                    "Paris",
+                    "Club",
+                    (int) CategoryType.Music,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Past Activity 3",
+                    DateTime.Now.AddMonths(-2),
+                    "Activity 2 months ago",
+                    "Sofia",
+                    "Pub",
+                    (int) CategoryType.Culture,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Future Activity 6",
+                    DateTime.Now.AddMonths(+8),
+                    "Activity in 8 months",
+                    "Oslo",
+                    "Dinner",
+                    (int) CategoryType.Food,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Future Activity 11",
+                    DateTime.Now.AddMonths(+8),
+                    "Activity in 8 months",
+                    "Liverpool",
+                    "Museum",
+                    (int) CategoryType.Travel,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Past Activity 9",
+                    DateTime.Now.AddMonths(-2),
+                    "Activity 2 months ago",
+                    "London",
+                    "Museum",
+                    (int) CategoryType.Culture,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Past Activity 12",
+                    DateTime.Now.AddMonths(-5),
+                    "Activity 2 months ago",
+                    "London",
+                    "Park",
+                    (int) CategoryType.Travel,
+                    profiles[random.Next(0, profiles.Count)].Id),
+                Activity.New(
+                    "Future Activity 15",
+                    DateTime.Now.AddMonths(+1),
+                    "Activity in 1 month",
+                    "Manchester",
+                    "Museum",
+                    (int) CategoryType.Travel,
+                    profiles[random.Next(0, profiles.Count)].Id),
             };
 
             await context.Activities.AddRangeAsync(activities);

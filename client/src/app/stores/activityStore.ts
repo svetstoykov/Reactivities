@@ -83,23 +83,15 @@ export default class ActivityStore {
         }
     };
 
-    loadFilteredActivities = () => {
-        this.resetActivityListPaginationParams();
-        this.activitiesRegistry.clear();
-        this.loadActivities();
-    };
-
     loadCategories = async () => {
         this.setLoadingInitial(true);
         try {
             const categories = await agent.Activities.categories();
-            runInAction(() => {
-                this.categories = categories;
-            });
 
-            this.setLoadingInitial(false);
+            this.setCategories(categories);
         } catch (error) {
             console.log(error);
+        } finally {
             this.setLoadingInitial(false);
         }
     };
@@ -114,11 +106,11 @@ export default class ActivityStore {
             }
 
             this.setSelectedActivity(activity);
-            this.setLoadingInitial(false);
 
             return activity;
-        } catch (ex) {
-            console.log(ex);
+        } catch (error) {
+            console.log(error);
+        } finally{
             this.setLoadingInitial(false);
         }
     };
@@ -127,16 +119,19 @@ export default class ActivityStore {
         this.setLoading(true);
         try {
             var id = await agent.Activities.create(newActivity);
-            newActivity.id = id;
-
+            
             runInAction(() => {
+                newActivity.id = id;
+                newActivity.host = store.profileStore.currentProfile;
                 this.activitiesRegistry.set(id, newActivity);
+                this.selectedActivity = newActivity;
+                this.editMode = false;
             });
 
-            this.closeLoadingAndSelectActivity(newActivity);
-        } catch (ex) {
+        } catch (error) {
+            console.log(error);
+        } finally {
             this.setLoading(false);
-            throw new Error();
         }
     };
 
@@ -146,12 +141,13 @@ export default class ActivityStore {
             await agent.Activities.update(activity);
             runInAction(() => {
                 this.activitiesRegistry.delete(activity.id!);
+                this.selectedActivity = activity;
+                this.editMode = false;
             });
-
-            this.closeLoadingAndSelectActivity(activity);
-        } catch (ex) {
+        } catch (error) {
+            console.log(error);
+        } finally {
             this.setLoading(false);
-            throw new Error();
         }
     };
 
@@ -162,9 +158,10 @@ export default class ActivityStore {
             runInAction(() => {
                 this.activitiesRegistry.delete(id);
             });
+        } catch (error) {
+            console.log(error)
+        } finally{
             this.setLoading(false);
-        } catch (ex) {
-            this.logException(ex);
         }
     };
 
@@ -184,7 +181,7 @@ export default class ActivityStore {
 
             this.addAtendee(profile);
         } catch (error) {
-            this.logException(error);
+            console.log(error)
         } finally {
             this.setLoading(false);
         }
@@ -198,7 +195,7 @@ export default class ActivityStore {
                 () => (this.selectedActivity!.isCancelled = !this.selectedActivity?.isCancelled)
             );
         } catch (error) {
-            this.logException(error);
+            console.log(error)
         } finally {
             this.setLoading(false);
         }
@@ -243,6 +240,17 @@ export default class ActivityStore {
         this.activityListInputModel.startDate = startDate;
     };
 
+    
+    private loadFilteredActivities = () => {
+        this.resetActivityListPaginationParams();
+        this.activitiesRegistry.clear();
+        this.loadActivities();
+    };
+
+    private setCategories = (categories: CategoryApiModel[]) => {
+        this.categories = categories;
+    };
+
     private addAtendee = (attendee: ProfileApiModel) => {
         this.selectedActivity?.attendees.push(attendee);
     };
@@ -251,17 +259,6 @@ export default class ActivityStore {
         if (this.selectedActivity) {
             this.selectedActivity.attendees = attendees ?? new Array<ProfileApiModel>();
         }
-    };
-
-    private closeLoadingAndSelectActivity = (activity: ActivityApiModel) => {
-        this.selectedActivity = activity;
-        this.loading = false;
-        this.editMode = false;
-    };
-
-    private logException = (ex: any) => {
-        console.log(ex);
-        this.loading = false;
     };
 
     private setLoading = (state: boolean) => {

@@ -79,12 +79,12 @@ namespace Persistence
                 profileFollowing.HasOne(o => o.Observer)
                     .WithMany(p => p.Followings)
                     .HasForeignKey(o => o.ObserverId)
-                    .OnDelete(DeleteBehavior.Restrict);
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 profileFollowing.HasOne(t => t.Target)
                     .WithMany(p => p.Followers)
                     .HasForeignKey(t => t.TargetId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.Restrict);
 
                 profileFollowing.HasIndex(p => new {p.ObserverId, p.TargetId}).IsUnique();
             });

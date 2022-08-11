@@ -1,4 +1,4 @@
-﻿namespace Application.Activities.Models.Enums
+﻿namespace Domain.Activities.Enums
 {
     public enum CategoryType
     {

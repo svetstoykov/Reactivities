@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Application.Profiles.DataServices;
 using Application.Profiles.ErrorHandling;
@@ -25,13 +26,13 @@ namespace Application.Profiles.Commands
         public class Handler : IRequestHandler<Command, Result<bool>>
         {
             private readonly IProfilesDataService _profilesDataService;
-            private readonly IProfileFollowingsDataService _profileFollowingsDataService;
+            private readonly IFollowingsDataService _followingsDataService;
             private readonly IProfileAccessor _profileAccessor;
 
-            public Handler(IProfilesDataService profilesDataService, IProfileFollowingsDataService profileFollowingsDataService, IProfileAccessor profileAccessor)
+            public Handler(IProfilesDataService profilesDataService, IFollowingsDataService followingsDataService, IProfileAccessor profileAccessor)
             {
                 this._profilesDataService = profilesDataService;
-                this._profileFollowingsDataService = profileFollowingsDataService;
+                this._followingsDataService = followingsDataService;
                 this._profileAccessor = profileAccessor;
             }
 
@@ -43,28 +44,36 @@ namespace Application.Profiles.Commands
                     return Result<bool>.Failure(ProfileErrorMessages.CannotFollowYourself);
                 }
                 
-                var observer = await this._profilesDataService.GetByUsernameAsync(loggedInUsername);
+                var observer = await this._profilesDataService.GetAsQueryable()
+                    .Include(p => p.Followings)
+                        .ThenInclude(pf => pf.Target)
+                    .FirstOrDefaultAsync(p => p.UserName == loggedInUsername, cancellationToken);
 
-                var target = await this._profilesDataService.GetByUsernameAsync(request.UserToFollow);
+                if (observer == null)
+                {
+                    return Result<bool>.Failure(string.Format(
+                        ProfileErrorMessages.ProfileDoesNotExist, loggedInUsername));
+                }
 
-                var following = await this._profileFollowingsDataService
-                    .GetAsQueryable()
-                    .FirstOrDefaultAsync(f => f.ObserverId == observer.Id && f.TargetId == target.Id, cancellationToken);
+                var following = observer.Followings
+                    .FirstOrDefault(p => p.Target.UserName == request.UserToFollow);
 
                 if (following == null)
                 {
-                    this._profileFollowingsDataService.Create(ProfileFollowing.New(observer, target));
+                    var target = await this._profilesDataService.GetByUsernameAsync(request.UserToFollow);
+
+                    observer.AddFollowing(ProfileFollowing.New(observer, target));
                 }
                 else
                 {
-                    this._profileFollowingsDataService.Remove(following);
+                    observer.RemoveFollowing(following);
                 }
 
                 await this._profilesDataService.SaveChangesAsync(cancellationToken);
 
-                var isNowFollowed = following == null;
+                var isTargetUserNowFollowed = following == null;
                 
-                return Result<bool>.Success(isNowFollowed);
+                return Result<bool>.Success(isTargetUserNowFollowed);
             }
         }
     }

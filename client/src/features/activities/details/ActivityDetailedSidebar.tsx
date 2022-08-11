@@ -19,7 +19,7 @@ export default observer(function ActivityDetailedSidebar({ attendees, host }: Pr
                 secondary
                 inverted
                 color="teal">
-                3 People Going
+                {`${attendees.length + 1} ${attendees.length === 0 ? "person is" : "people are"} going`}
             </Segment>
             <Segment attached>
                 <List relaxed divided>

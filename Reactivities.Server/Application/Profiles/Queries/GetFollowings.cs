@@ -13,7 +13,6 @@ using Domain.Profiles;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
-using Profile = Domain.Profiles.Profile;
 
 namespace Application.Profiles.Queries
 {
@@ -33,13 +32,13 @@ namespace Application.Profiles.Queries
         
         public class Handler : IRequestHandler<Query, Result<IEnumerable<ProfileOutputModel>>>
         {
-            private readonly IProfileFollowingsDataService _profileFollowingsDataService;
+            private readonly IFollowingsDataService _followingsDataService;
             private readonly IProfileAccessor _profileAccessor;
             private readonly IMapper _mapper;
             
-            public Handler(IProfileFollowingsDataService profileFollowingsDataService, IProfileAccessor profileAccessor, IMapper mapper)
+            public Handler(IFollowingsDataService followingsDataService, IProfileAccessor profileAccessor, IMapper mapper)
             {
-                this._profileFollowingsDataService = profileFollowingsDataService;
+                this._followingsDataService = followingsDataService;
                 this._profileAccessor = profileAccessor;
                 this._mapper = mapper;
             }
@@ -71,7 +70,7 @@ namespace Application.Profiles.Queries
                 Expression<Func<ProfileFollowing, TTargetResult>> selector,
                 CancellationToken cancellationToken)
             {
-                return await this._profileFollowingsDataService
+                return await this._followingsDataService
                     .GetAsQueryable().Where(filter)
                     .Select(selector)
                     .ProjectTo<ProfileOutputModel>(this._mapper.ConfigurationProvider,

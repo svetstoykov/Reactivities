@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.Models.Output;
 using Application.Common.DataServices;
-using Application.Common.Models;
 using Application.Common.Models.Pagination;
 using Domain.Activities;
 

@@ -3,7 +3,7 @@ using Domain.Profiles;
 
 namespace Application.Profiles.DataServices;
 
-public interface IProfileFollowingsDataService : IEntityDataService<ProfileFollowing>
+public interface IFollowingsDataService : IEntityDataService<ProfileFollowing>
 {
     
 }

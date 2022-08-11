@@ -1,7 +1,8 @@
 ﻿namespace Domain.Profiles.ErrorHandling
 {
-    internal static class UserErrorMessages
+    internal static class ProfileErrorMessages
     {
+        internal const string InvalidPictureUrl = "Picture url cannot be empty";
 
         internal const string EmailCannotBeEmpty = "Email cannot be empty.";
 

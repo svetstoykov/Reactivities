@@ -5,6 +5,7 @@ using AutoMapper;
 using Domain.Activities;
 using User = Application.Common.Identity.Models.User;
 using DomainEntity = Domain.Profiles;
+using Domain.Activities.Enums;
 
 namespace Application.Common.MappingProfiles
 {

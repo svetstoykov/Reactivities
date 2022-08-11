@@ -1,5 +1,6 @@
 ﻿using System;
 using Application.Activities.Models.Enums;
+using Domain.Activities.Enums;
 
 namespace Application.Profiles.Models
 {

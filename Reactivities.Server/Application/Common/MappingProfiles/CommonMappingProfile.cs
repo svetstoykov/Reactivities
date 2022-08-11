@@ -1,5 +1,4 @@
-﻿using Application.Common.Models;
-using Application.Common.Models.Pagination;
+﻿using Application.Common.Models.Pagination;
 using AutoMapper;
 
 namespace Application.Common.MappingProfiles

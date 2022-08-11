@@ -32,7 +32,7 @@ namespace Application.Activities.Commands
                 var activity = await this._activitiesDataService
                     .GetByIdAsync(request.ActivityId);
 
-                activity.IsCancelled = !activity.IsCancelled;
+                activity.UpdateIsCancelledStatus(!activity.IsCancelled);
 
                 await this._activitiesDataService.SaveChangesAsync(cancellationToken);
             

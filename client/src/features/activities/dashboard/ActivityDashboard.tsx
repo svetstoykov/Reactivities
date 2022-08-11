@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { Grid, GridColumn, Loader } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/store";
 import ActivityFilters from "./ActivityFilters";
-import ActivityList from "./ActivityList";
+import ActivityList from "./list/ActivityList";
 import InfiniteScroll from "react-infinite-scroller";
-import ActivityListItemPlaceholder from "./ActivityListItemPlaceholder";
+import ActivityListItemPlaceholder from "./list/ActivityListItemPlaceholder";
 
 function ActivityDashboard() {
     const { activityStore } = useStore();

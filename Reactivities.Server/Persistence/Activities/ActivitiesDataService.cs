@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.ErrorHandling;
 using Application.Activities.Models.Output;
-using Application.Common.Models;
 using Application.Common.Models.Pagination;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;

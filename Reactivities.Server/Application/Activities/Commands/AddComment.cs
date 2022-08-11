@@ -49,12 +49,12 @@ namespace Application.Activities.Commands
 
                 var comment = Comment.New(request.Content, profile);
                 
-                activity.Comments.Add(comment);
+                activity.AddComment(comment);
 
-                await this._activitiesDataService.SaveChangesAsync();
+                await this._activitiesDataService.SaveChangesAsync(cancellationToken);
 
-                var outputModel = this._mapper.Map<CommentOutputModel>(comment);                
-                return Result<CommentOutputModel>.Success(outputModel);
+                return Result<CommentOutputModel>.Success(
+                    this._mapper.Map<CommentOutputModel>(comment));
             }
         }
     }

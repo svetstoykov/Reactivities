@@ -7,38 +7,42 @@ namespace Domain.Activities
 {
     public class Comment : DomainEntity
     {
-        public string Content { get; set; }
+        private Comment() {}
 
-        public int AuthorId { get; set; }
+        private Comment(string content, Profile author, DateTime? created = null)
+        {
+            Content = content;
+            Author = author;
+            CreatedAt = created ?? DateTime.UtcNow;
+        }
 
-        public Profile Author { get; set; }
+        public string Content { get; private set; }
 
-        public int ActivityId { get; set; }
+        public int AuthorId { get; private set; }
 
-        public Activity Activity { get; set; }
+        public Profile Author { get; private set; }
+
+        public int ActivityId { get; private set; }
+
+        public Activity Activity { get; private set; }
         
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; }
 
         public static Comment New(string content, Profile author, DateTime? created = null)
         {
             if (string.IsNullOrEmpty(content))
             {
                 throw new ArgumentException(
-                    CommentErrorMessages.EmptyContent);
+                    ActivityErrorMessages.EmptyContent);
             }
             
             if (author == null)
             {
                 throw new ArgumentException(
-                    CommentErrorMessages.InvalidAuthor);
+                    ActivityErrorMessages.InvalidAuthor);
             }
 
-            return new Comment
-            {
-                Content = content,
-                Author = author,
-                CreatedAt = created ?? DateTime.UtcNow
-            };
+            return new Comment(content, author, created);
         }
     }
 }
