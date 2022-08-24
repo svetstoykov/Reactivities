@@ -41,6 +41,7 @@ The application implements **Domain-Driven-Design** (DDD) as well as the **Onion
 
 
 The main structure for the projects is folder-by-feature. All projects include a folder for a **feature** (i.e., activities) and (usually) a **common** folder which holds common entities/services. Then each feature-folder declares its sub-folders for any services, models etc.
+
 <img src="docs\folderStructure.PNG"/>
 
 
