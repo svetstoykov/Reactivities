@@ -1,8 +1,9 @@
-﻿namespace Application.Activities.Models.Enums;
-
-public enum ActivityAttendingFilterType
+﻿namespace Application.Activities.Models.Enums
 {
-    ImGoing = 1,
-    ImHosting = 2,
-    AllActivities = 3
+    public enum ActivityAttendingFilterType
+    {
+        ImGoing = 1,
+        ImHosting = 2,
+        AllActivities = 3
+    }
 }

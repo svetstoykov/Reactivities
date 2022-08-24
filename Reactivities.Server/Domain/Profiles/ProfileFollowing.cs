@@ -4,19 +4,23 @@ namespace Domain.Profiles
 {
     public class ProfileFollowing : DomainEntity
     {
-        public int ObserverId { get; set; }
-    
-        public Profile Observer { get; set; }
-    
-        public int TargetId { get; set; }
-    
-        public Profile Target { get; set; }
+        private ProfileFollowing() {}
 
-        public static ProfileFollowing New(Profile observer, Profile target)
-            => new ProfileFollowing
-            {
-                Observer = observer,
-                Target = target
-            };
+        private ProfileFollowing(Profile observer, Profile target)
+        {
+            this.Observer = observer;
+            this.Target = target;
+        }
+
+        public int ObserverId { get; private set; }
+    
+        public Profile Observer { get; private set; }
+    
+        public int TargetId { get; private set; }
+    
+        public Profile Target { get; private set; }
+
+        public static ProfileFollowing New(Profile observer, Profile target) 
+            => new(observer, target);
     }
 }

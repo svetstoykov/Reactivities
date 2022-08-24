@@ -10,8 +10,8 @@ export default class ProfileStore {
     selectedProfile: ProfileApiModel;
     activities: ProfileActivityApiModel[];
     followings: ProfileApiModel[];
-    loadingUser = false;
     loading = false;
+    loadingUser = false;
     loadingFollowings = false;
     loadingActivities = false;
     editDetailsMode = false;
@@ -37,7 +37,6 @@ export default class ProfileStore {
             () => this.activitiesActiveTab,
             (activeTab) => {
                 this.activities = [];
-                debugger;
                 this.loadActivities(this.selectedProfile.username, activeTab + 1);
             }
         );

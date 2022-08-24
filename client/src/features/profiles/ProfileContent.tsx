@@ -2,7 +2,7 @@ import { observer } from "mobx-react-lite";
 import { Tab } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import ProfileDetails from "./details/ProfileDetails";
-import ProfileEventsContent from "./ProfileEventsContent";
+import ProfileEventsContent from "./events/ProfileEventsContent";
 import ProfileFollowings from "./ProfileFollowings";
 
 function ProfileContent() {

@@ -15,7 +15,7 @@ export default class CommentStore {
     createHubConnection = (activityId: number) => {
         if (store.activityStore.selectedActivity) {
             this.hubConnection = new HubConnectionBuilder()
-                .withUrl(`http://localhost:51004/comments?activityId=${activityId}`, {
+                .withUrl(`${process.env.REACT_APP_COMMENTS_URL}?activityId=${activityId}`, {
                     accessTokenFactory: () => store.commonStore.token!,
                 })
                 .withAutomaticReconnect()

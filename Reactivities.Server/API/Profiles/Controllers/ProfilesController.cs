@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Common.Controllers;
-using API.Common.Extensions;
 using API.Profiles.Models;
 using Application.Profiles.Commands;
 using Application.Profiles.Models;

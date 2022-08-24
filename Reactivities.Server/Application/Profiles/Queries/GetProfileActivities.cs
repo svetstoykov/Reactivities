@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Profiles.Models;
 using Application.Profiles.Models.Enums;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Domain.Activities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Models.Common;
 
 namespace Application.Profiles.Queries
@@ -21,8 +15,8 @@ namespace Application.Profiles.Queries
         {
             public Query(string username, ProfileActivitiesFilterType filter)
             {
-                Username = username;
-                Filter = filter;
+                this.Username = username;
+                this.Filter = filter;
             }
 
             public string Username { get; }
@@ -33,41 +27,20 @@ namespace Application.Profiles.Queries
         public class Handler : IRequestHandler<Query, Result<IEnumerable<ProfileActivityOutputModel>>>
         {
             private readonly IActivitiesDataService _activitiesDataService;
-            private readonly IMapper _mapper;
 
-            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
+            public Handler(IActivitiesDataService activitiesDataService)
             {
-                _activitiesDataService = activitiesDataService;
-                _mapper = mapper;
+                this._activitiesDataService = activitiesDataService;
             }
 
             public async Task<Result<IEnumerable<ProfileActivityOutputModel>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var activities = this._activitiesDataService
-                    .GetAsQueryable();
-
-                activities = FilterProfileActivities(request, activities);
-
-                var activitiesList = await activities
-                    .OrderByDescending(a => a.Date)
-                    .ProjectTo<ProfileActivityOutputModel>(_mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+                var profileActivities = await this._activitiesDataService
+                    .GetProfileFilteredActivitiesAsync(request.Username, request.Filter, cancellationToken);
 
                 return Result<IEnumerable<ProfileActivityOutputModel>>
-                    .Success(activitiesList);
+                    .Success(profileActivities);
             }
-
-            private static IQueryable<Activity> FilterProfileActivities(Query request, IQueryable<Activity> activities)
-                => request.Filter switch
-                {
-                    ProfileActivitiesFilterType.ImHosting => activities
-                        .Where(a => a.Host.UserName == request.Username),
-                    ProfileActivitiesFilterType.PastEvents => activities
-                        .Where(a => a.Attendees.Any(at => at.UserName == request.Username) && a.Date < DateTime.UtcNow),
-                    ProfileActivitiesFilterType.UpcomingEvents => activities
-                        .Where(a => a.Attendees.Any(at => at.UserName == request.Username) && a.Date >= DateTime.UtcNow),
-                    _ => throw new ArgumentOutOfRangeException()
-                };
         }
     }
 }

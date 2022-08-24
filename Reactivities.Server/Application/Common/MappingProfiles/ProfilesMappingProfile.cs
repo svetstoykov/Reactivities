@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using Application.Activities.Models.Enums;
 using Application.Profiles.Models;
 using AutoMapper;
 using Domain.Activities;
-using User = Application.Common.Identity.Models.User;
 using DomainEntity = Domain.Profiles;
+using Domain.Activities.Enums;
 
 namespace Application.Common.MappingProfiles
 {
@@ -12,10 +11,6 @@ namespace Application.Common.MappingProfiles
     {
         public ProfilesMappingProfile()
         {
-            this.CreateMap<User, ProfileOutputModel>()
-                .ForMember(dest => dest.Username,
-                    opt => opt.MapFrom(src => src.UserName));
-
             this.CreateMap<Activity, ProfileActivityOutputModel>()
                 .ForMember(dest => dest.Category,
                     opt => opt.MapFrom(src => (CategoryType)src.CategoryId));

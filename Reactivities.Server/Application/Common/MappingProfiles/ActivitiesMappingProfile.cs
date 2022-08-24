@@ -1,9 +1,8 @@
 ﻿using Application.Activities.Models.Base;
-using Application.Activities.Models.Enums;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using Domain.Activities;
-using Models.Enumerations;
+using Domain.Activities.Enums;
 
 namespace Application.Common.MappingProfiles
 {

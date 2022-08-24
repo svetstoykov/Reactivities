@@ -48,9 +48,9 @@ namespace Application.Activities.Commands
                         ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
                 }
 
-                if (!activity.Attendees.Remove(profileToAttend))
+                if (!activity.RemoveAttendee(profileToAttend))
                 {
-                    activity.Attendees.Add(profileToAttend);
+                    activity.AddAttendee(profileToAttend);
                 }
 
                 await this._activitiesDataService.SaveChangesAsync(cancellationToken);

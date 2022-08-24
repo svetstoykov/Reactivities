@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.Models.Output;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Models.Common;
 
 namespace Application.Activities.Queries
@@ -27,22 +23,16 @@ namespace Application.Activities.Queries
         public class Handler : IRequestHandler<Query, Result<IEnumerable<CommentOutputModel>>>
         {
             private readonly ICommentsDataService _commentsDataService;
-            private readonly IMapper _mapper;
 
-            public Handler(ICommentsDataService commentsDataService, IMapper mapper)
+            public Handler(ICommentsDataService commentsDataService)
             {
                 this._commentsDataService = commentsDataService;
-                this._mapper = mapper;
             }
 
             public async Task<Result<IEnumerable<CommentOutputModel>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var comments = await this._commentsDataService
-                    .GetAsQueryable()
-                    .Where(c => c.ActivityId == request.ActivityId)
-                    .OrderByDescending(c => c.CreatedAt)
-                    .ProjectTo<CommentOutputModel>(this._mapper.ConfigurationProvider)
-                    .ToListAsync(cancellationToken);
+                var comments = await this._commentsDataService.GetActivitiesCommentsAsync
+                    (request.ActivityId, cancellationToken);
 
                 return Result<IEnumerable<CommentOutputModel>>.Success(comments);
             }

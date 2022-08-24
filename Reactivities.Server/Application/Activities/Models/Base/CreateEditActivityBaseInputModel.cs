@@ -1,6 +1,5 @@
 ﻿using System;
-using Application.Activities.Models.Enums;
-using Models.Enumerations;
+using Domain.Activities.Enums;
 
 namespace Application.Activities.Models.Base
 {

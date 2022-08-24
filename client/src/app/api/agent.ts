@@ -18,7 +18,7 @@ const sleep = (delay: number) => {
     });
 };
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 axios.interceptors.request.use((config) => {
     const token = store.commonStore.token;
@@ -32,7 +32,10 @@ axios.interceptors.request.use((config) => {
 // Added to assist in displaying loading screens.
 axios.interceptors.response.use(
     async (response) => {
-        await sleep(1000);
+        if(process.env.NODE_ENV === 'development'){
+            await sleep(500);
+        }
+        
         return response;
     },
     (error: AxiosError) => {
@@ -112,7 +115,7 @@ const showToasterErrorNotification = (status: number, data: any) => {
             }
             break;
         case 401:
-            toast.error(data.title || data);
+            toast.error(data.title || data || "Unauthorized");
             break;
         case 404:
             history.push("/not-found");

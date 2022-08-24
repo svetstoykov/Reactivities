@@ -1,5 +1,4 @@
-﻿using System.IO;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Pictures;
 using Application.Profiles.DataServices;
@@ -57,7 +56,7 @@ namespace Application.Profiles.Commands
 
                 profile.AddPicture(imageUpload.PublicId, imageUpload.Url);
 
-                await this._profilesDataService.SaveChangesAsync();
+                await this._profilesDataService.SaveChangesAsync(cancellationToken);
 
                 return Result<string>.Success(imageUpload.Url);
             }

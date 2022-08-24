@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.Models.Enums;
 using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
-using Application.Common.Models;
 using Application.Common.Models.Pagination;
 using Application.Profiles.Services;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using Domain.Activities;
 using MediatR;
 using Models.Common;

@@ -1,5 +1,4 @@
-﻿using Application.Common.Models;
-using Application.Common.Models.Pagination;
+﻿using Application.Common.Models.Pagination;
 using AutoMapper;
 
 namespace Application.Common.MappingProfiles
@@ -8,7 +7,7 @@ namespace Application.Common.MappingProfiles
     {
         public CommonMappingProfile()
         {
-            CreateMap(typeof(PaginatedResult<>), typeof(PaginatedResult<>));
+            this.CreateMap(typeof(PaginatedResult<>), typeof(PaginatedResult<>));
         }
     }
 }

@@ -1,14 +1,14 @@
 using System;
 using System.Threading.Tasks;
 using Application.Common.ErrorHandling;
+using Infrastructure;
+using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
-using Persistence;
-using Application.Common.Identity.Models;
 
 namespace API
 {

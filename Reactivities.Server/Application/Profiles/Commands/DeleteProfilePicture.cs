@@ -12,9 +12,6 @@ namespace Application.Profiles.Commands
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public Command()
-            {
-            }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>
@@ -45,7 +42,7 @@ namespace Application.Profiles.Commands
 
                 this._picturesDataService.Remove(profile.Picture);
 
-                await this._picturesDataService.SaveChangesAsync();
+                await this._picturesDataService.SaveChangesAsync(cancellationToken);
 
                 return Result<Unit>.Success(Unit.Value);
             }

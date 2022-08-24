@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using Application.Activities.DataServices;
 using Application.Activities.ErrorHandling;
 using Application.Activities.Models.Input;
-using AutoMapper;
 using Domain.Activities;
 using MediatR;
 using Models.Common;
@@ -25,17 +24,22 @@ namespace Application.Activities.Commands
         public class Handler : IRequestHandler<Command, Result<int>>
         {
             private readonly IActivitiesDataService _activitiesDataService;
-            private readonly IMapper _mapper;
 
-            public Handler(IActivitiesDataService activitiesDataService, IMapper mapper)
+            public Handler(IActivitiesDataService activitiesDataService)
             {
                 this._activitiesDataService = activitiesDataService;
-                this._mapper = mapper;
             }
 
             public async Task<Result<int>> Handle(Command request, CancellationToken cancellationToken)
             {
-                var domainDto = this._mapper.Map<Activity>(request.Dto);
+                var domainDto = Activity.New(
+                    request.Dto.Title, 
+                    request.Dto.Date, 
+                    request.Dto.Description, 
+                    request.Dto.City, 
+                    request.Dto.Venue, 
+                    (int)request.Dto.CategoryType, 
+                    request.Dto.HostId);
 
                 this._activitiesDataService.Create(domainDto);
 

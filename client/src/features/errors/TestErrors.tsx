@@ -2,7 +2,7 @@ import { Button, Header, Segment } from "semantic-ui-react";
 import axios from "axios";
 
 export default function TestErrors() {
-    const baseUrl = "http://localhost:51004/api/";
+    const baseUrl = process.env.REACT_APP_API_URL;
 
     function handleNotFound() {
         axios.get(baseUrl + "buggy/not-found").catch((err) => console.log(err.response));

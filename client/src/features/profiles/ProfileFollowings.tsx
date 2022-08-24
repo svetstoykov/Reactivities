@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { Card, Grid, Header, Tab } from "semantic-ui-react";
+import { Card, Grid, Header, Icon, Tab } from "semantic-ui-react";
 import { useStore } from "../../app/stores/store";
 import ProfileCard from "./ProfileCard";
 
@@ -22,11 +22,20 @@ function ProfileFollowings() {
                     />
                 </Grid.Column>
                 <Grid.Column width="16">
-                    <Card.Group itemsPerRow={4}>
-                        {followings?.map((profile) => (
-                            <ProfileCard key={profile.username} profile={profile} />
-                        ))}
-                    </Card.Group>
+                    {followings && followings.length > 0 ? (
+                        <Card.Group itemsPerRow={4}>
+                            {followings?.map((profile) => (
+                                <ProfileCard key={profile.username} profile={profile} />
+                            ))}
+                        </Card.Group>
+                    ) : (
+                        <div>
+                            <Header as="h2" icon textAlign="center">
+                                <Icon name="users" circular />
+                                <Header.Content>{`No ${activeTab === 2 ? 'followers' : 'followings'} available`}</Header.Content>
+                            </Header>
+                        </div>
+                    )}
                 </Grid.Column>
             </Grid>
         </Tab.Pane>

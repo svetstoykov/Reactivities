@@ -1,8 +1,7 @@
 ﻿
 using System.Collections.Generic;
-using Application.Activities.Models.Enums;
 using Application.Profiles.Models;
-using Models.Enumerations;
+using Domain.Activities.Enums;
 
 namespace Application.Activities.Models.Output
 {
