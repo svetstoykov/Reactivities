@@ -20,10 +20,5 @@ namespace Persistence.Common.Extensions
             return services;
         }
 
-        private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration config) 
-            => services.AddDbContext<DataContext>(options =>
-            {
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-            });
     }
 }

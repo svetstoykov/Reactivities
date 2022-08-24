@@ -1,6 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Application.Common.Identity.DataServices;
-using Application.Common.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Models.ErrorHandling;
 

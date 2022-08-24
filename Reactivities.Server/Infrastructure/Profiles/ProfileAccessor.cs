@@ -2,17 +2,18 @@
 using Application.Profiles.Services;
 using Microsoft.AspNetCore.Http;
 
-namespace Infrastructure.Profiles;
-
-public class ProfileAccessor : IProfileAccessor
+namespace Infrastructure.Profiles
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    
-    public ProfileAccessor(IHttpContextAccessor httpContextAccessor)
+    public class ProfileAccessor : IProfileAccessor
     {
-        this._httpContextAccessor = httpContextAccessor;
-    }
+        private readonly IHttpContextAccessor _httpContextAccessor;
+    
+        public ProfileAccessor(IHttpContextAccessor httpContextAccessor)
+        {
+            this._httpContextAccessor = httpContextAccessor;
+        }
 
-    public string GetLoggedInUsername()
-        => this._httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Name);
+        public string GetLoggedInUsername()
+            => this._httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.Name);
+    }
 }

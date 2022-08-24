@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
+﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Application.Common.Identity.Tokens.Interfaces;
+using Infrastructure.Identity.Tokens.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Models.Common;
-using User = Application.Common.Identity.Models.User;
+using User = Infrastructure.Identity.Models.User;
 
-namespace Application.Common.Identity.Tokens
+namespace Infrastructure.Identity.Tokens
 {
     public class TokenService : ITokenService
     {

@@ -2,11 +2,12 @@
 using Domain.Profiles;
 using Persistence.Common.DataServices;
 
-namespace Persistence.Profiles;
-
-public class FollowingsDataService : EntityDataService<ProfileFollowing>, IFollowingsDataService
+namespace Persistence.Profiles
 {
-    public FollowingsDataService(DataContext dataContext) : base(dataContext)
+    public class FollowingsDataService : EntityDataService<ProfileFollowing>, IFollowingsDataService
     {
+        public FollowingsDataService(DataContext dataContext) : base(dataContext)
+        {
+        }
     }
 }

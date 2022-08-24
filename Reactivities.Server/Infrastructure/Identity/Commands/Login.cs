@@ -1,13 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Application.Common.ErrorHandling;
-using Application.Common.Identity.Tokens.Interfaces;
+﻿using Application.Common.ErrorHandling;
+using Infrastructure.Identity.Tokens.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Models.Common;
-using User = Application.Common.Identity.Models.User;
+using User = Infrastructure.Identity.Models.User;
 
-namespace Application.Common.Identity.Commands
+namespace Infrastructure.Identity.Commands
 {
     public class Login
     {

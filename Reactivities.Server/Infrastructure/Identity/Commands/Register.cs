@@ -1,16 +1,14 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Application.Common.ErrorHandling;
-using Application.Common.Identity.Models;
-using Application.Common.Identity.Tokens.Interfaces;
+﻿using Application.Common.ErrorHandling;
 using AutoMapper;
+using Infrastructure.Identity.Models;
+using Infrastructure.Identity.Tokens.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Profile = Domain.Profiles.Profile;
 
-namespace Application.Common.Identity.Commands
+namespace Infrastructure.Identity.Commands
 {
     public class Register
     {

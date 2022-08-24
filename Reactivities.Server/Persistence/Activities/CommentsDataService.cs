@@ -2,11 +2,12 @@
 using Domain.Activities;
 using Persistence.Common.DataServices;
 
-namespace Persistence.Activities;
-
-public class CommentsDataService : EntityDataService<Comment>, ICommentsDataService
+namespace Persistence.Activities
 {
-    public CommentsDataService(DataContext dataContext) : base(dataContext)
+    public class CommentsDataService : EntityDataService<Comment>, ICommentsDataService
     {
+        public CommentsDataService(DataContext dataContext) : base(dataContext)
+        {
+        }
     }
 }

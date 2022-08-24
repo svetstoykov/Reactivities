@@ -5,7 +5,6 @@ using Application.Profiles.DataServices;
 using Application.Profiles.ErrorHandling;
 using Application.Profiles.Services;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Domain.Profiles;
 
@@ -43,11 +42,9 @@ namespace Application.Profiles.Commands
                 {
                     return Result<bool>.Failure(ProfileErrorMessages.CannotFollowYourself);
                 }
-                
-                var observer = await this._profilesDataService.GetAsQueryable()
-                    .Include(p => p.Followings)
-                        .ThenInclude(pf => pf.Target)
-                    .FirstOrDefaultAsync(p => p.UserName == loggedInUsername, cancellationToken);
+
+                var observer = await this._profilesDataService.GetProfileWithFollowings(
+                    request.UserToFollow, cancellationToken);
 
                 if (observer == null)
                 {

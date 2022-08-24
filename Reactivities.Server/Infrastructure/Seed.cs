@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Activities;
+﻿using Domain.Activities;
 using Domain.Activities.Enums;
 using Domain.Profiles;
+using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence
+namespace Infrastructure
 {
     public class Seed
     {

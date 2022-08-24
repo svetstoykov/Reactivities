@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using API.Common.Controllers;
 using API.Common.Identity.Models;
-using Application.Common.Identity.Commands;
 using AutoMapper;
+using Infrastructure.Identity.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

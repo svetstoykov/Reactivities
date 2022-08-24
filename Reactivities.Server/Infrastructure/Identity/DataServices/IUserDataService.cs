@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-
-namespace Application.Common.Identity.DataServices
+﻿namespace Infrastructure.Identity.DataServices
 {
     public interface IUserDataService
     {

@@ -1,9 +1,10 @@
 ﻿using Domain.Activities;
 using Domain.Profiles;
+using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Persistence
+namespace Infrastructure
 {
     public class DataContext : IdentityDbContext<User>
     {

@@ -8,7 +8,6 @@ using Microsoft.Extensions.DependencyInjection;
 using API.Common.Middleware.ErrorHandling;
 using API.SignalR;
 using Infrastructure.Common.Extensions;
-using Persistence.Common.Extensions;
 
 namespace API
 {
@@ -27,7 +26,6 @@ namespace API
             services
                 .AddApplicationServices()
                 .AddWebServices(this._config)
-                .AddPersistenceServices(this._config)
                 .AddInfrastructureServices(this._config);
         }
 
