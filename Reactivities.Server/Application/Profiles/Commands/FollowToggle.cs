@@ -44,7 +44,7 @@ namespace Application.Profiles.Commands
                 }
 
                 var observer = await this._profilesDataService.GetProfileWithFollowings(
-                    request.UserToFollow, cancellationToken);
+                    loggedInUsername, cancellationToken);
 
                 if (observer == null)
                 {

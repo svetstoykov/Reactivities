@@ -23,7 +23,7 @@ namespace Infrastructure.Activities
             : base(dataContext)
         {
             this._mapper = mapper;
-            _profileAccessor = profileAccessor;
+            this._profileAccessor = profileAccessor;
         }
 
         public async Task<PaginatedResult<ActivityOutputModel>> GetPaginatedActivitiesAsync
@@ -60,7 +60,7 @@ namespace Infrastructure.Activities
 
             return await activities
                 .OrderByDescending(a => a.Date)
-                .ProjectTo<ProfileActivityOutputModel>(_mapper.ConfigurationProvider)
+                .ProjectTo<ProfileActivityOutputModel>(this._mapper.ConfigurationProvider)
                 .ToListAsync(cancellationToken);
         }
 

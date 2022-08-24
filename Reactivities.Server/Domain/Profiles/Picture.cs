@@ -10,8 +10,8 @@ namespace Domain.Profiles
 
         private Picture(string publicId, string url)
         {
-            PublicId = publicId;
-            Url = url;
+            this.PublicId = publicId;
+            this.Url = url;
         }
 
         public string PublicId { get; private set; }

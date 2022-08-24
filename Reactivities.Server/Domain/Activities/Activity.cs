@@ -51,13 +51,14 @@ namespace Domain.Activities
         public IReadOnlyCollection<Comment> Comments => this._comments.AsReadOnly();
 
         public void AddAttendee(Profile attendee)
-            => _attendees.Add(attendee);
+            =>
+                this._attendees.Add(attendee);
 
         public bool RemoveAttendee(Profile attendee)
-            => _attendees.Remove(attendee);
+            => this._attendees.Remove(attendee);
 
         public void AddComment(Comment comment)
-            => _comments.Add(comment);
+            => this._comments.Add(comment);
 
         public void UpdateIsCancelledStatus(bool state)
             => this.IsCancelled = state;

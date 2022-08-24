@@ -37,13 +37,13 @@ namespace Domain.Profiles
 
         public Picture Picture { get; private set; }
 
-        public IReadOnlyCollection<Activity> AttendingActivities => _attendingActivities.AsReadOnly();
+        public IReadOnlyCollection<Activity> AttendingActivities => this._attendingActivities.AsReadOnly();
 
-        public IReadOnlyCollection<Comment> Comments => _comments.AsReadOnly();
+        public IReadOnlyCollection<Comment> Comments => this._comments.AsReadOnly();
 
-        public IReadOnlyCollection<ProfileFollowing> Followers => _followers.AsReadOnly();
+        public IReadOnlyCollection<ProfileFollowing> Followers => this._followers.AsReadOnly();
 
-        public IReadOnlyCollection<ProfileFollowing> Followings => _followings.AsReadOnly();
+        public IReadOnlyCollection<ProfileFollowing> Followings => this._followings.AsReadOnly();
 
         public void RemoveFollowing(ProfileFollowing following)
             => this._followings.Remove(following);

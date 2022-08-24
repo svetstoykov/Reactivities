@@ -9,7 +9,7 @@
 
 
 
-
+- [Build](#build)
 - [Description](#description)
 - [Technologies](#technologies)
 - [Architecture](#architecture)
@@ -17,6 +17,20 @@
 - [WebAPIGenerator](#webAPIGenerator)
 
 
+---
+## Build
+1. Configure connection string in the ```appsettings.Development.json```
+2. If you want to use the image upload service, you need an account at **Cloudinary**. Once you have an account there you can add the Cloudinary settings in an ```appsettings.json``` file (create one).
+```
+  "Cloudinary": {
+    "CloudName": "name",
+    "ApiKey": "apiKey",
+    "ApiSecret": "apiSecret"
+  }
+```
+3. Build and run the project. An automated db migration logic (defined in ```Program.cs```) will run the necessary migrations and seed some dummy data (can be found in ```Seed.cs```)
+
+---
 ## Description
 ---
 

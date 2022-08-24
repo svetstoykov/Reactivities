@@ -15,8 +15,8 @@ namespace Application.Profiles.Queries
         {
             public Query(string username, ProfileActivitiesFilterType filter)
             {
-                Username = username;
-                Filter = filter;
+                this.Username = username;
+                this.Filter = filter;
             }
 
             public string Username { get; }
@@ -30,7 +30,7 @@ namespace Application.Profiles.Queries
 
             public Handler(IActivitiesDataService activitiesDataService)
             {
-                _activitiesDataService = activitiesDataService;
+                this._activitiesDataService = activitiesDataService;
             }
 
             public async Task<Result<IEnumerable<ProfileActivityOutputModel>>> Handle(Query request, CancellationToken cancellationToken)

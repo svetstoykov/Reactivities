@@ -7,7 +7,7 @@ namespace Application.Common.MappingProfiles
     {
         public CommonMappingProfile()
         {
-            CreateMap(typeof(PaginatedResult<>), typeof(PaginatedResult<>));
+            this.CreateMap(typeof(PaginatedResult<>), typeof(PaginatedResult<>));
         }
     }
 }

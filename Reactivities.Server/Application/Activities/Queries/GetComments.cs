@@ -31,7 +31,7 @@ namespace Application.Activities.Queries
 
             public async Task<Result<IEnumerable<CommentOutputModel>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var comments = await _commentsDataService.GetActivitiesCommentsAsync
+                var comments = await this._commentsDataService.GetActivitiesCommentsAsync
                     (request.ActivityId, cancellationToken);
 
                 return Result<IEnumerable<CommentOutputModel>>.Success(comments);

@@ -33,7 +33,7 @@ axios.interceptors.request.use((config) => {
 axios.interceptors.response.use(
     async (response) => {
         if(process.env.NODE_ENV === 'development'){
-            await sleep(1000);
+            await sleep(500);
         }
         
         return response;
@@ -115,7 +115,7 @@ const showToasterErrorNotification = (status: number, data: any) => {
             }
             break;
         case 401:
-            toast.error(data.title || data);
+            toast.error(data.title || data || "Unauthorized");
             break;
         case 404:
             history.push("/not-found");

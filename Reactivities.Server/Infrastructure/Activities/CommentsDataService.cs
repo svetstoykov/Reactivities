@@ -14,7 +14,7 @@ namespace Infrastructure.Activities
 
         public CommentsDataService(DataContext dataContext, IMapper mapper) : base(dataContext)
         {
-            _mapper = mapper;
+            this._mapper = mapper;
         }
 
         public async Task<IEnumerable<CommentOutputModel>> GetActivitiesCommentsAsync(

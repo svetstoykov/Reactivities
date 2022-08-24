@@ -8,8 +8,8 @@ namespace Domain.Profiles
 
         private ProfileFollowing(Profile observer, Profile target)
         {
-            Observer = observer;
-            Target = target;
+            this.Observer = observer;
+            this.Target = target;
         }
 
         public int ObserverId { get; private set; }

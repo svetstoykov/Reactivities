@@ -11,9 +11,9 @@ namespace Domain.Activities
 
         private Comment(string content, Profile author, DateTime? created = null)
         {
-            Content = content;
-            Author = author;
-            CreatedAt = created ?? DateTime.UtcNow;
+            this.Content = content;
+            this.Author = author;
+            this.CreatedAt = created ?? DateTime.UtcNow;
         }
 
         public string Content { get; private set; }

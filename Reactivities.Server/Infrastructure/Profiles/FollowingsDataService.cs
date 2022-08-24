@@ -18,8 +18,8 @@ namespace Infrastructure.Profiles
         public FollowingsDataService(DataContext dataContext, IMapper mapper, IProfileAccessor profileAccessor) 
             : base(dataContext)
         {
-            _mapper = mapper;
-            _profileAccessor = profileAccessor;
+            this._mapper = mapper;
+            this._profileAccessor = profileAccessor;
         }
 
         public async Task<List<ProfileOutputModel>> GetFollowEntitiesToListAsync<TTargetResult>(
