@@ -13,5 +13,7 @@
         public const string Cloudinary = "Cloudinary";
 
         public const string ActivityIdQueryParam = "activityId";
+
+        public const string RabbitMQ = "RabbitMQ";
     }
 }

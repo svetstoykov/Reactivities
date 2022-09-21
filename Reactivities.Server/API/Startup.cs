@@ -24,7 +24,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddApplicationServices()
+                .AddApplicationServices(this._config)
                 .AddWebServices(this._config)
                 .AddInfrastructureServices(this._config);
         }
