@@ -11,14 +11,14 @@ namespace Infrastructure
     {
         public static async Task SeedData(DataContext context, UserManager<User> userManager)
         {
-            await SeedUsers(userManager);
+            await SeedUsers(context, userManager);
             await SeedCategories(context);
             await SeedActivities(context, userManager);
 
             await context.SaveChangesAsync();
         }
 
-        private static async Task SeedUsers(UserManager<User> userManager)
+        private static async Task SeedUsers(DataContext context, UserManager<User> userManager)
         {
             if (!userManager.Users.Any())
             {
@@ -28,6 +28,8 @@ namespace Infrastructure
                     Profile.New("dwightshrute", "dwightshrute@dundermifflin.com", "Dwight Shrute"),
                     Profile.New("pambeasley", "pambeasley@dundermifflin.com", "Pam Beasley")
                 };
+
+                await context.Profiles.AddRangeAsync(profiles);
 
                 var users = profiles.Select(profile =>
                     new User { Email = profile.Email, UserName = profile.UserName, Profile = profile }).ToList();
@@ -65,11 +67,11 @@ namespace Infrastructure
             var activities = new List<Activity>
             {
                 Activity.New(
-                    "Past Activity 1", 
+                    "Past Activity 1",
                     DateTime.Now.AddMonths(-2),
-                    "Activity 2 months ago", 
+                    "Activity 2 months ago",
                     "London",
-                    "Pub",  
+                    "Pub",
                     (int) CategoryType.Culture,
                     profiles[random.Next(0, profiles.Count)].Id),
                 Activity.New(

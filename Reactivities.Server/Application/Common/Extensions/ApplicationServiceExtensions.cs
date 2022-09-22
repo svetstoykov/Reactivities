@@ -26,6 +26,6 @@ namespace Application.Common.Extensions
         
         private static IServiceCollection AddRabbitMqMessageBus(this IServiceCollection services, IConfiguration config)
             => services.AddSingleton(
-                RabbitHutch.CreateBus(config.GetConnectionString(GlobalConstants.RabbitMQ)));
+                RabbitHutch.CreateBus(config.GetConnectionString(GlobalConstants.RabbitMQBus)));
     }
 }

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Authentication;
 using Domain.Activities;
 using Domain.Common.Base;
+using Domain.Messages;
 using Domain.Profiles.ErrorHandling;
 
 namespace Domain.Profiles
@@ -14,6 +15,8 @@ namespace Domain.Profiles
         private readonly List<Comment> _comments = new();
         private readonly List<ProfileFollowing> _followers = new();
         private readonly List<ProfileFollowing> _followings = new();
+        private readonly List<Message> _messagesSent = new();
+        private readonly List<Message> _messagesReceived = new();
 
         private Profile() {}
         private Profile(string userName, string email, string displayName, string bio = null, Picture picture = null)
@@ -44,6 +47,10 @@ namespace Domain.Profiles
         public IReadOnlyCollection<ProfileFollowing> Followers => this._followers.AsReadOnly();
 
         public IReadOnlyCollection<ProfileFollowing> Followings => this._followings.AsReadOnly();
+
+        public IReadOnlyCollection<Message> MessagesSent => this._messagesSent.AsReadOnly();
+
+        public IReadOnlyCollection<Message> MessagesReceived => this._messagesReceived.AsReadOnly();
 
         public void RemoveFollowing(ProfileFollowing following)
             => this._followings.Remove(following);

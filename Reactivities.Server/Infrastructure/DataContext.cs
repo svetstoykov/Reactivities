@@ -1,4 +1,5 @@
 ﻿using Domain.Activities;
+using Domain.Messages;
 using Domain.Profiles;
 using Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -23,13 +24,31 @@ namespace Infrastructure
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<ProfileFollowing> ProfileFollowings { get; set; }
+        
+        public DbSet<Message> Messages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             BuildActivityEntity(modelBuilder);
             BuildProfileEntity(modelBuilder);
+            BuildMessageEntity(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        private static void BuildMessageEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Sender)
+                .WithMany(s => s.MessagesSent)
+                .HasForeignKey(m => m.SenderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Message>()
+                .HasOne(m => m.Receiver)
+                .WithMany(s => s.MessagesReceived)
+                .HasForeignKey(m => m.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
         private static void BuildActivityEntity(ModelBuilder modelBuilder)
