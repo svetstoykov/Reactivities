@@ -14,6 +14,6 @@
 
         public const string ActivityIdQueryParam = "activityId";
 
-        public const string RabbitMQ = "RabbitMQ";
+        public const string RabbitMQBus = "RabbitMQBus";
     }
 }
