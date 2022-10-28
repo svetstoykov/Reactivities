@@ -1,4 +1,4 @@
-import { BaseAppModel } from '../base-app-model';
+import { BaseAppModel } from '../base/base-app-model';
 
 export class Pagination extends BaseAppModel {
     pageSize: number;

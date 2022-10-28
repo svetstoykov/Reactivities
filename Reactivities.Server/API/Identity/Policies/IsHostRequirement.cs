@@ -4,7 +4,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using API.Activities.Models;
-using Application.Activities.Interfaces;
 using Application.Activities.Interfaces.DataServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Models.Common;
 using Newtonsoft.Json;
 
-namespace API.Common.Identity.Policies;
+namespace API.Identity.Policies;
 
 public class IsHostRequirement : IAuthorizationRequirement
 {

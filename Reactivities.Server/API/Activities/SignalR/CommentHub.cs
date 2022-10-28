@@ -5,7 +5,7 @@ using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using Models.Common;
 
-namespace API.SignalR;
+namespace API.Activities.SignalR;
 
 public class CommentHub : Hub
 {

@@ -1,9 +1,9 @@
 ﻿using System.Text.RegularExpressions;
-using API.Common.Identity.Models;
+using API.Identity.Models;
 using Application.Common.ErrorHandling;
 using FluentValidation;
 
-namespace API.Common.Identity.Validators;
+namespace API.Identity.Validators;
 
 public class IdentityValidators
 {

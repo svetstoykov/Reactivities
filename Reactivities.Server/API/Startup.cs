@@ -1,3 +1,4 @@
+using API.Activities.SignalR;
 using API.Common.Extensions;
 using Application.Common.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -6,7 +7,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using API.Common.Middleware.ErrorHandling;
-using API.SignalR;
 using Infrastructure.Common.Extensions;
 
 namespace API;

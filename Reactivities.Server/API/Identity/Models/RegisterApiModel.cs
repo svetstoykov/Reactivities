@@ -1,6 +1,6 @@
 ﻿using API.Common.Models;
 
-namespace API.Common.Identity.Models;
+namespace API.Identity.Models;
 
 public class RegisterApiModel : BaseApiModel
 {

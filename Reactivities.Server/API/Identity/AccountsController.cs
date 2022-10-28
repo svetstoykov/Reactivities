@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using API.Common.Controllers;
-using API.Common.Identity.Models;
+using API.Identity.Models;
 using Application.Identity.Commands;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Common.Identity;
+namespace API.Identity;
 
 [AllowAnonymous]
 public class AccountsController : BaseApiController

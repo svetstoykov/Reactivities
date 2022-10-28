@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using API.Common.Identity.Policies;
+using API.Identity.Policies;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Identity.Models;
