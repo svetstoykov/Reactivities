@@ -2,32 +2,31 @@
 using Domain.Common.Base;
 using Domain.Profiles.ErrorHandling;
 
-namespace Domain.Profiles
+namespace Domain.Profiles;
+
+public class Picture : DomainEntity
 {
-    public class Picture : DomainEntity
+    private Picture() {}
+
+    private Picture(string publicId, string url)
     {
-        private Picture() {}
+        this.PublicId = publicId;
+        this.Url = url;
+    }
 
-        private Picture(string publicId, string url)
+    public string PublicId { get; private set; }
+
+    public string Url { get; private set; }
+
+
+    public static Picture New(string publicId, string url)
+    {
+        if (string.IsNullOrEmpty(url))
         {
-            this.PublicId = publicId;
-            this.Url = url;
+            throw new ArgumentException(
+                ProfileErrorMessages.InvalidPictureUrl);
         }
 
-        public string PublicId { get; private set; }
-
-        public string Url { get; private set; }
-
-
-        public static Picture New(string publicId, string url)
-        {
-            if (string.IsNullOrEmpty(url))
-            {
-                throw new ArgumentException(
-                    ProfileErrorMessages.InvalidPictureUrl);
-            }
-
-            return new Picture(publicId, url);
-        }
+        return new Picture(publicId, url);
     }
 }

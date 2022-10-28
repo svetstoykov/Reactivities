@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Messages.Models;
+using Application.Messages.Models.Input;
 using AutoMapper;
 using EasyNetQ;
 using MediatR;

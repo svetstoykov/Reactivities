@@ -1,51 +1,52 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Pictures;
-using Application.Profiles.DataServices;
-using Application.Profiles.Services;
+using Application.Pictures.Interfaces;
+using Application.Pictures.Interfaces.DataServices;
+using Application.Profiles.Interfaces;
+using Application.Profiles.Interfaces.DataServices;
 using MediatR;
 using Models.Common;
 
-namespace Application.Profiles.Commands
+namespace Application.Profiles.Commands;
+
+public class DeleteProfilePicture
 {
-    public class DeleteProfilePicture
+    public class Command : IRequest<Result<Unit>>
     {
-        public class Command : IRequest<Result<Unit>>
+    }
+
+    public class Handler : IRequestHandler<Command, Result<Unit>>
+    {
+        private readonly IPictureFileOperationsService _pictureFileOperationsService;
+        private readonly IProfilesDataService _profilesDataService;
+        private readonly IPicturesDataService _picturesDataService;
+        private readonly IProfileAccessor _profileAccessor;
+
+        public Handler(
+            IPictureFileOperationsService pictureFileOperationsService, 
+            IProfilesDataService profilesDataService, 
+            IPicturesDataService picturesDataService, 
+            IProfileAccessor profileAccessor)
         {
+            this._pictureFileOperationsService = pictureFileOperationsService;
+            this._profilesDataService = profilesDataService;
+            this._picturesDataService = picturesDataService;
+            this._profileAccessor = profileAccessor;
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
         {
-            private readonly IPictureOperationsService _pictureOperationsService;
-            private readonly IProfilesDataService _profilesDataService;
-            private readonly IPicturesDataService _picturesDataService;
-            private readonly IProfileAccessor _profileAccessor;
+            var profile = await this._profilesDataService
+                .GetByUsernameAsync(this._profileAccessor.GetLoggedInUsername());
 
-            public Handler(
-                IPictureOperationsService pictureOperationsService, 
-                IProfilesDataService profilesDataService, 
-                IPicturesDataService picturesDataService, 
-                IProfileAccessor profileAccessor)
-            {
-                this._pictureOperationsService = pictureOperationsService;
-                this._profilesDataService = profilesDataService;
-                this._picturesDataService = picturesDataService;
-                this._profileAccessor = profileAccessor;
-            }
+            await this._pictureFileOperationsService.DeletePictureAsync(profile.Picture.PublicId);
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var profile = await this._profilesDataService
-                    .GetByUsernameAsync(this._profileAccessor.GetLoggedInUsername());
+            this._picturesDataService.Remove(profile.Picture);
 
-                await this._pictureOperationsService.DeletePictureAsync(profile.Picture.PublicId);
+            await this._picturesDataService.SaveChangesAsync(cancellationToken);
 
-                this._picturesDataService.Remove(profile.Picture);
-
-                await this._picturesDataService.SaveChangesAsync(cancellationToken);
-
-                return Result<Unit>.Success(Unit.Value);
-            }
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

@@ -1,15 +1,14 @@
 ﻿using API.Common.Models;
 
-namespace API.Common.Identity.Models
+namespace API.Common.Identity.Models;
+
+public class RegisterApiModel : BaseApiModel
 {
-    public class RegisterApiModel : BaseApiModel
-    {
-        public string DisplayName { get; set; }
+    public string DisplayName { get; set; }
 
-        public string Username { get; set; }
+    public string Username { get; set; }
 
-        public string Password { get; set; }
+    public string Password { get; set; }
 
-        public string Email { get; set; }
-    }
+    public string Email { get; set; }
 }

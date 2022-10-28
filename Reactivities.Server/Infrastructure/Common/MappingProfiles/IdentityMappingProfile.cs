@@ -1,16 +1,16 @@
 ﻿using Application.Profiles.Models;
+using Application.Profiles.Models.Output;
 using AutoMapper;
 using Infrastructure.Identity.Models;
 
-namespace Infrastructure.Common.MappingProfiles
+namespace Infrastructure.Common.MappingProfiles;
+
+public class IdentityMappingProfile : Profile
 {
-    public class IdentityMappingProfile : Profile
+    public IdentityMappingProfile()
     {
-        public IdentityMappingProfile()
-        {
-            this.CreateMap<User, ProfileOutputModel>()
-                .ForMember(dest => dest.Username,
-                    opt => opt.MapFrom(src => src.UserName));
-        }
+        this.CreateMap<User, ProfileOutputModel>()
+            .ForMember(dest => dest.Username,
+                opt => opt.MapFrom(src => src.UserName));
     }
 }

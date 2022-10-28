@@ -3,30 +3,31 @@ using API.Common.Identity.Models;
 using Application.Common.ErrorHandling;
 using FluentValidation;
 
-namespace API.Common.Identity.Validators
+namespace API.Common.Identity.Validators;
+
+public class IdentityValidators
 {
-    public class IdentityValidators
+    public class LoginApiModelValidator : AbstractValidator<LoginApiModel>
     {
-        public class LoginApiModelValidator : AbstractValidator<LoginApiModel>
+        public LoginApiModelValidator()
         {
-            public LoginApiModelValidator()
-            {
-                this.RuleFor(m => m.Email).NotEmpty();
-                this.RuleFor(m => m.Password).NotEmpty();
-            }
+            this.RuleFor(m => m.Email).NotEmpty();
+            this.RuleFor(m => m.Password).NotEmpty();
         }
+    }
 
-        public class RegisterApiModelValidator : AbstractValidator<RegisterApiModel>
+    public class RegisterApiModelValidator : AbstractValidator<RegisterApiModel>
+    {
+        private const string ValidPasswordPattern = @"((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,40})";
+        
+        public RegisterApiModelValidator()
         {
-            public RegisterApiModelValidator()
-            {
-                this.RuleFor(m => m.Email).NotEmpty();
+            this.RuleFor(m => m.Email).NotEmpty();
 
-                // 8-40 chars, 1 lower, 1 upper, 1 spec symbol, 1 number
-                this.RuleFor(m => m.Password)
-                    .Matches(new Regex(@"((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,40})"))
-                    .WithMessage(CommonErrorMessages.PasswordRequirementsNotMet);
-            }
+            // 8-40 chars, 1 lower, 1 upper, 1 spec symbol, 1 number
+            this.RuleFor(m => m.Password)
+                .Matches(new Regex(ValidPasswordPattern))
+                .WithMessage(CommonErrorMessages.PasswordRequirementsNotMet);
         }
     }
 }

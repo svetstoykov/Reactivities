@@ -1,7 +1,6 @@
-﻿namespace Domain.Common.Base
+﻿namespace Domain.Common.Base;
+
+public abstract class DomainEntity
 {
-    public abstract class DomainEntity
-    {
-        public int Id { get; protected set; }
-    }
+    public int Id { get; protected set; }
 }

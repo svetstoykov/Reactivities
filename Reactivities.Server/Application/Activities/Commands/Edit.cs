@@ -1,54 +1,54 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Activities.DataServices;
 using Application.Activities.ErrorHandling;
+using Application.Activities.Interfaces;
+using Application.Activities.Interfaces.DataServices;
 using Application.Activities.Models.Input;
 using MediatR;
 using Models.Common;
 
-namespace Application.Activities.Commands
-{
-    public class Edit
-    {
-        public class Command : IRequest<Result<Unit>>
-        {
-            public Command(EditActivityInputModel dto)
-            {
-                this.Dto = dto;
-            }
+namespace Application.Activities.Commands;
 
-            public EditActivityInputModel Dto { get; init; }
+public class Edit
+{
+    public class Command : IRequest<Result<Unit>>
+    {
+        public Command(EditActivityInputModel dto)
+        {
+            this.Dto = dto;
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public EditActivityInputModel Dto { get; init; }
+    }
+
+    public class Handler : IRequestHandler<Command, Result<Unit>>
+    {
+        private readonly IActivitiesDataService _activitiesDataService;
+
+        public Handler(IActivitiesDataService activitiesDataService)
         {
-            private readonly IActivitiesDataService _activitiesDataService;
+            this._activitiesDataService = activitiesDataService;
+        }
 
-            public Handler(IActivitiesDataService activitiesDataService)
-            {
-                this._activitiesDataService = activitiesDataService;
-            }
-
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
-            {
-                var domainDto = await this._activitiesDataService
-                    .GetByIdAsync(request.Dto.Id);
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var domainDto = await this._activitiesDataService
+                .GetByIdAsync(request.Dto.Id);
                 
-                domainDto.UpdateDetails(
-                    request.Dto.Title,
-                    request.Dto.Date,
-                    request.Dto.Description,
-                    request.Dto.City,
-                    request.Dto.Venue,
-                    (int)request.Dto.CategoryType);
+            domainDto.UpdateDetails(
+                request.Dto.Title,
+                request.Dto.Date,
+                request.Dto.Description,
+                request.Dto.City,
+                request.Dto.Venue,
+                (int)request.Dto.CategoryType);
 
-                this._activitiesDataService.Update(domainDto);
+            this._activitiesDataService.Update(domainDto);
 
-                await this._activitiesDataService.SaveChangesAsync(
-                    cancellationToken, ActivitiesErrorMessages.EditError);
+            await this._activitiesDataService.SaveChangesAsync(
+                cancellationToken, ActivitiesErrorMessages.EditError);
 
-                return Result<Unit>.Success(Unit.Value);
-            }
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }
