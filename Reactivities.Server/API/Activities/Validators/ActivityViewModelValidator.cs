@@ -2,7 +2,6 @@
 using System.Linq;
 using API.Activities.Models;
 using Application.Activities.ErrorHandling;
-using Application.Activities.Models.Enums;
 using Domain.Activities.Enums;
 using FluentValidation;
 

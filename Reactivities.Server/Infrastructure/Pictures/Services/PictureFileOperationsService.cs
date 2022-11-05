@@ -4,7 +4,7 @@ using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
 using Infrastructure.Pictures.Models;
 using Microsoft.Extensions.Options;
-using Models.ErrorHandling;
+using Reactivities.Common.ErrorHandling.Models;
 
 namespace Infrastructure.Pictures.Services;
 

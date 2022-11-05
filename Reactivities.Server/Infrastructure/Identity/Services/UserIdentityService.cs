@@ -5,7 +5,7 @@ using Infrastructure.Identity.Models;
 using Infrastructure.Identity.Tokens.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 using Profile = Domain.Profiles.Profile;
 
 namespace Infrastructure.Identity.Services;

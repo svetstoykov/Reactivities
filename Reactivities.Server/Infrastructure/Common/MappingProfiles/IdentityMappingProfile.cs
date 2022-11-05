@@ -1,5 +1,4 @@
-﻿using Application.Profiles.Models;
-using Application.Profiles.Models.Output;
+﻿using Application.Profiles.Models.Output;
 using AutoMapper;
 using Infrastructure.Identity.Models;
 

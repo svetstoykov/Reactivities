@@ -1,10 +1,10 @@
 ﻿using Application.Pictures.Interfaces.DataServices;
 using Domain.Profiles;
-using Infrastructure.Common.DataServices;
+using Reactivities.Common.DataServices.Services;
 
 namespace Infrastructure.Pictures.Services.DataServices;
 
-public class PicturesDataService : EntityDataService<Picture>, IPicturesDataService
+public class PicturesDataService : EntityDataService<DataContext,Picture>, IPicturesDataService
 {
     public PicturesDataService(DataContext dataContext) : base(dataContext)
     {

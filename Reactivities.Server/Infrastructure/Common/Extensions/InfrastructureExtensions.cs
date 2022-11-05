@@ -1,10 +1,10 @@
 ﻿using System.Reflection;
+using Application.Common.Utility;
 using EasyNetQ;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Models.Common;
 
 namespace Infrastructure.Common.Extensions;
 
@@ -26,6 +26,11 @@ public static class InfrastructureExtensions
     private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration config)
         => services.AddDbContext<DataContext>(options =>
         {
-            options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+            options.UseSqlServer(config.GetConnectionString(GlobalConstants.DefaultConnection));
         });
+    
+    
+    private static IServiceCollection AddRabbitMqMessageBus(this IServiceCollection services, IConfiguration config)
+        => services.AddSingleton(
+            RabbitHutch.CreateBus(config.GetConnectionString(GlobalConstants.RabbitMQBus)));
 }

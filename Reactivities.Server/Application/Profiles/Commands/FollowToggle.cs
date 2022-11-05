@@ -5,8 +5,8 @@ using Application.Profiles.ErrorHandling;
 using Application.Profiles.Interfaces;
 using Application.Profiles.Interfaces.DataServices;
 using MediatR;
-using Models.Common;
 using Domain.Profiles;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Profiles.Commands;
 

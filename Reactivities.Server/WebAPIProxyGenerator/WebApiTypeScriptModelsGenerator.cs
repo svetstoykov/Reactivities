@@ -1,8 +1,7 @@
 ﻿using API.Common.Models;
-using Application.Common.Models;
 using Application.Common.Models.Base;
-using Models.Common;
-using Models.ErrorHandling;
+using Application.Common.Utility;
+using Reactivities.Common.ErrorHandling.Models;
 using TypeScriptModelsGenerator;
 using WebAPIGenerator.ErrorHandling;
 

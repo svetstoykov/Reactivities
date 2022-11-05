@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Application.Profiles.Interfaces.DataServices;
 using MediatR;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Profiles.Commands;
 

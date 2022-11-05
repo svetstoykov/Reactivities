@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Activities.Interfaces;
 using Application.Activities.Interfaces.DataServices;
-using Application.Profiles.Models;
 using Application.Profiles.Models.Enums;
 using Application.Profiles.Models.Output;
 using MediatR;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Profiles.Queries;
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Application.Common.ErrorHandling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using Models.ErrorHandling;
+using Reactivities.Common.ErrorHandling.Models;
 
 namespace API.Common.Middleware.ErrorHandling;
 

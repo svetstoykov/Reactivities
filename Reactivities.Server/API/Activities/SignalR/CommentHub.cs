@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Application.Activities.Commands;
 using Application.Activities.Queries;
+using Application.Common.Utility;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
-using Models.Common;
 
 namespace API.Activities.SignalR;
 

@@ -9,11 +9,12 @@ using Application.Activities.Models.Input;
 using Application.Activities.Models.Output;
 using Application.Activities.Queries;
 using Application.Common.Models.Pagination;
+using Application.Common.Utility;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
 namespace API.Activities.Controllers;
 

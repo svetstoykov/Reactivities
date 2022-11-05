@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Application.Pictures.Models;
 using Application.Pictures.Models.Output;
 
 namespace Application.Pictures.Interfaces;

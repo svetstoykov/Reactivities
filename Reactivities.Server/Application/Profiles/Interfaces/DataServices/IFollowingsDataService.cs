@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Common.Interfaces.DataServices;
-using Application.Profiles.Models;
 using Application.Profiles.Models.Output;
 using Domain.Profiles;
+using Reactivities.Common.DataServices.Abstractions.Interfaces;
 
 namespace Application.Profiles.Interfaces.DataServices;
 

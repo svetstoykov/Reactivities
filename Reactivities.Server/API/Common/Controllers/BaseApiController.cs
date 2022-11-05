@@ -4,8 +4,8 @@ using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Common;
 using Models.Enumerations;
+using Reactivities.Common.Result.Models;
 
 namespace API.Common.Controllers;
 

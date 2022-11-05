@@ -4,13 +4,13 @@ using Application.Profiles.Interfaces.DataServices;
 using Application.Profiles.Models.Output;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Infrastructure.Common.DataServices;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Common.DataServices.Services;
 using Profile = Domain.Profiles.Profile;
 
 namespace Infrastructure.Profiles.Services.DataServices;
 
-public class ProfilesDataService : EntityDataService<Profile>, IProfilesDataService
+public class ProfilesDataService : EntityDataService<DataContext,Profile>, IProfilesDataService
 {
     private readonly IMapper _mapper;
     private readonly IProfileAccessor _profileAccessor;

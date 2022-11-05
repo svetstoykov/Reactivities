@@ -1,13 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Activities.Interfaces;
 using Application.Activities.Interfaces.DataServices;
 using Application.Activities.Models.Output;
 using Application.Profiles.Interfaces.DataServices;
 using AutoMapper;
 using Domain.Activities;
 using MediatR;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Activities.Commands;
 

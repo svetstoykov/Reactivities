@@ -3,12 +3,12 @@ using Application.Activities.Models.Output;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Activities;
-using Infrastructure.Common.DataServices;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Common.DataServices.Services;
 
 namespace Infrastructure.Activities.Services.DataServices;
 
-public class CommentsDataService : EntityDataService<Comment>, ICommentsDataService
+public class CommentsDataService : EntityDataService<DataContext,Comment>, ICommentsDataService
 {
     private readonly IMapper _mapper;
 

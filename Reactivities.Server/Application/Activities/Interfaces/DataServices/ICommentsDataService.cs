@@ -2,8 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.Models.Output;
-using Application.Common.Interfaces.DataServices;
 using Domain.Activities;
+using Reactivities.Common.DataServices.Abstractions.Interfaces;
 
 namespace Application.Activities.Interfaces.DataServices;
 

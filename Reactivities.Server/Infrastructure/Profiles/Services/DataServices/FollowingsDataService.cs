@@ -5,12 +5,12 @@ using Application.Profiles.Models.Output;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Profiles;
-using Infrastructure.Common.DataServices;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Common.DataServices.Services;
 
 namespace Infrastructure.Profiles.Services.DataServices;
 
-public class FollowingsDataService : EntityDataService<ProfileFollowing>, IFollowingsDataService
+public class FollowingsDataService : EntityDataService<DataContext,ProfileFollowing>, IFollowingsDataService
 {
     private readonly IMapper _mapper;
     private readonly IProfileAccessor _profileAccessor;

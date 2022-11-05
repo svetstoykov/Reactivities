@@ -4,12 +4,11 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Activities.Models.Output;
-using Application.Common.Interfaces.DataServices;
 using Application.Common.Models.Pagination;
-using Application.Profiles.Models;
 using Application.Profiles.Models.Enums;
 using Application.Profiles.Models.Output;
 using Domain.Activities;
+using Reactivities.Common.DataServices.Abstractions.Interfaces;
 
 namespace Application.Activities.Interfaces.DataServices;
 

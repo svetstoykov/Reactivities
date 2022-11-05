@@ -1,10 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Common.Utility;
 using Infrastructure.Identity.Tokens.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Models.Common;
 using User = Infrastructure.Identity.Models.User;
 
 namespace Infrastructure.Identity.Tokens;

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using API.Identity.Policies;
+using Application.Common.Utility;
 using FluentValidation.AspNetCore;
 using Infrastructure;
 using Infrastructure.Identity.Models;
@@ -13,7 +14,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Models.Common;
 
 namespace API.Common.Extensions;
 

@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Pictures;
 using Application.Pictures.Interfaces;
 using Application.Pictures.Interfaces.DataServices;
 using Application.Profiles.Interfaces;
 using Application.Profiles.Interfaces.DataServices;
 using MediatR;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Profiles.Commands;
 

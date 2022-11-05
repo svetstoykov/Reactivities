@@ -1,6 +1,5 @@
 ﻿
 using System.Collections.Generic;
-using Application.Profiles.Models;
 using Application.Profiles.Models.Output;
 using Domain.Activities.Enums;
 

@@ -1,5 +1,5 @@
 ﻿using Application.Common.Models.Base;
-using Models.ErrorHandling;
+using Reactivities.Common.ErrorHandling.Models;
 
 namespace Application.Common.Models.Pagination;
 

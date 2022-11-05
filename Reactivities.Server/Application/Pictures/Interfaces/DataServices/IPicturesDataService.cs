@@ -1,5 +1,5 @@
-﻿using Application.Common.Interfaces.DataServices;
-using Domain.Profiles;
+﻿using Domain.Profiles;
+using Reactivities.Common.DataServices.Abstractions.Interfaces;
 
 namespace Application.Pictures.Interfaces.DataServices;
 

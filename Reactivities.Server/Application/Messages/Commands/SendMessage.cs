@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Messages.Models;
-using Application.Messages.Models.Input;
+using Application.Messages.Interfaces;
 using AutoMapper;
-using EasyNetQ;
 using MediatR;
-using Models.Common;
+using Reactivities.Common.Messages.Models.Request;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Messages.Commands;
 
@@ -30,23 +29,24 @@ public class SendMessage
     
     public class Handler : IRequestHandler<Command, Result<bool>>
     {
+        private readonly IMessagingServiceClient _messagingServiceClient;
         private readonly IMapper _mapper;
-        private readonly IBus _messageBus;
-
-        public Handler(IMapper mapper, IBus messageBus)
+        
+        public Handler(IMessagingServiceClient messagingServiceClient, IMapper mapper)
         {
+            this._messagingServiceClient = messagingServiceClient;
             this._mapper = mapper;
-            this._messageBus = messageBus;
         }
 
         public async Task<Result<bool>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var sendMessageInputModel = this._mapper.Map<SendMessageInputModel>(request);
+            var messageRequestModel = this._mapper.Map<SendMessageRequestModel>(request);
 
-            // TODO implement usage for message bus
-            await Task.Run(() => 5);
+            var response = await this._messagingServiceClient.SendMessageAsync(messageRequestModel);
             
-            return Result<bool>.Success(true);
+            return response 
+                ? Result<bool>.Success(true) 
+                : Result<bool>.Failure("Failed to send message");
         }
     }
 }

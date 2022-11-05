@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
 namespace Application.Identity.Interfaces;
 

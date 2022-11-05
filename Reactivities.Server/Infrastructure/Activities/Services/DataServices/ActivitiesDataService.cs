@@ -8,13 +8,13 @@ using Application.Profiles.Models.Output;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Domain.Activities;
-using Infrastructure.Common.DataServices;
 using Infrastructure.Common.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Reactivities.Common.DataServices.Services;
 
 namespace Infrastructure.Activities.Services.DataServices;
 
-public class ActivitiesDataService : EntityDataService<Activity>, IActivitiesDataService
+public class ActivitiesDataService : EntityDataService<DataContext, Activity>, IActivitiesDataService
 {
     private readonly IMapper _mapper;
     private readonly IProfileAccessor _profileAccessor;

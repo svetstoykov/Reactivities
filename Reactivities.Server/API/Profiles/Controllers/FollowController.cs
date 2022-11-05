@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using API.Common.Controllers;
 using API.Profiles.Models;
 using Application.Profiles.Commands;
-using Application.Profiles.Models;
 using Application.Profiles.Models.Output;
 using Application.Profiles.Queries;
 using AutoMapper;
