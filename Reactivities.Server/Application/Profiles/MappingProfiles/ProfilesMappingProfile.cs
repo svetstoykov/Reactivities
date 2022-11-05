@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using Application.Profiles.Models.Output;
-using AutoMapper;
 using Domain.Activities;
-using DomainEntity = Domain.Profiles;
 using Domain.Activities.Enums;
+using DomainEntity = Domain.Profiles;
+using Profile = AutoMapper.Profile;
 
-namespace Application.Common.MappingProfiles;
+namespace Application.Profiles.MappingProfiles;
 
 public class ProfilesMappingProfile : Profile
 {

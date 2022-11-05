@@ -2,7 +2,7 @@
 
 namespace API.Activities.Models.Comments;
 
-public class AddCommentRequestModel : BaseApiModel
+public class AddCommentApiModel : BaseApiModel
 {
     public string Content { get; set; }
         

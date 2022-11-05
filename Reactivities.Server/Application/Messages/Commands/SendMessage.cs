@@ -42,11 +42,7 @@ public class SendMessage
         {
             var messageRequestModel = this._mapper.Map<SendMessageRequestModel>(request);
 
-            var response = await this._messagingServiceClient.SendMessageAsync(messageRequestModel);
-            
-            return response 
-                ? Result<bool>.Success(true) 
-                : Result<bool>.Failure("Failed to send message");
+            return await this._messagingServiceClient.SendMessageAsync(messageRequestModel);
         }
     }
 }

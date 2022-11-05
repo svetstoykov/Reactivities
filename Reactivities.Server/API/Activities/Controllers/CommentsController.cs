@@ -19,7 +19,7 @@ public class CommentsController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddComment(AddCommentRequestModel request)
+    public async Task<IActionResult> AddComment(AddCommentApiModel request)
         => this.HandleMappingResult<CommentOutputModel, CommentApiModel>(
             await this.Mediator.Send(new AddComment.Command(request.Content, request.ActivityId, request.Username)));
 

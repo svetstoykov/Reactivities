@@ -4,7 +4,7 @@ using Application.Activities.Models.Output;
 using Domain.Activities;
 using Domain.Activities.Enums;
 
-namespace Application.Common.MappingProfiles;
+namespace Application.Activities.MappingProfiles;
 
 public class ActivitiesMappingProfile : AutoMapper.Profile
 {
