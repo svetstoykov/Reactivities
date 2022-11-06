@@ -14,6 +14,7 @@ public class MessagesController : BaseApiController
     {
     }
 
+    [HttpPost("sendMessage")]
     public async Task<IActionResult> SendMessage(SendMessageApiModel request)
         => this.HandleResult(await this.Mediator.Send(
             new SendMessage.Command(request.SenderUsername, request.ReceiverUsername, request.Content)));

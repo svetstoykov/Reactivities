@@ -14,7 +14,8 @@ public static class InfrastructureExtensions
     {
         services
             .AddDbContext(config)
-            .AddMediatR(Assembly.GetExecutingAssembly());
+            .AddMediatR(Assembly.GetExecutingAssembly())
+            .AddRabbitMqMessageBus(config);
 
         return services
             .Scan(scan => scan
