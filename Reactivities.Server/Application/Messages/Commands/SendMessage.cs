@@ -29,12 +29,12 @@ public class SendMessage
     
     public class Handler : IRequestHandler<Command, Result<bool>>
     {
-        private readonly IMessagingServiceClient _messagingServiceClient;
+        private readonly IMessagesMqClient _messagesMqClient;
         private readonly IMapper _mapper;
         
-        public Handler(IMessagingServiceClient messagingServiceClient, IMapper mapper)
+        public Handler(IMessagesMqClient messagesMqClient, IMapper mapper)
         {
-            this._messagingServiceClient = messagingServiceClient;
+            this._messagesMqClient = messagesMqClient;
             this._mapper = mapper;
         }
 
@@ -42,7 +42,7 @@ public class SendMessage
         {
             var messageRequestModel = this._mapper.Map<SendMessageRequestModel>(request);
 
-            return await this._messagingServiceClient.SendMessageAsync(messageRequestModel);
+            return await this._messagesMqClient.SendMessageAsync(messageRequestModel);
         }
     }
 }
