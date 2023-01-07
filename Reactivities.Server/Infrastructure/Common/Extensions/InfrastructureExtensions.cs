@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
 using Application.Common.Utility;
 using EasyNetQ;
 using MediatR;
