@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using API.Activities.SignalR;
 using API.Common.Extensions;
 using Application.Common.Extensions;
