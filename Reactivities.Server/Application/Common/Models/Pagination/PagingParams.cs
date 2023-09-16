@@ -8,27 +8,33 @@ public class PagingParams : BaseAppModel
     private int _pageSize;
     private int _pageNumber;
     private const int MaxPageSize = 50;
+    private const int MinValue = 1;
 
-    private const int DefaultPageNumber = 1;
-    private const int DefaultPageSize = 5;
-
-    public int? PageSize
+    public int PageSize
     {
         get => this._pageSize;
         set
         {
-            if (this._pageSize > MaxPageSize)
+            this._pageSize = value switch
             {
-                throw new AppException("Maximum page size is 50");
-            }
-
-            this._pageSize = value ?? DefaultPageSize;
+                > MaxPageSize => throw new AppException("Maximum page size is 50"),
+                < MinValue => throw new AppException("Page size must be greater than 0"),
+                _ => value
+            };
         }
     }
 
-    public int? PageNumber
+    public int PageNumber
     {
         get => this._pageNumber;
-        set => this._pageNumber = value ?? DefaultPageNumber;
+        set
+        {
+            if (value < MinValue)
+            {
+                throw new AppException("Page number must be greater than 0");
+            }
+
+            this._pageNumber = value;
+        }
     }
 }

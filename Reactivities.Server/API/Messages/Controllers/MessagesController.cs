@@ -18,14 +18,12 @@ public class MessagesController : BaseApiController
     [HttpPost("sendMessage")]
     public async Task<IActionResult> SendMessage(SendMessageApiModel request)
         => this.HandleResult(await this.Mediator.Send(
-            new SendMessage.Command(request.SenderUsername, request.ReceiverUsername, request.Content)));
+            new SendMessage.Command(request.ReceiverUsername, request.Content)));
 
     [HttpGet]
     public async Task<IActionResult> GetConversation([FromQuery] GetConversationApiModel request)
         => this.HandleResult(await this.Mediator.Send(new GetConversation.Query(
-            request.SenderUsername,
             request.ReceiverUsername,
-            request.InitialMessagesLoadCount,
-            request.DateFrom,
-            request.DateTo)));
+            request.PageNumber,
+            request.PageSize)));
 }

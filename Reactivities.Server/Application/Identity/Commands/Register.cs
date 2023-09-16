@@ -18,13 +18,13 @@ public class Register
             this.Email = email;
         }
 
-        public string DisplayName { get; init; }
+        public string DisplayName { get; }
 
-        public string Username { get; init; }
+        public string Username { get; }
 
-        public string Password { get; init; }
+        public string Password { get; }
 
-        public string Email { get; init; }
+        public string Email { get; }
     }
 
     public class Handler : IRequestHandler<Command, Result<string>>

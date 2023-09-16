@@ -1,58 +1,62 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Messages.Interfaces;
-using AutoMapper;
+using Application.Common.Models.Pagination;
+using Application.Messages.Interfaces.DataServices;
+using Application.Messages.Models.Input;
+using Application.Messages.Models.Output;
+using Application.Profiles.Interfaces;
 using MediatR;
-using Reactivities.Common.Messages.Models.Request;
-using Reactivities.Common.Messages.Models.Response;
 using Reactivities.Common.Result.Models;
 
 namespace Application.Messages.Queries;
 
 public class GetConversation
 {
-    public class Query : IRequest<Result<SenderReceiverConversationResponseModel>>
+    public class Query : IRequest<Result<PaginatedResult<MessageOutputModel>>>
     {
-        public Query(string senderUsername, string receiverUsername, int initialMessagesLoadCount, DateTime? dateFrom, DateTime? dateTo)
+        public Query(string receiverUsername, int pageNumber, int pageSize)
         {
-            this.SenderUsername = senderUsername;
             this.ReceiverUsername = receiverUsername;
-            this.InitialMessagesLoadCount = initialMessagesLoadCount;
-            this.DateFrom = dateFrom;
-            this.DateTo = dateTo;
+            this.PageNumber = pageNumber;
+            this.PageSize = pageSize;
         }
         
-        public string SenderUsername { get; }
-
         public string ReceiverUsername { get; }
-
-        public int InitialMessagesLoadCount { get; }
-
-        public DateTime? DateFrom { get; }
-
-        public DateTime? DateTo { get; }
+        
+        public int PageNumber { get; set; }
+        
+        public int PageSize { get; set; }
     }
     
-    public class Handler : IRequestHandler<Query, Result<SenderReceiverConversationResponseModel>>
+    public class Handler : IRequestHandler<Query, Result<PaginatedResult<MessageOutputModel>>>
     {
-        private readonly IMessagesMqClient _messagesMqClient;
-        private readonly IMapper _mapper;
+        private readonly IProfileAccessor _profileAccessor;
+        private readonly IMessagesDataService _messagesDataService;
 
-        public Handler(IMessagesMqClient messagesMqClient, IMapper mapper)
+        public Handler(
+            IProfileAccessor profileAccessor,
+            IMessagesDataService messagesDataService)
         {
-            this._messagesMqClient = messagesMqClient;
-            this._mapper = mapper;
+            this._profileAccessor = profileAccessor;
+            this._messagesDataService = messagesDataService;
         }
 
-        public async Task<Result<SenderReceiverConversationResponseModel>> Handle(
+        public async Task<Result<PaginatedResult<MessageOutputModel>>> Handle(
             Query request, CancellationToken cancellationToken)
         {
-            var requestModel = this._mapper.Map<GetSenderReceiverConversationRequestModel>(request);
-
-            return await this._messagesMqClient.GetConversationAsync(requestModel);
+            var requestModel = new GetSenderReceiverConversationRequestModel
+            {
+                SenderUsername = this._profileAccessor.GetLoggedInUsername(),
+                ReceiverUsername = request.ReceiverUsername,
+                PageSize = request.PageSize,
+                PageIndex = request.PageNumber - 1
+            };
+            
+            var paginatedResult = await this._messagesDataService.GetMessagesConversationAsync(
+                requestModel.SenderUsername, request.ReceiverUsername, request.PageNumber, request.PageSize);
+            
+            return Result<PaginatedResult<MessageOutputModel>>
+                .Success(paginatedResult);
         }
     }
 }

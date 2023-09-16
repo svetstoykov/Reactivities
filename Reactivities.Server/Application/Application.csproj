@@ -6,13 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
-    <PackageReference Include="EasyNetQ" Version="7.3.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Reactivities.Common.DataServices.Abstractions" Version="1.0.0" />
     <PackageReference Include="Reactivities.Common.ErrorHandling" Version="1.0.0" />
-    <PackageReference Include="Reactivities.Common.Messages" Version="1.0.1" />
     <PackageReference Include="Reactivities.Common.Result" Version="1.0.0" />
     <PackageReference Include="Scrutor" Version="4.2.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.25.0" />
@@ -27,5 +24,7 @@
       <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.9\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+
 
 </Project>

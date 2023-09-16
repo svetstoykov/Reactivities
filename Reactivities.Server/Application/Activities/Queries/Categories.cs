@@ -27,7 +27,8 @@ public class Categories
 
         public async Task<Result<IEnumerable<CategoryOutputModel>>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var categories = await this._activitiesDataService.GetCategoriesAsync();
+            var categories = await this._activitiesDataService
+                .GetCategoriesAsync(cancellationToken: cancellationToken);
 
             var outputModels = this._mapper.Map<IEnumerable<CategoryOutputModel>>(categories);
 

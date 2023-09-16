@@ -19,29 +19,34 @@ public class ActivitiesDataService : EntityDataService<DataContext, Activity>, I
     private readonly IMapper _mapper;
     private readonly IProfileAccessor _profileAccessor;
 
-    public ActivitiesDataService(DataContext dataContext, IMapper mapper, IProfileAccessor profileAccessor) 
+    public ActivitiesDataService(DataContext dataContext, IMapper mapper, IProfileAccessor profileAccessor)
         : base(dataContext)
     {
         this._mapper = mapper;
         this._profileAccessor = profileAccessor;
     }
 
-    public async Task<PaginatedResult<ActivityOutputModel>> GetPaginatedActivitiesAsync
-        (IQueryable<Activity> activitiesQueryable, int pageSize, int pageNumber, string loggedInUsername, CancellationToken cancellationToken = default)
+    public async Task<PaginatedResult<ActivityOutputModel>> GetPaginatedActivitiesAsync(
+        IQueryable<Activity> activitiesQueryable, 
+        int pageSize, 
+        int pageIndex, 
+        string loggedInUsername, 
+        CancellationToken cancellationToken = default)
         => await activitiesQueryable
             .ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider,
-                new { currentProfile = loggedInUsername })
-            .PaginateAsync(pageSize, pageNumber, cancellationToken);
+                new {currentProfile = loggedInUsername})
+            .PaginateAsync(pageIndex, pageSize, cancellationToken);
 
-    public async Task<ICollection<Category>> GetCategoriesAsync(Func<Category, bool> predicate = null, CancellationToken cancellationToken = default)
+    public async Task<ICollection<Category>> GetCategoriesAsync(Func<Category, bool> predicate = null,
+        CancellationToken cancellationToken = default)
         => await this.DataContext.Categories
-            .Where(a => predicate == null || predicate(a))
+            .Where(category => predicate == null || predicate(category))
             .ToListAsync(cancellationToken);
 
     public async Task<ActivityOutputModel> GetActivityOutputModel(
         int activityId, CancellationToken cancellationToken = default)
         => await this.DataSet.ProjectTo<ActivityOutputModel>(this._mapper.ConfigurationProvider,
-                new { currentProfile = this._profileAccessor.GetLoggedInUsername() })
+                new {currentProfile = this._profileAccessor.GetLoggedInUsername()})
             .FirstOrDefaultAsync(a => a.Id == activityId, cancellationToken);
 
     public async Task<ICollection<ProfileActivityOutputModel>> GetProfileFilteredActivitiesAsync(

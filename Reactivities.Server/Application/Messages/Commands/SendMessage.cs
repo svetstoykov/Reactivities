@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Application.Messages.Interfaces;
-using AutoMapper;
+using Application.Messages.Models.Input;
+using Application.Profiles.Interfaces;
 using MediatR;
-using Reactivities.Common.Messages.Models.Request;
 using Reactivities.Common.Result.Models;
 
 namespace Application.Messages.Commands;
@@ -13,15 +13,12 @@ public class SendMessage
 {
     public class Command : IRequest<Result<bool>>
     {
-        public Command(string senderUsername, string receiverUsername, string content)
+        public Command(string receiverUsername, string content)
         {
-            this.SenderUsername = senderUsername;
             this.ReceiverUsername = receiverUsername;
             this.Content = content;
             this.DateSent = DateTime.UtcNow;
         }
-        
-        public string SenderUsername { get; }
         public string ReceiverUsername{ get; }
         public string Content { get;}
         public DateTime DateSent { get; }
@@ -29,20 +26,28 @@ public class SendMessage
     
     public class Handler : IRequestHandler<Command, Result<bool>>
     {
-        private readonly IMessagesMqClient _messagesMqClient;
-        private readonly IMapper _mapper;
+        private readonly IProfileAccessor _profileAccessor;
+        private readonly IMessagesClient _messagesClient;
         
-        public Handler(IMessagesMqClient messagesMqClient, IMapper mapper)
+        public Handler(
+            IProfileAccessor profileAccessor,
+            IMessagesClient messagesClient)
         {
-            this._messagesMqClient = messagesMqClient;
-            this._mapper = mapper;
+            this._profileAccessor = profileAccessor;
+            this._messagesClient = messagesClient;
         }
 
         public async Task<Result<bool>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var messageRequestModel = this._mapper.Map<SendMessageRequestModel>(request);
-
-            return await this._messagesMqClient.SendMessageAsync(messageRequestModel);
+            var messageRequestModel = new SendMessageInputModel()
+            {
+                SenderUsername = this._profileAccessor.GetLoggedInUsername(),
+                ReceiverUsername = request.ReceiverUsername,
+                DateSent = DateTime.UtcNow,
+                Content = request.Content
+            };
+            
+            return await this._messagesClient.SendMessageAsync(messageRequestModel);
         }
     }
 }

@@ -43,13 +43,11 @@ public class UserIdentityService : IUserIdentityService
         var signInResult = await this._signInManager
             .CheckPasswordSignInAsync(user, password, false);
 
-        if (signInResult.Succeeded)
-        {
-            return Result<string>.Success(this._tokenService.GenerateToken(user));
-        }
-
-        return Result<string>.Unauthorized(
-            CommonErrorMessages.FailedLogin);
+        return signInResult.Succeeded
+            ? Result<string>
+                .Success(this._tokenService.GenerateToken(user))
+            : Result<string>
+                .Unauthorized(CommonErrorMessages.FailedLogin);
     }
 
     public async Task<Result<string>> RegisterAndGenerateTokenAsync(
@@ -65,16 +63,15 @@ public class UserIdentityService : IUserIdentityService
 
         var user = this._mapper.Map<User>(profile);
 
-        var registerUser = await this._userManager.CreateAsync(user, password);
+        user.Profile = profile;
 
-        if (registerUser.Succeeded)
-        {
-            return Result<string>.Success(
-                this._tokenService.GenerateToken(user));
-        }
+        var registerUserResult = await this._userManager.CreateAsync(user, password);
 
-        return Result<string>.Failure(
-            CommonErrorMessages.FailedToCreateUser);
+        return registerUserResult.Succeeded
+            ? Result<string>
+                .Success(this._tokenService.GenerateToken(user))
+            : Result<string>
+                .Failure(CommonErrorMessages.FailedToCreateUser);
     }
     
     private async Task<Result<string>> ValidateDuplicateUserDetails(string username, string email)

@@ -14,7 +14,7 @@ public static class GlobalConstants
 
     public const string ActivityIdQueryParam = "activityId";
 
-    public const string RabbitMQBus = nameof(RabbitMQBus);
+    public const string RabbitMQ = nameof(RabbitMQ);
 
     public const string DefaultConnection = nameof(DefaultConnection);
 }

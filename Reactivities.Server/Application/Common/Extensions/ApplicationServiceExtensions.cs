@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using EasyNetQ;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

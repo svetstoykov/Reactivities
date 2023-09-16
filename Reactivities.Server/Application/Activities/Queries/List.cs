@@ -49,10 +49,12 @@ public class List
             activitiesQueryable = ApplyAttendanceFilter(
                 request.Dto.Attending, activitiesQueryable, loggedInUsername);
 
+            var pageIndex = request.Dto.PageNumber - 1;
+                
             var activitiesList = await this._activitiesDataService.GetPaginatedActivitiesAsync(
                 activitiesQueryable, 
-                request.Dto.PageSize ?? default, 
-                request.Dto.PageNumber ?? default, 
+                request.Dto.PageSize, 
+                pageIndex, 
                 loggedInUsername,
                 cancellationToken);
 

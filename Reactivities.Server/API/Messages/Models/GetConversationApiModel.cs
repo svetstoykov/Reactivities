@@ -1,16 +1,13 @@
 ﻿using System;
+using Application.Common.Models.Pagination;
 
 namespace API.Messages.Models;
 
-public class GetConversationApiModel
+public class GetConversationApiModel : PagingParams
 {
-    public string SenderUsername { get; }
+    public string SenderUsername { get; set; }
 
-    public string ReceiverUsername { get; }
+    public string ReceiverUsername { get; set; }
 
-    public int InitialMessagesLoadCount { get; }
-
-    public DateTime? DateFrom { get; }
-
-    public DateTime? DateTo { get; }
+    public int InitialMessagesLoadCount { get; set;}
 }
