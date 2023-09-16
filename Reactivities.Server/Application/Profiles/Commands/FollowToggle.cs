@@ -1,77 +1,76 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Application.Profiles.DataServices;
 using Application.Profiles.ErrorHandling;
-using Application.Profiles.Services;
+using Application.Profiles.Interfaces;
+using Application.Profiles.Interfaces.DataServices;
 using MediatR;
-using Models.Common;
 using Domain.Profiles;
+using Reactivities.Common.Result.Models;
 
-namespace Application.Profiles.Commands
+namespace Application.Profiles.Commands;
+
+public class FollowToggle
 {
-    public class FollowToggle
+    public class Command : IRequest<Result<bool>>
     {
-        public class Command : IRequest<Result<bool>>
+        public Command(string userToFollow)
         {
-            public Command(string userToFollow)
-            {
-                this.UserToFollow = userToFollow;
-            }
+            this.UserToFollow = userToFollow;
+        }
             
-            public string UserToFollow { get; }
+        public string UserToFollow { get; }
+    }
+
+    public class Handler : IRequestHandler<Command, Result<bool>>
+    {
+        private readonly IProfilesDataService _profilesDataService;
+        private readonly IFollowingsDataService _followingsDataService;
+        private readonly IProfileAccessor _profileAccessor;
+
+        public Handler(IProfilesDataService profilesDataService, IFollowingsDataService followingsDataService, IProfileAccessor profileAccessor)
+        {
+            this._profilesDataService = profilesDataService;
+            this._followingsDataService = followingsDataService;
+            this._profileAccessor = profileAccessor;
         }
 
-        public class Handler : IRequestHandler<Command, Result<bool>>
+        public async Task<Result<bool>> Handle(Command request, CancellationToken cancellationToken)
         {
-            private readonly IProfilesDataService _profilesDataService;
-            private readonly IFollowingsDataService _followingsDataService;
-            private readonly IProfileAccessor _profileAccessor;
-
-            public Handler(IProfilesDataService profilesDataService, IFollowingsDataService followingsDataService, IProfileAccessor profileAccessor)
+            var loggedInUsername = this._profileAccessor.GetLoggedInUsername();
+            if (loggedInUsername == request.UserToFollow)
             {
-                this._profilesDataService = profilesDataService;
-                this._followingsDataService = followingsDataService;
-                this._profileAccessor = profileAccessor;
+                return Result<bool>.Failure(ProfileErrorMessages.CannotFollowYourself);
             }
 
-            public async Task<Result<bool>> Handle(Command request, CancellationToken cancellationToken)
+            var observer = await this._profilesDataService.GetProfileWithFollowings(
+                loggedInUsername, cancellationToken);
+
+            if (observer == null)
             {
-                var loggedInUsername = this._profileAccessor.GetLoggedInUsername();
-                if (loggedInUsername == request.UserToFollow)
-                {
-                    return Result<bool>.Failure(ProfileErrorMessages.CannotFollowYourself);
-                }
+                return Result<bool>.Failure(string.Format(
+                    ProfileErrorMessages.ProfileDoesNotExist, loggedInUsername));
+            }
 
-                var observer = await this._profilesDataService.GetProfileWithFollowings(
-                    loggedInUsername, cancellationToken);
+            var following = observer.Followings
+                .FirstOrDefault(p => p.Target.UserName == request.UserToFollow);
 
-                if (observer == null)
-                {
-                    return Result<bool>.Failure(string.Format(
-                        ProfileErrorMessages.ProfileDoesNotExist, loggedInUsername));
-                }
+            if (following == null)
+            {
+                var target = await this._profilesDataService.GetByUsernameAsync(request.UserToFollow);
 
-                var following = observer.Followings
-                    .FirstOrDefault(p => p.Target.UserName == request.UserToFollow);
+                observer.AddFollowing(ProfileFollowing.New(observer, target));
+            }
+            else
+            {
+                observer.RemoveFollowing(following);
+            }
 
-                if (following == null)
-                {
-                    var target = await this._profilesDataService.GetByUsernameAsync(request.UserToFollow);
+            await this._profilesDataService.SaveChangesAsync(cancellationToken);
 
-                    observer.AddFollowing(ProfileFollowing.New(observer, target));
-                }
-                else
-                {
-                    observer.RemoveFollowing(following);
-                }
-
-                await this._profilesDataService.SaveChangesAsync(cancellationToken);
-
-                var isTargetUserNowFollowed = following == null;
+            var isTargetUserNowFollowed = following == null;
                 
-                return Result<bool>.Success(isTargetUserNowFollowed);
-            }
+            return Result<bool>.Success(isTargetUserNowFollowed);
         }
     }
 }

@@ -1,62 +1,61 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Application.Activities.DataServices;
 using Application.Activities.ErrorHandling;
-using Application.Profiles.DataServices;
-using Application.Profiles.Services;
+using Application.Activities.Interfaces.DataServices;
+using Application.Profiles.Interfaces;
+using Application.Profiles.Interfaces.DataServices;
 using MediatR;
-using Models.Common;
+using Reactivities.Common.Result.Models;
 
-namespace Application.Activities.Commands
+namespace Application.Activities.Commands;
+
+public class UpdateAttendance
 {
-    public class UpdateAttendance
+    public class Command : IRequest<Result<Unit>>
     {
-        public class Command : IRequest<Result<Unit>>
+        public Command(int activityId)
         {
-            public Command(int activityId)
-            {
-                this.ActivityId = activityId;
-            }
-
-            public int ActivityId { get; }
+            this.ActivityId = activityId;
         }
 
-        public class Handler : IRequestHandler<Command, Result<Unit>>
+        public int ActivityId { get; }
+    }
+
+    public class Handler : IRequestHandler<Command, Result<Unit>>
+    {
+        private readonly IActivitiesDataService _activitiesDataService;
+        private readonly IProfilesDataService _profilesDataService;
+        private readonly IProfileAccessor _profileAccessor;
+
+        public Handler(IActivitiesDataService activitiesDataService, IProfilesDataService profilesDataService, IProfileAccessor profileAccessor)
         {
-            private readonly IActivitiesDataService _activitiesDataService;
-            private readonly IProfilesDataService _profilesDataService;
-            private readonly IProfileAccessor _profileAccessor;
+            this._activitiesDataService = activitiesDataService;
+            this._profilesDataService = profilesDataService;
+            this._profileAccessor = profileAccessor;
+        }
 
-            public Handler(IActivitiesDataService activitiesDataService, IProfilesDataService profilesDataService, IProfileAccessor profileAccessor)
+        public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+        {
+            var activity = await this._activitiesDataService
+                .GetByIdAsync(request.ActivityId);
+
+            var profileToAttend = await this._profilesDataService
+                .GetByUsernameAsync(this._profileAccessor.GetLoggedInUsername());
+
+            if (activity.HostId == profileToAttend.Id)
             {
-                this._activitiesDataService = activitiesDataService;
-                this._profilesDataService = profilesDataService;
-                this._profileAccessor = profileAccessor;
+                return Result<Unit>.Failure(
+                    ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
             }
 
-            public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
+            if (!activity.RemoveAttendee(profileToAttend))
             {
-                var activity = await this._activitiesDataService
-                    .GetByIdAsync(request.ActivityId);
-
-                var profileToAttend = await this._profilesDataService
-                    .GetByUsernameAsync(this._profileAccessor.GetLoggedInUsername());
-
-                if (activity.HostId == profileToAttend.Id)
-                {
-                    return Result<Unit>.Failure(
-                        ActivitiesErrorMessages.HostCannotBeAddedAsAttendee);
-                }
-
-                if (!activity.RemoveAttendee(profileToAttend))
-                {
-                    activity.AddAttendee(profileToAttend);
-                }
-
-                await this._activitiesDataService.SaveChangesAsync(cancellationToken);
-
-                return Result<Unit>.Success(Unit.Value);
+                activity.AddAttendee(profileToAttend);
             }
+
+            await this._activitiesDataService.SaveChangesAsync(cancellationToken);
+
+            return Result<Unit>.Success(Unit.Value);
         }
     }
 }

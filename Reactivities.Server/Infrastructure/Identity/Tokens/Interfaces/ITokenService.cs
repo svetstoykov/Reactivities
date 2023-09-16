@@ -1,9 +1,8 @@
 ﻿using User = Infrastructure.Identity.Models.User;
 
-namespace Infrastructure.Identity.Tokens.Interfaces
+namespace Infrastructure.Identity.Tokens.Interfaces;
+
+public interface ITokenService
 {
-    public interface ITokenService
-    {
-        public string GenerateToken(User user);
-    }
+    public string GenerateToken(User user);
 }

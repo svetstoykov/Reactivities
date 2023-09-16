@@ -3,30 +3,29 @@ using System.Collections.Generic;
 using API.Common.Models;
 using API.Profiles.Models;
 
-namespace API.Activities.Models
+namespace API.Activities.Models;
+
+public class ActivityApiModel : BaseApiModel
 {
-    public class ActivityApiModel : BaseApiModel
-    {
-        public int? Id { get; set; }
+    public int? Id { get; set; }
         
-        public string Title { get; set; }
+    public string Title { get; set; }
         
-        public DateTime Date { get; set; }
+    public DateTime Date { get; set; }
         
-        public string Description { get; set; }
+    public string Description { get; set; }
         
-        public int CategoryId { get; set; }
+    public int CategoryId { get; set; }
 
-        public string Category { get; set; }
+    public string Category { get; set; }
 
-        public string City { get; set; }
+    public string City { get; set; }
         
-        public string Venue { get; set; }
+    public string Venue { get; set; }
         
-        public ProfileApiModel Host { get; set; }
+    public ProfileApiModel Host { get; set; }
         
-        public bool IsCancelled { get; set; }
+    public bool IsCancelled { get; set; }
 
-        public ICollection<ProfileApiModel> Attendees { get; set; } = new List<ProfileApiModel>();
-    }
+    public ICollection<ProfileApiModel> Attendees { get; set; } = new List<ProfileApiModel>();
 }

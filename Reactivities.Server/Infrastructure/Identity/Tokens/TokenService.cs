@@ -1,48 +1,47 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Common.Utility;
 using Infrastructure.Identity.Tokens.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Models.Common;
 using User = Infrastructure.Identity.Models.User;
 
-namespace Infrastructure.Identity.Tokens
+namespace Infrastructure.Identity.Tokens;
+
+public class TokenService : ITokenService
 {
-    public class TokenService : ITokenService
+    private readonly IConfiguration _configuration;
+    private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+
+    public TokenService(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
-        private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler;
+        this._configuration = configuration;
+        this._jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+    }
 
-        public TokenService(IConfiguration configuration)
+    public string GenerateToken(User user)
+    {
+        var claims = new List<Claim>()
         {
-            this._configuration = configuration;
-            this._jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-        }
+            new(ClaimTypes.Name, user.UserName),
+            new(ClaimTypes.NameIdentifier, user.ProfileId.ToString()),
+            new(ClaimTypes.Email, user.Email),
+            new(ClaimTypes.Sid, user.Id)
+        };
 
-        public string GenerateToken(User user)
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration[GlobalConstants.TokenKey]));
+        var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        var tokenDescriptor = new SecurityTokenDescriptor()
         {
-            var claims = new List<Claim>()
-            {
-                new(ClaimTypes.Name, user.UserName),
-                new(ClaimTypes.NameIdentifier, user.ProfileId.ToString()),
-                new(ClaimTypes.Email, user.Email),
-                new(ClaimTypes.Sid, user.Id)
-            };
+            Subject = new ClaimsIdentity(claims),
+            Expires = DateTime.Now.AddDays(7),
+            SigningCredentials = credentials
+        };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._configuration[GlobalConstants.TokenKey]));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+        var token = this._jwtSecurityTokenHandler.CreateToken(tokenDescriptor);
 
-            var tokenDescriptor = new SecurityTokenDescriptor()
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = credentials
-            };
-
-            var token = this._jwtSecurityTokenHandler.CreateToken(tokenDescriptor);
-
-            return this._jwtSecurityTokenHandler.WriteToken(token);
-        }
+        return this._jwtSecurityTokenHandler.WriteToken(token);
     }
 }

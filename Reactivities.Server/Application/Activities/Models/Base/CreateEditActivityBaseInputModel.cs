@@ -1,24 +1,23 @@
 ﻿using System;
 using Domain.Activities.Enums;
 
-namespace Application.Activities.Models.Base
+namespace Application.Activities.Models.Base;
+
+public abstract class CreateEditActivityBaseInputModel
 {
-    public abstract class CreateEditActivityBaseInputModel
-    {
-        public string Title { get; init; }
+    public string Title { get; init; }
 
-        public DateTime Date { get; init; }
+    public DateTime Date { get; init; }
 
-        public string Description { get; init; }
+    public string Description { get; init; }
 
-        public CategoryType CategoryType { get; init; }
+    public CategoryType CategoryType { get; init; }
 
-        public string City { get; init; }
+    public string City { get; init; }
 
-        public string Venue { get; init; }
+    public string Venue { get; init; }
         
-        public int HostId { get; private set; }
+    public int HostId { get; private set; }
 
-        public void SetHostId(int hostId) => this.HostId = hostId;
-    }
+    public void SetHostId(int hostId) => this.HostId = hostId;
 }

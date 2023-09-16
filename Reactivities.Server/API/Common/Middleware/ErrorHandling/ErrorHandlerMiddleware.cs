@@ -6,48 +6,47 @@ using System.Threading.Tasks;
 using Application.Common.ErrorHandling;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
-using Models.ErrorHandling;
+using Reactivities.Common.ErrorHandling.Models;
 
-namespace API.Common.Middleware.ErrorHandling
+namespace API.Common.Middleware.ErrorHandling;
+
+public class ErrorHandlerMiddleware
 {
-    public class ErrorHandlerMiddleware
+    private readonly RequestDelegate _next;
+    private readonly IHostEnvironment _environment;
+
+    public ErrorHandlerMiddleware(RequestDelegate next, IHostEnvironment environment)
     {
-        private readonly RequestDelegate _next;
-        private readonly IHostEnvironment _environment;
+        this._next = next;
+        this._environment = environment;
+    }
 
-        public ErrorHandlerMiddleware(RequestDelegate next, IHostEnvironment environment)
+    public async Task Invoke(HttpContext context)
+    {
+        try
         {
-            this._next = next;
-            this._environment = environment;
+            await this._next(context);
         }
-
-        public async Task Invoke(HttpContext context)
+        catch (Exception ex)
         {
-            try
+            var response = context.Response;
+            response.ContentType = "application/json";
+
+            response.StatusCode = ex switch
             {
-                await this._next(context);
-            }
-            catch (Exception ex)
+                AppException => (int)HttpStatusCode.BadRequest,
+                KeyNotFoundException => (int)HttpStatusCode.NotFound,
+                _ => (int)HttpStatusCode.InternalServerError
+            };
+
+            var exceptionResponse = this._environment.IsDevelopment()
+                ? ExceptionResponseModel.New(context.Response.StatusCode, ex.Message, ex.StackTrace)
+                : ExceptionResponseModel.New(response.StatusCode, CommonErrorMessages.SomethingWentWrong);
+
+            await response.WriteAsync(JsonSerializer.Serialize(exceptionResponse, new JsonSerializerOptions
             {
-                var response = context.Response;
-                response.ContentType = "application/json";
-
-                response.StatusCode = ex switch
-                {
-                    AppException => (int)HttpStatusCode.BadRequest,
-                    KeyNotFoundException => (int)HttpStatusCode.NotFound,
-                    _ => (int)HttpStatusCode.InternalServerError
-                };
-
-                var exceptionResponse = this._environment.IsDevelopment()
-                    ? ExceptionResponseModel.New(context.Response.StatusCode, ex.Message, ex.StackTrace)
-                    : ExceptionResponseModel.New(response.StatusCode, CommonErrorMessages.SomethingWentWrong);
-
-                await response.WriteAsync(JsonSerializer.Serialize(exceptionResponse, new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                }));
-            }
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            }));
         }
     }
 }

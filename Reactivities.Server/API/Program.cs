@@ -10,40 +10,39 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace API
+namespace API;
+
+public class Program
 {
-    public class Program
+    public static async Task Main(string[] args)
     {
-        public static async Task Main(string[] args)
+        var host = CreateHostBuilder(args).Build();
+
+        using var scope = host.Services.CreateScope();
+
+        var services = scope.ServiceProvider;
+
+        try
         {
-            var host = CreateHostBuilder(args).Build();
+            var context = services.GetRequiredService<DataContext>();
+            var userManager = services.GetRequiredService<UserManager<User>>();
 
-            using var scope = host.Services.CreateScope();
-
-            var services = scope.ServiceProvider;
-
-            try
-            {
-                var context = services.GetRequiredService<DataContext>();
-                var userManager = services.GetRequiredService<UserManager<User>>();
-
-                await context.Database.MigrateAsync();
-                await Seed.SeedData(context, userManager);
-            }
-            catch (Exception e)
-            {
-                var logger = services.GetRequiredService<ILogger<Program>>();
-                logger.LogError(e, CommonErrorMessages.MigrationError);
-            }
-
-            await host.RunAsync();
+            await context.Database.MigrateAsync();
+            await Seed.SeedData(context, userManager);
+        }
+        catch (Exception e)
+        {
+            var logger = services.GetRequiredService<ILogger<Program>>();
+            logger.LogError(e, CommonErrorMessages.MigrationError);
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        await host.RunAsync();
     }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
 }

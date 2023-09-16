@@ -16,7 +16,7 @@
 - [Identity](#identity)
 - [WebAPIGenerator](#webAPIGenerator)
 
-
+// TODO update with rabbit MQ https://github.com/EasyNetQ/EasyNetQ/wiki/Quick-Start
 ---
 ## Build
 1. Configure connection string in the ```appsettings.Development.json```
