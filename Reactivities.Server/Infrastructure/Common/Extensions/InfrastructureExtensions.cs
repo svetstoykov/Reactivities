@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Common.Utility;
+using Application.Messages.Models.Input;
 using Infrastructure.Common.Settings;
 using MassTransit;
 using MediatR;
@@ -17,6 +18,7 @@ public static class InfrastructureExtensions
             .AddMediatR(Assembly.GetExecutingAssembly())
             .AddRabbitMq(config)
             .AddConfigurations(config)
+            .AddAutoMapper(Assembly.GetExecutingAssembly())
             .RegisterServices();
 
     private static IServiceCollection RegisterServices(this IServiceCollection services)
@@ -36,10 +38,17 @@ public static class InfrastructureExtensions
         => services
             .Configure<RabbitMqConfiguration>(config.GetSection(nameof(RabbitMqConfiguration)));
 
-
     private static IServiceCollection AddRabbitMq(this IServiceCollection services, IConfiguration config)
-        => services.AddMassTransit(cfg =>
+    {
+        var mqConfig = config
+            .GetSection(nameof(RabbitMqConfiguration))
+            .Get<RabbitMqConfiguration>();
+        
+        services.AddMassTransit(cfg =>
         {
+            cfg.AddRequestClient<GetSenderReceiverConversationRequestModel>(
+                mqConfig.GetConversationExchangeName.ToExchangeAddressUri());
+            
             cfg.UsingRabbitMq((_, options) =>
             {
                 options.Host(new Uri(config.GetConnectionString("RabbitMQ")!));
@@ -47,4 +56,7 @@ public static class InfrastructureExtensions
                 options.UseRawJsonSerializer(isDefault: true);
             });
         });
+
+        return services;
+    }
 }

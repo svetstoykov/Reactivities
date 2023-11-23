@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using Application.Common.Models.Pagination;
-using Application.Messages.Interfaces.DataServices;
+using Application.Messages.Interfaces;
 using Application.Messages.Models.Input;
 using Application.Messages.Models.Output;
 using Application.Profiles.Interfaces;
@@ -31,14 +31,14 @@ public class GetConversation
     public class Handler : IRequestHandler<Query, Result<PaginatedResult<MessageOutputModel>>>
     {
         private readonly IProfileAccessor _profileAccessor;
-        private readonly IMessagesDataService _messagesDataService;
+        private readonly IMessagesClient _messagesClient;
 
         public Handler(
             IProfileAccessor profileAccessor,
-            IMessagesDataService messagesDataService)
+            IMessagesClient messagesClient)
         {
             this._profileAccessor = profileAccessor;
-            this._messagesDataService = messagesDataService;
+            this._messagesClient = messagesClient;
         }
 
         public async Task<Result<PaginatedResult<MessageOutputModel>>> Handle(
@@ -52,7 +52,7 @@ public class GetConversation
                 PageIndex = request.PageNumber - 1
             };
             
-            var paginatedResult = await this._messagesDataService.GetMessagesConversationAsync(
+            var paginatedResult = await this._messagesClient.GetMessagesConversationAsync(
                 requestModel.SenderUsername, request.ReceiverUsername, request.PageNumber, request.PageSize);
             
             return Result<PaginatedResult<MessageOutputModel>>

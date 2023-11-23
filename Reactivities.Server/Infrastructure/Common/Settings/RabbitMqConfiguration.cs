@@ -2,5 +2,7 @@
 
 public class RabbitMqConfiguration
 {
-    public string SendMessageQueueName { get; set; }
+    public string MessagingExchangeName { get; set; }
+    
+    public string GetConversationExchangeName { get; set; }
 }
